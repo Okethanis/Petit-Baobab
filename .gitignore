@@ -1,0 +1,7 @@
+site/
+petit-baobab-site.zip
+node_modules/
+admin/catalogue-admin.html
+admin/tableau-de-bord.html
+admin/tableau-de-bord.local.html
+.DS_Store

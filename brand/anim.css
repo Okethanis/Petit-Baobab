@@ -1,0 +1,45 @@
+/* ===== Logo animé « de la graine au baobab » : voir brand/anim.py ===== */
+.pb-logo{--speed:1;display:grid;justify-items:center;gap:10px;color:#F5F7F2}
+.pb-logo .pb-scene{width:100%;height:auto;overflow:visible;display:block}
+.pb-logo .pb-scene .lg-sun,.pb-logo .pb-scene .lg-fruit{fill:var(--accent)}
+.pb-logo .pb-scene .lg-trunk,.pb-logo .pb-scene .lg-tree{fill:#F5F7F2}
+.pb-logo .horizon{stroke:rgba(245,247,242,.55);stroke-width:2;stroke-linecap:round;transform-box:fill-box;transform-origin:50% 50%;animation:pb-hline calc(0.7s * var(--speed)) var(--ease) both}
+.pb-logo .seed{fill:var(--accent);opacity:0;transform:scale(.6);transform-box:fill-box;transform-origin:50% 50%;animation:pb-seed calc(1s * var(--speed)) var(--ease) calc(0.3s * var(--speed)) both,pb-seedrest calc(0.5s * var(--speed)) var(--ease) calc(1.9s * var(--speed)) forwards}
+.pb-logo .sprout{stroke:#F5F7F2}
+.pb-logo .stem{stroke-width:3.2;opacity:0;transform-box:fill-box;transform-origin:50% 100%;animation:pb-stem calc(0.5s * var(--speed)) var(--ease) calc(1.5s * var(--speed)) both,pb-vanish calc(0.3s * var(--speed)) ease calc(2.25s * var(--speed)) forwards}
+.pb-logo .leaf{fill:#F5F7F2;stroke:none;opacity:0;transform-box:fill-box;transform-origin:50% 50%;animation:pb-leaf calc(0.4s * var(--speed)) var(--spring) calc(1.95s * var(--speed)) both,pb-vanish calc(0.3s * var(--speed)) ease calc(2.35s * var(--speed)) forwards}
+.pb-logo .leaf.l2{animation-delay:calc(2.02s * var(--speed)),calc(2.35s * var(--speed))}
+.pb-logo .trunk-big{transform-box:fill-box;transform-origin:50% 100%;animation:pb-grow calc(0.9s * var(--speed)) var(--spring) calc(2.1s * var(--speed)) both}
+.pb-logo .canopy-big{transform-box:fill-box;transform-origin:50% 76%;animation:pb-sway calc(7s * var(--speed)) ease-in-out calc(6s * var(--speed)) infinite}
+.pb-logo .canopy-big circle,.pb-logo .canopy-small circle,.pb-logo .fruit-big circle,.pb-logo .fruit-small circle{transform-box:fill-box;transform-origin:50% 50%;animation:pb-pop calc(0.5s * var(--speed)) var(--spring) both}
+.pb-logo .canopy-big circle:nth-child(1){animation-delay:calc(2.55s * var(--speed))} .pb-logo .canopy-big circle:nth-child(2){animation-delay:calc(2.63s * var(--speed))}
+.pb-logo .canopy-big circle:nth-child(3){animation-delay:calc(2.7s * var(--speed))} .pb-logo .canopy-big circle:nth-child(4){animation-delay:calc(2.78s * var(--speed))}
+.pb-logo .canopy-big circle:nth-child(5){animation-delay:calc(2.85s * var(--speed))} .pb-logo .canopy-big circle:nth-child(6){animation-delay:calc(2.93s * var(--speed))}
+.pb-logo .halo{opacity:.16}
+.pb-logo .sun{transform-box:fill-box;transform-origin:50% 50%;animation:pb-rise calc(0.9s * var(--speed)) var(--ease) calc(2.4s * var(--speed)) both,pb-glow calc(4s * var(--speed)) ease-in-out calc(4.5s * var(--speed)) infinite}
+.pb-logo .fruit-big circle{animation-delay:calc(3.15s * var(--speed))}
+.pb-logo .fruit-fall circle{opacity:0;transform-box:fill-box;transform-origin:50% 50%;animation:pb-fall calc(1.1s * var(--speed)) var(--ease) calc(3.4s * var(--speed)) both}
+.pb-logo .trunk-small{transform-box:fill-box;transform-origin:50% 100%;animation:pb-grow calc(0.5s * var(--speed)) var(--spring) calc(4.4s * var(--speed)) both}
+.pb-logo .canopy-small{transform-box:fill-box;transform-origin:50% 87%;animation:pb-sway calc(5s * var(--speed)) ease-in-out calc(6.2s * var(--speed)) infinite reverse}
+.pb-logo .canopy-small circle:nth-child(1){animation-delay:calc(4.75s * var(--speed))} .pb-logo .canopy-small circle:nth-child(2){animation-delay:calc(4.83s * var(--speed))} .pb-logo .canopy-small circle:nth-child(3){animation-delay:calc(4.9s * var(--speed))}
+.pb-logo .fruit-small circle{animation-delay:calc(5.05s * var(--speed))}
+.pb-logo .plx-sun{transform:translate(calc(var(--px,0)*10px),calc(var(--py,0)*6px));transition:transform .35s var(--ease)}
+.pb-logo .plx-tree{transform:translate(calc(var(--px,0)*4px),calc(var(--py,0)*2px));transition:transform .35s var(--ease)}
+.pb-logo .word{font-family:var(--font-display);font-weight:600;line-height:1;letter-spacing:-.01em;display:flex}
+.pb-logo .word span{display:inline-block;animation:pb-letter calc(0.5s * var(--speed)) var(--ease) both;animation-delay:calc((4.9s + var(--i) * .06s) * var(--speed))}
+.pb-logo .sign{font-family:var(--font-body);font-weight:600;color:var(--accent);animation:pb-fade calc(0.7s * var(--speed)) var(--ease) calc(5.8s * var(--speed)) both}
+@keyframes pb-fade{from{opacity:0}to{opacity:1}}
+@keyframes pb-hline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pb-seed{0%{transform:translateY(-230px) scale(.9);opacity:0}12%{opacity:1}68%{transform:translateY(0) scale(1)}78%{transform:translateY(-9px) scale(1)}88%{transform:translateY(0) scale(1.2,.8)}100%{transform:none;opacity:1}}
+@keyframes pb-seedrest{from{transform:none;opacity:1}to{transform:scale(.6);opacity:0}}
+@keyframes pb-stem{from{transform:scaleY(0);opacity:1}to{transform:scaleY(1);opacity:1}}
+@keyframes pb-leaf{from{transform:scale(0);opacity:1}to{transform:scale(1);opacity:1}}
+@keyframes pb-vanish{from{opacity:1}to{opacity:0}}
+@keyframes pb-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes pb-pop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes pb-rise{from{transform:translateY(118px)}to{transform:translateY(0)}}
+@keyframes pb-glow{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+@keyframes pb-fall{0%{transform:translate(0,0) scale(0);opacity:1}14%{transform:translate(0,0) scale(1);opacity:1}58%{transform:translate(28px,70px) scale(1);opacity:1}70%{transform:translate(28px,61px) scale(1);opacity:1}82%{transform:translate(28px,70px) scale(1.25,.75);opacity:1}92%{transform:translate(28px,70px) scale(1);opacity:1}100%{transform:translate(28px,70px) scale(1);opacity:0}}
+@keyframes pb-sway{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}
+@keyframes pb-letter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.pb-logo *{animation:none !important}}

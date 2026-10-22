@@ -1,0 +1,7 @@
+# Netlify construit le site à chaque modification poussée sur GitHub.
+[build]
+  command = "node build.js"
+  publish = "site"
+
+[build.environment]
+  NODE_VERSION = "22"
