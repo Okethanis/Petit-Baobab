@@ -62,7 +62,7 @@ JS = '''/* ===== touch-motion : toucher = animer, le baobab repousse, le soleil 
 (function(){
   if (!window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var logo = $('.hero-logo .pb-logo');
-  if (logo) logo.addEventListener('click', function(){ if (logo.classList.contains('is3d')) return; logo.classList.add('still'); void logo.offsetWidth; logo.classList.remove('still'); });
+  if (logo) logo.addEventListener('click', function(){ logo.classList.add('still'); void logo.offsetWidth; logo.classList.remove('still'); });
   if (!window.matchMedia('(hover:none)').matches) return;
   var SEL = '.logo,.baobab-illus,.card,.univ-card,.who-card,.chip,.btn,.value,.gift-box,.stage,.tstep,.fab-wa,.fab-top,.footer-scene';
   var pend = null;
