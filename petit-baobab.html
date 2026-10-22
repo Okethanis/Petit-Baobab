@@ -675,6 +675,48 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
 @keyframes btn-shine{from{transform:translateX(-130%)}to{transform:translateX(130%)}}
 @media (prefers-reduced-motion: reduce){.footer .mark > g,.footer .stars circle{animation:none !important}}
 
+/* ===== touch-motion : sur téléphone et tablette, toucher = animer, plus un peu de vie permanente ===== */
+.pb-logo.still,.pb-logo.still *{animation:none !important}
+.hero-logo .pb-logo{cursor:pointer;-webkit-tap-highlight-color:transparent}
+@media (hover:none) and (prefers-reduced-motion: no-preference){
+  .logo .mark > g:nth-of-type(1){transform-origin:104px 18px}
+  .logo.tapped .mark > g:nth-of-type(1){animation:lg-hop .7s var(--spring)}
+  .logo .mark > g:nth-of-type(4){transform-origin:59px 58px}
+  .logo.tapped .mark > g:nth-of-type(4){animation:lg-shake .8s var(--ease)}
+  .logo .mark > g:nth-of-type(6),.logo .mark > g:nth-of-type(7),.logo .mark > g:nth-of-type(8){transform-origin:99px 110px}
+  .logo.tapped .mark > g:nth-of-type(6),.logo.tapped .mark > g:nth-of-type(7),.logo.tapped .mark > g:nth-of-type(8){animation:lg-jump .6s var(--spring) .15s}
+  .baobab-illus > g:nth-of-type(4){transform-origin:59px 58px;animation:lg-sway 6s ease-in-out infinite}
+  .baobab-illus > g:nth-of-type(7){transform-origin:99px 88px;animation:lg-sway 4.5s ease-in-out 1s infinite reverse}
+  .baobab-illus > g:nth-of-type(1){transform-origin:104px 18px;animation:pb-glow 5s ease-in-out infinite}
+  .baobab-illus.tapped > g:nth-of-type(1){animation:lg-hop .8s var(--spring)}
+  .baobab-illus.tapped > g:nth-of-type(6),.baobab-illus.tapped > g:nth-of-type(7),.baobab-illus.tapped > g:nth-of-type(8){transform-origin:99px 110px;animation:lg-jump .7s var(--spring)}
+  .card.tapped .add{animation:lg-quarter .5s var(--spring)}
+  .univ-card.tapped .num{animation:lg-spin .7s var(--spring)}
+  .univ-card.tapped .icon{animation:lg-up .5s var(--ease)}
+  .who-card.tapped .go svg{animation:lg-nudge .5s var(--spring)}
+  .who-card.tapped h3{letter-spacing:.07em;transition:letter-spacing .3s var(--ease)}
+  .chip.tapped,.value.tapped,.gift-box.tapped,.stage.tapped,.btn.tapped{animation:lg-press .45s var(--spring)}
+  .tstep.tapped .num{animation:lg-hop .6s var(--spring)}
+  .value.tapped h3 i{animation:lg-dot .5s var(--spring)}
+  .btn-primary{overflow:hidden}
+  .btn-primary::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-130%);pointer-events:none}
+  .btn-primary.tapped::after{animation:btn-shine .8s var(--ease)}
+  .fab-wa .icon{animation:lg-ring-idle 7s ease-in-out 4s infinite}
+  .fab-wa.tapped .icon{animation:lg-ring .6s var(--ease)}
+  .fab-top.tapped .icon{animation:lg-up .6s var(--ease)}
+  .footer-scene.tapped .mark > g:nth-of-type(4){animation:lg-shake .8s var(--ease)}
+  .footer-scene.tapped .mark > g:nth-of-type(7){animation:lg-jump .6s var(--spring)}
+  .footer-brand.sun-tap .rays{opacity:1;transform:scale(1)}
+  .footer-brand.sun-tap .lg-sun > circle:first-of-type{transform:translateY(-4px) scale(1.15)}
+  .pb-logo .plx-sun,.pb-logo .plx-tree{transition:transform .6s var(--ease)}
+}
+@keyframes lg-spin{from{transform:rotate(0) scale(1)}60%{transform:rotate(360deg) scale(1.12)}to{transform:rotate(360deg) scale(1)}}
+@keyframes lg-quarter{0%{transform:none}50%{transform:rotate(90deg) scale(1.1)}100%{transform:none}}
+@keyframes lg-nudge{0%,100%{transform:none}50%{transform:translateX(6px)}}
+@keyframes lg-press{0%{transform:none}40%{transform:scale(.96)}100%{transform:none}}
+@keyframes lg-dot{0%,100%{transform:none}50%{transform:scale(1.6)}}
+@keyframes lg-ring-idle{0%,12%,100%{transform:rotate(0)}2%{transform:rotate(-14deg)}5%{transform:rotate(12deg)}8%{transform:rotate(-8deg)}10%{transform:rotate(5deg)}}
+
 .footer p{color:var(--footer-muted);font-size:.93rem;max-width:40ch}
 .footer h4{font-size:1rem;margin:0 0 8px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;font-size:.82rem}
 .footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
@@ -817,10 +859,10 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
   <ellipse class="seed" cx="198" cy="267" rx="5.5" ry="3.8"/>
 </svg><div class="word"><span style="--i:0">P</span><span style="--i:1">e</span><span style="--i:2">t</span><span style="--i:3">i</span><span style="--i:4">t</span><span style="--i:5">&nbsp;</span><span style="--i:6">B</span><span style="--i:7">a</span><span style="--i:8">o</span><span style="--i:9">b</span><span style="--i:10">a</span><span style="--i:11">b</span></div></div></div>
         <h1 class="plum-title hero-title">Le trousseau de naissance <em>sans stress</em>, livré chez vous.</h1>
-        <p class="lead">Packs naissance par budget, valise de maternité prête à partir et tout l'équipement de bébé, du premier jour aux premiers pas, avec les prix affichés. Vous commandez en ligne, on vous livre en 24 à 48 h.</p>
+        <p class="lead">Packs naissance par budget, valise de maternité prête à partir et tout l'équipement de bébé, du premier jour aux premiers pas, avec les prix affichés. Vous commandez en ligne, on vous livre à Abidjan en moins de 24 h.</p>
         <div class="cta-row"><a href="#packs" class="btn btn-primary" data-action="nav" data-view="packs">Voir les packs naissance</a></div>
       </div>
-      <div class="trust"><span>Livraison 24–48 h à Abidjan</span><span>Paiement à la livraison ou par Wave</span><span>Échange sous 48 h</span></div>
+      <div class="trust"><span>Livraison en moins de 24 h à Abidjan</span><span>Paiement à la livraison, par Wave ou Mobile Money</span><span>Échange sous 48 h</span></div>
     </div>
     <div class="plum-rule"></div>
   </div>
@@ -836,7 +878,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
   </div>
 
   <div class="wrap" style="padding-bottom:var(--sp-6)">
-    <div class="promise"><span class="kicker">Notre promesse</span><div class="promise-list"><span>Produits neufs sous emballage d'origine</span><span>Prix affichés, sans surprise</span><span>Conseils sur WhatsApp</span><span>Livraison Abidjan 24–48 h</span><span>Paiement à la livraison ou par Wave</span></div></div>
+    <div class="promise"><span class="kicker">Notre promesse</span><div class="promise-list"><span>Produits neufs sous emballage d'origine</span><span>Prix affichés, sans surprise</span><span>Conseils sur WhatsApp</span><span>Livraison à Abidjan en moins de 24 h</span><span>Paiement à la livraison, par Wave ou Mobile Money</span></div></div>
   </div>
 
   <div class="band">
@@ -872,7 +914,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
       <ol class="timeline">
         <li class="tstep"><span class="num">1</span><h3>Choisissez</h3><p>Ajoutez un pack ou des articles au panier, au prix affiché.</p></li>
         <li class="tstep"><span class="num">2</span><h3>Envoyez</h3><p>Votre commande part sur WhatsApp en un clic, avec sa référence. On la confirme avec vous.</p></li>
-        <li class="tstep"><span class="num">3</span><h3>Payez</h3><p>À la livraison, par lien Wave, ou avec un acompte de 50 %.</p></li>
+        <li class="tstep"><span class="num">3</span><h3>Payez</h3><p>À la livraison, par Wave ou Mobile Money, ou avec un acompte de 50 %.</p></li>
         <li class="tstep"><span class="num">4</span><h3>Recevez</h3><p>Livraison à domicile ou au bureau, dans toutes les communes d'Abidjan.</p></li>
       </ol>
     </div>
@@ -941,8 +983,8 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
         <ul class="work">
           <li><strong>Vous choisissez</strong>Les prix sont affichés, le contenu des packs est détaillé article par article.</li>
           <li><strong>On confirme avec vous</strong>Votre commande part sur WhatsApp avec sa référence. On valide ensemble les coloris et le créneau de livraison.</li>
-          <li><strong>Vous payez simplement</strong>À la livraison, par lien Wave, ou avec un acompte de 50 % et le solde à la réception.</li>
-          <li><strong>On livre vite</strong>En 24 à 48 h dans toutes les communes d'Abidjan, offert dès 100 000 FCFA, et par compagnie de transport dans le reste du pays.</li>
+          <li><strong>Vous payez simplement</strong>À la livraison, par Wave ou Mobile Money, ou avec un acompte de 50 % et le solde à la réception.</li>
+          <li><strong>On livre vite</strong>En moins de 24 h dans toutes les communes d'Abidjan, offert dès 100 000 FCFA, et par compagnie de transport dans le reste du pays.</li>
         </ul>
       </div>
     </div>
@@ -1144,10 +1186,10 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
     <div class="section-head"><h2>Questions fréquentes</h2></div>
     <details><summary>Comment passer commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Ajoutez vos articles au panier, puis cliquez sur « Envoyer la commande sur WhatsApp ». Le récapitulatif s'ouvre dans WhatsApp avec sa référence, vous n'avez plus qu'à l'envoyer. On vous répond pour confirmer les couleurs, les modèles et l'heure de livraison.</p></details>
     <details><summary>Puis-je modifier ou annuler ma commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui, dans les 24 heures qui suivent la commande : écrivez-nous sur WhatsApp avec votre référence (elle commence par PB-). Passé ce délai, la commande est en préparation ; un acompte déjà versé reste acquis si l'annulation vient de vous.</p></details>
-    <details><summary>Comment fonctionne l'acompte de 50 % ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Vous payez la moitié du total par lien Wave au moment de la commande, ce qui la réserve, puis le solde au livreur à la remise du colis. C'est pratique pour les gros articles comme un lit ou une poussette.</p></details>
-    <details><summary>Comment payer par Wave depuis le lien ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Ouvrez le lien reçu sur WhatsApp, le montant est déjà rempli, validez avec votre code Wave, puis envoyez-nous la capture d'écran de confirmation. Pas de compte Wave ? Dites-le nous, on vous propose un autre moyen.</p></details>
+    <details><summary>Comment fonctionne l'acompte de 50 % ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Vous payez la moitié du total par Wave ou Mobile Money au moment de la commande, ce qui la réserve, puis le solde au livreur à la remise du colis. C'est pratique pour les gros articles comme un lit ou une poussette.</p></details>
+    <details><summary>Comment payer à distance, par Wave ou Mobile Money ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>On vous envoie sur WhatsApp le montant exact et le numéro à payer. Par Wave, ouvrez le lien reçu, le montant est déjà rempli, validez avec votre code. Par Orange Money, MTN MoMo ou Moov Money, faites le transfert vers notre numéro. Dans les deux cas, envoyez-nous la capture d'écran de confirmation.</p></details>
     <details><summary>Puis-je modifier le contenu d'un pack ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui. Précisez-le dans le message WhatsApp (par exemple remplacer les biberons par des bodys en plus). On ajuste le prix si nécessaire.</p></details>
-    <details><summary>Je vis à l'étranger, comment offrir un trousseau ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Choisissez le pack, cochez « C'est un cadeau » dans la commande et indiquez les coordonnées de la maman. On vous envoie un lien de paiement ; si vous n'avez pas de compte Wave, on vous indique sur WhatsApp les autres moyens de régler.</p></details>
+    <details><summary>Je vis à l'étranger, comment offrir un trousseau ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Choisissez le pack, cochez « C'est un cadeau » dans la commande et indiquez les coordonnées de la maman. On vous envoie le montant et le moyen de régler sur WhatsApp : Wave, Mobile Money, ou depuis l'étranger Western Union et Ria.</p></details>
     <details><summary>Les produits sont-ils neufs ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui, tous nos articles sont neufs, sous emballage d'origine, avec leurs notices.</p></details>
     <details><summary>Livrez-vous hors d'Abidjan ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui, partout en Côte d'Ivoire par compagnie de transport. Les frais dépendent de la ville ; on vous les confirme sur WhatsApp avant l'envoi.</p></details>
     <details><summary>Et si je ne suis pas là à la livraison ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Le livreur vous appelle avant d'arriver. Vous pouvez aussi indiquer une autre personne (mari, sœur, gardien) qui réceptionnera le colis.</p></details>
@@ -1175,9 +1217,9 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
         <div class="field">
           <span class="legend">Paiement</span>
           <div class="choices">
-            <label class="choice"><input type="radio" name="pay" id="pay-cod" value="livraison" checked><span><strong>À la livraison</strong><small>En espèces ou par Wave, au livreur.</small></span></label>
-            <label class="choice"><input type="radio" name="pay" id="pay-wave" value="wave"><span><strong>Par lien Wave, avant la livraison</strong><small>On vous envoie le lien du montant exact sur WhatsApp.</small></span></label>
-            <label class="choice"><input type="radio" name="pay" id="pay-deposit" value="acompte"><span><strong>Acompte de <span id="dep-pct">50</span> % par Wave, solde à la livraison</strong><small id="dep-note">Votre commande est réservée dès l'acompte reçu. Conseillé pour les gros articles.</small></span></label>
+            <label class="choice"><input type="radio" name="pay" id="pay-cod" value="livraison" checked><span><strong>À la livraison</strong><small>En espèces, par Wave ou Mobile Money, au livreur.</small></span></label>
+            <label class="choice"><input type="radio" name="pay" id="pay-wave" value="wave"><span><strong>Par Wave ou Mobile Money, avant la livraison</strong><small>On vous envoie le montant exact et le numéro à payer sur WhatsApp.</small></span></label>
+            <label class="choice"><input type="radio" name="pay" id="pay-deposit" value="acompte"><span><strong>Acompte de <span id="dep-pct">50</span> % par Wave ou Mobile Money, solde à la livraison</strong><small id="dep-note">Votre commande est réservée dès l'acompte reçu. Conseillé pour les gros articles.</small></span></label>
           </div>
         </div>
         <label class="toggle"><input type="checkbox" id="f-gift">C'est un cadeau pour une maman (livraison chez elle)</label>
@@ -1220,7 +1262,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
     <p class="updated">Dernière mise à jour : <span class="legal-date"></span></p>
     <p>Pour livrer votre commande, nous utilisons votre nom, votre numéro de téléphone et votre adresse de livraison. Ces informations servent uniquement à préparer, livrer et suivre votre commande.</p>
     <p>Nous ne vendons ni ne partageons vos coordonnées avec des tiers, en dehors du livreur qui a besoin de votre adresse et de votre numéro pour vous trouver.</p>
-    <p>Le site ne stocke aucune donnée bancaire. Le paiement se fait à la livraison ou par Wave, en dehors du site.</p>
+    <p>Le site ne stocke aucune donnée bancaire. Le paiement se fait à la livraison, par Wave ou par Mobile Money, en dehors du site.</p>
     <h3>Ce que votre navigateur conserve</h3>
     <p>Votre panier, vos favoris et vos préférences d'affichage sont gardés dans votre navigateur uniquement, sur votre appareil. Rien n'est envoyé à un serveur.</p>
     <p id="privacy-analytics" hidden>Avec votre accord, nous mesurons l'audience du site de façon anonyme. Vous pouvez changer d'avis à tout moment via le lien « Gérer les cookies » en bas de page.</p>
@@ -1237,8 +1279,8 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
     <p class="updated">Dernière mise à jour : <span class="legal-date"></span></p>
     <h3>Prix</h3><p>Les prix sont affichés en francs CFA, toutes taxes comprises. Les frais de livraison s'ajoutent selon la commune et sont indiqués avant l'envoi de la commande.</p>
     <h3>Commande</h3><p>Chaque commande reçoit une référence (PB-…). Une commande est ferme une fois confirmée sur WhatsApp par la boutique ; les articles sont réservés à ce moment-là. Vous pouvez la modifier ou l'annuler dans les 24 heures, sur WhatsApp, avec sa référence.</p>
-    <h3>Paiement</h3><p>À la livraison (espèces ou Wave), avant la livraison par lien de paiement Wave, ou par un acompte de 50 % à la commande et le solde à la livraison. Les commandes hors d'Abidjan et les cadeaux sont payés avant le départ du colis. En cas d'annulation de votre part après versement d'un acompte, celui-ci peut être conservé pour couvrir les frais engagés.</p>
-    <h3>Livraison</h3><p>À Abidjan sous 24 à 48 h après confirmation. Hors Abidjan, par compagnie de transport, selon les délais de celle-ci.</p>
+    <h3>Paiement</h3><p>À la livraison (espèces, Wave ou Mobile Money), avant la livraison par Wave ou Mobile Money, ou par un acompte de 50 % à la commande et le solde à la livraison. Les commandes hors d'Abidjan et les cadeaux sont payés avant le départ du colis. En cas d'annulation de votre part après versement d'un acompte, celui-ci peut être conservé pour couvrir les frais engagés.</p>
+    <h3>Livraison</h3><p>À Abidjan en moins de 24 h après confirmation. Hors Abidjan, par compagnie de transport, selon les délais de celle-ci.</p>
     <h3>Échanges</h3><p>Un article abîmé ou non conforme est échangé sous 48 h après réception, dans son emballage d'origine, sur présentation d'une photo.</p>
     <h3>Contact</h3><p>Pour toute question : WhatsApp au <span class="wa-num"></span>.</p>
     <p>L'utilisation du site lui-même est régie par les <a href="#cgu" class="textlink" data-action="nav" data-view="cgu">Conditions d'utilisation</a>.</p>
@@ -1258,7 +1300,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
     <h3>Utilisation du site</h3><p>Le site est destiné à un usage personnel. Il est interdit de copier le catalogue, les photos ou les textes pour les réutiliser ailleurs, d'essayer de perturber le fonctionnement du site, ou d'utiliser les coordonnées qui y figurent pour de la prospection.</p>
     <h3>Propriété des contenus</h3><p>Le nom, les textes et la mise en page du site appartiennent à son éditeur. Les photos et références des articles appartiennent à l'éditeur ou à ses fournisseurs. Toute reproduction demande notre accord écrit.</p>
     <h3>Vos données</h3><p>Votre panier, vos favoris et vos préférences d'affichage restent dans votre navigateur. Les informations que vous nous envoyez pour une commande sont traitées comme décrit dans la <a href="#confidentialite" class="textlink" data-action="nav" data-view="confidentialite">Politique de confidentialité</a>.</p>
-    <h3>Services tiers</h3><p>Le site renvoie vers WhatsApp pour la commande et vers Wave pour le paiement à distance. Ces services ont leurs propres conditions et fonctionnent indépendamment de nous.</p>
+    <h3>Services tiers</h3><p>Le site renvoie vers WhatsApp pour la commande et vers Wave ou les opérateurs de Mobile Money pour le paiement à distance. Ces services ont leurs propres conditions et fonctionnent indépendamment de nous.</p>
     <h3>Comptes clients</h3><p>Lorsque les comptes seront disponibles, chaque personne n'en créera qu'un, avec des informations exactes, et gardera son mot de passe confidentiel. Un compte utilisé de façon abusive pourra être fermé.</p>
     <h3>Responsabilité</h3><p>Nous faisons notre possible pour que les informations du site soient justes et à jour. Nous ne pouvons pas être tenus responsables d'une interruption du site, d'un problème de réseau ou d'un usage du site contraire à ces conditions.</p>
     <h3>Droit applicable</h3><p>Ces conditions sont soumises au droit ivoirien. En cas de désaccord, nous cherchons d'abord une solution ensemble, sur WhatsApp au <span class="wa-num"></span>. À défaut, les tribunaux compétents d'Abidjan pourront être saisis.</p>
@@ -1280,9 +1322,9 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
 </main>
 
 <section class="reassure-band" aria-label="Nos engagements"><div class="wrap">
-  <div class="item"><span class="ico"><svg class="icon"><use href="#i-truck"/></svg></span><div><strong>Livraison 24 à 48 h à Abidjan</strong><span>Toutes les communes, offerte dès <span class="free-from"></span>. Envoi par car dans le reste du pays.</span></div></div>
+  <div class="item"><span class="ico"><svg class="icon"><use href="#i-truck"/></svg></span><div><strong>Livraison en moins de 24 h à Abidjan</strong><span>Toutes les communes, offerte dès <span class="free-from"></span>. Envoi par car dans le reste du pays.</span></div></div>
   <div class="item"><span class="ico"><svg class="icon"><use href="#i-check"/></svg></span><div><strong>Vous vérifiez avant de payer</strong><span>L'article est déballé devant vous à la livraison. Échange sous 48 h en cas de défaut.</span></div></div>
-  <div class="item"><span class="ico"><svg class="icon"><use href="#i-wallet"/></svg></span><div><strong>Paiement simple</strong><span>Espèces ou Wave à la livraison, lien Wave, ou acompte et solde à la réception.</span></div></div>
+  <div class="item"><span class="ico"><svg class="icon"><use href="#i-wallet"/></svg></span><div><strong>Paiement simple</strong><span>Espèces, Wave ou Mobile Money à la livraison, paiement à distance, ou acompte et solde à la réception.</span></div></div>
   <div class="item"><span class="ico"><svg class="icon"><use href="#i-chat"/></svg></span><div><strong>Un conseil sur WhatsApp</strong><span>Avant d'acheter comme après, <span class="hours"></span>.</span></div></div>
 </div></section>
 <footer class="footer">
@@ -1360,7 +1402,7 @@ var CONFIG = {
   phones: [],                          // autres numéros à afficher en pied de page, si tu en as (ex. ['05 00 00 00 00'])
   hours: 'tous les jours de 8 h à 21 h',
   freeDeliveryFrom: 100000,            // livraison offerte à Abidjan à partir de ce montant
-  stock: { defaut: 'En stock à Abidjan, livré sous 24 à 48 h', commande: 'Sur commande, 6 à 8 semaines (arrive par le prochain conteneur)' },   // un article peut porter stock:'commande'
+  stock: { defaut: 'En stock à Abidjan, livré en moins de 24 h', commande: 'Sur commande, 6 à 8 semaines (arrive par le prochain conteneur)' },   // un article peut porter stock:'commande'
   deposit: { rate: 0.5, bigRate: 0.3, bigFrom: 150000 },   // acompte 50 % en général, 30 % à partir de 150 000 FCFA (lits, packs)
   zones: [
     ['Cocody', 1500], ['Plateau', 1500], ['Marcory', 1500], ['Treichville', 1500], ['Adjamé', 1500],
@@ -1368,7 +1410,7 @@ var CONFIG = {
     ['Bingerville', 2500], ['Anyama', 2500], ['Songon', 2500],
     ['Hors Abidjan (envoi par car)', null]
   ],
-  payments: { surPlace: 'en espèces ou par Wave, au livreur', avance: 'par lien Wave', etranger: ['lien Wave', 'Western Union', 'Ria Money Transfer'] },  // à ajuster selon ce que tu acceptes vraiment
+  payments: { surPlace: 'en espèces, par Wave ou Mobile Money, au livreur', avance: 'par Wave ou Mobile Money (Orange Money, MTN MoMo, Moov Money)', etranger: ['Wave', 'Mobile Money', 'Western Union', 'Ria Money Transfer'] },
   social: { instagram: '', tiktok: '' },  // adresses complètes des comptes, si tu veux les afficher
   legalUpdated: '2026-10-22',
   company: { name: '', rccm: '', address: '' },   // raison sociale et RCCM : apparaissent en bas des pages légales une fois renseignés
@@ -1377,7 +1419,7 @@ var CONFIG = {
 
 /* Adresses des pages (une vraie URL par page une fois le site construit pour Netlify) */
 var ROUTES = {
-  accueil:         { path: '/', nav: 'Accueil', title: 'Petit Baobab · Packs naissance et équipement bébé livrés à Abidjan', description: 'Packs naissance par budget, valise de maternité prête à partir et tout l\'équipement de bébé, prix affichés. Commande en ligne, livraison à Abidjan en 24 à 48 h, paiement à la livraison ou par Wave.' },
+  accueil:         { path: '/', nav: 'Accueil', title: 'Petit Baobab · Packs naissance et équipement bébé livrés à Abidjan', description: 'Packs naissance par budget, valise de maternité prête à partir et tout l\'équipement de bébé, prix affichés. Commande en ligne, livraison à Abidjan en moins de 24 h, paiement à la livraison, par Wave ou Mobile Money.' },
   boutique:        { path: '/boutique/', nav: 'Boutique', title: 'Boutique puériculture en ligne à Abidjan · Petit Baobab', description: 'Près de 600 articles de puériculture avec les prix en FCFA : lits, poussettes, sièges auto, balancelles, biberons, bain, vêtements, rangement. Livraison à Abidjan.' },
   dort:            { path: '/bebe-dort/', nav: 'Bébé dort', univers: 'dort', title: 'Bébé dort : lits bébé, berceaux, lits parapluie, moustiquaires · Petit Baobab', description: 'Lits bébé en bois, berceaux cododo, lits parapluie, moustiquaires, couvertures et nids d\'ange, livrés à Abidjan. Conseils pour un sommeil paisible dès la naissance.' },
   balade:          { path: '/bebe-en-balade/', nav: 'Bébé en balade', univers: 'balade', title: 'Bébé en balade : poussettes, porte-bébés, sacs à langer · Petit Baobab', description: 'Poussettes compactes, combinées 3 en 1, doubles, porte-bébés ergonomiques et sacs à langer, livrés à Abidjan.' },
@@ -1387,14 +1429,14 @@ var ROUTES = {
   soigne:          { path: '/bebe-soigne/', nav: 'Bébé soigné', univers: 'soigne', title: 'Bébé soigné : bain, change, hygiène, tables à langer · Petit Baobab', description: 'Baignoires, tables à langer, sets de bain, lingettes, cotons-tiges et soins quotidiens, livrés à Abidjan.' },
   habille:         { path: '/bebe-habille/', nav: 'Bébé habillé', univers: 'habille', title: 'Bébé habillé : layette, packs naissance, vêtements · Petit Baobab', description: 'Packs naissance, valise de maternité, layette, ensembles bébé, chaussettes et chaussons, livrés à Abidjan.' },
   maison:          { path: '/bebe-a-la-maison/', nav: 'Bébé à la maison', univers: 'maison', title: 'Bébé à la maison : armoires, commodes, rangement · Petit Baobab', description: 'Armoires et commodes bébé, chariots et paniers de rangement, accessoires pour la chambre, livrés à Abidjan.' },
-  packs:           { path: '/packs-naissance/', nav: 'Packs naissance', title: 'Packs naissance à 50 000, 100 000 et 150 000 FCFA · Petit Baobab', description: 'Trois packs naissance complets, contenu détaillé et prix affichés, livrés à Abidjan en 24 à 48 h.' },
+  packs:           { path: '/packs-naissance/', nav: 'Packs naissance', title: 'Packs naissance à 50 000, 100 000 et 150 000 FCFA · Petit Baobab', description: 'Trois packs naissance complets, contenu détaillé et prix affichés, livrés à Abidjan en moins de 24 h.' },
   valise:          { path: '/valise-maternite/', nav: 'Valise maternité', title: 'Valise de maternité prête à partir · Petit Baobab', description: 'La valise de maternité pour maman et bébé, déjà réunie, avec la liste de contrôle pour le jour J. Livraison à Abidjan.' },
   liste:           { path: '/liste-de-naissance/', nav: 'Liste de naissance', title: 'Liste de naissance en ligne, à partager sur WhatsApp · Petit Baobab', description: 'Composez votre liste de naissance parmi près de 600 articles, partagez le lien sur WhatsApp : vos proches offrent exactement ce qu\'il vous faut, livré chez vous à Abidjan.' },
   cadeaux:         { path: '/cadeaux-de-naissance/', nav: 'Cadeaux', title: 'Offrir un cadeau de naissance à Abidjan · Petit Baobab', description: 'Idées de cadeaux de naissance par budget et par style, emballage offert, et trousseau offert à distance depuis l\'étranger, livré chez la maman à Abidjan.' },
-  histoire:        { path: '/notre-histoire/', nav: 'Notre histoire', title: 'Notre histoire : pourquoi Petit Baobab · Petit Baobab', description: 'Le baobab est solide, protecteur et il dure : c\'est ce que nous voulons pour votre bébé. Une boutique de puériculture 100 % en ligne à Abidjan, des prix affichés, un conseil sur WhatsApp et une livraison en 24 à 48 h.' },
+  histoire:        { path: '/notre-histoire/', nav: 'Notre histoire', title: 'Notre histoire : pourquoi Petit Baobab · Petit Baobab', description: 'Le baobab est solide, protecteur et il dure : c\'est ce que nous voulons pour votre bébé. Une boutique de puériculture 100 % en ligne à Abidjan, des prix affichés, un conseil sur WhatsApp et une livraison en moins de 24 h.' },
   conseils:        { path: '/conseils/', nav: 'Conseils', title: 'Conseils d\'achat : lit, siège auto, poussette, valise de maternité, chambre, biberons · Petit Baobab', description: 'Six guides courts pour bien choisir l\'équipement de bébé à Abidjan : le lit, le siège auto selon l\'âge, la poussette, la valise de maternité, la chambre et les premiers biberons.' },
   guide:           { path: '/que-prevoir-mois-par-mois/', nav: 'Guide', title: 'Que prévoir pour bébé mois par mois ? · Petit Baobab', description: 'Le guide pratique de 0 à 24 mois : l\'essentiel à prévoir, le confort en plus et nos astuces, étape par étape.' },
-  livraison:       { path: '/livraison-et-paiement/', nav: 'Livraison & paiement', title: 'Livraison, paiement et questions fréquentes · Petit Baobab', description: 'Frais de livraison par commune d\'Abidjan, livraison offerte dès 100 000 FCFA, paiement à la livraison, par lien Wave ou acompte de 50 %, échanges sous 48 h.' },
+  livraison:       { path: '/livraison-et-paiement/', nav: 'Livraison & paiement', title: 'Livraison, paiement et questions fréquentes · Petit Baobab', description: 'Frais de livraison par commune d\'Abidjan, livraison offerte dès 100 000 FCFA, paiement à la livraison, par Wave ou Mobile Money, ou acompte de 50 %, échanges sous 48 h.' },
   commande:        { path: '/commande/', nav: 'Commande', title: 'Votre commande · Petit Baobab', description: 'Finalisez votre commande et envoyez-la sur WhatsApp.', noindex: true },
   confidentialite: { path: '/confidentialite/', nav: 'Confidentialité', title: 'Politique de confidentialité · Petit Baobab', description: 'Les données utilisées pour livrer votre commande et vos droits.' },
   cgv:             { path: '/conditions-de-vente/', nav: 'Conditions de vente', title: 'Conditions de vente · Petit Baobab', description: 'Prix, commande, paiement, livraison et échanges.' },
@@ -1411,7 +1453,7 @@ var PAGES_INDEX = [
   { view:'guide', kw:'guide mois par mois prévoir âge nouveau-né éveil marche' },
   { view:'conseils', kw:'conseils guide d\'achat choisir lit siège auto poussette valise maternité chambre biberons bien choisir' },
   { view:'histoire', kw:'histoire marque nom baobab pourquoi valeurs promesse qui sommes-nous à propos' },
-  { view:'livraison', kw:'livraison frais commune délai paiement wave espèces acompte retour échange questions' },
+  { view:'livraison', kw:'livraison frais commune délai paiement wave mobile money orange mtn moov espèces acompte retour échange questions' },
   { view:'cgv', kw:'conditions vente cgv prix' },
   { view:'cgu', kw:'conditions utilisation cgu règles site propriété responsabilité' },
   { view:'confidentialite', kw:'confidentialité données cookies' }
@@ -2209,7 +2251,7 @@ function reassure(){
   return '<ul class="reassure"><li>' + icon('check') + '<span>Livraison dans toutes les communes d\'Abidjan, offerte dès ' + fmt(CONFIG.freeDeliveryFrom) + '</span></li>' +
     '<li>' + icon('check') + '<span>Vous vérifiez l\'article à la livraison avant de payer</span></li>' +
     '<li>' + icon('check') + '<span>Échange sous 48 h en cas de défaut</span></li>' +
-    '<li>' + icon('check') + '<span>Espèces ou Wave à la livraison, lien Wave, ou acompte et solde à la réception</span></li></ul>';
+    '<li>' + icon('check') + '<span>Espèces, Wave ou Mobile Money à la livraison, ou acompte et solde à la réception</span></li></ul>';
 }
 function bandById(id){ return AGE_BANDS.filter(function(b){ return b.id===id; })[0]; }
 function priceBandById(id){ return PRICE_BANDS.filter(function(b){ return b.id===id; })[0]; }
@@ -2426,7 +2468,7 @@ function buildMessage(){
   var zone = val('f-zone'), fee = zoneFee(zone, sub);
   var gift = $('#f-gift').checked;
   var total = sub + fee.fee, dep = depositFor(total), half = Math.ceil(total*dep.rate/100)*100;
-  var pay = $('#pay-wave').checked ? 'Par lien Wave avant la livraison' : $('#pay-deposit').checked ? 'Acompte de ' + dep.pct + ' % par lien Wave (' + fmt(half) + (fee.known ? '' : ' + ' + dep.pct + ' % de la livraison') + '), solde à la livraison' : 'À la livraison';
+  var pay = $('#pay-wave').checked ? 'Par Wave ou Mobile Money avant la livraison' : $('#pay-deposit').checked ? 'Acompte de ' + dep.pct + ' % par Wave ou Mobile Money (' + fmt(half) + (fee.known ? '' : ' + ' + dep.pct + ' % de la livraison') + '), solde à la livraison' : 'À la livraison';
   if (!state.ref) state.ref = orderRef();
   var L = [];
   L.push('Bonjour ' + CONFIG.brand + ' 👋');
@@ -2739,6 +2781,32 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
     });
     box.addEventListener('mouseleave', function(){ card.classList.remove('tilting'); card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); });
   });
+})();
+/* ===== touch-motion : toucher = animer, le baobab repousse, le soleil suit le défilement ===== */
+(function(){
+  if (!window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var logo = $('.hero-logo .pb-logo');
+  if (logo) logo.addEventListener('click', function(){ logo.classList.add('still'); void logo.offsetWidth; logo.classList.remove('still'); });
+  if (!window.matchMedia('(hover:none)').matches) return;
+  var SEL = '.logo,.baobab-illus,.card,.univ-card,.who-card,.chip,.btn,.value,.gift-box,.stage,.tstep,.fab-wa,.fab-top,.footer-scene';
+  var pend = null;
+  function fire(el){ el.classList.remove('tapped'); void el.offsetWidth; el.classList.add('tapped'); clearTimeout(el._tapT); el._tapT = setTimeout(function(){ el.classList.remove('tapped'); }, 1000); }
+  document.addEventListener('pointerdown', function(e){
+    if (e.pointerType === 'mouse') return;
+    var el = e.target.closest(SEL); if (!el) return;
+    pend = { el: el, x: e.clientX, y: e.clientY, t: setTimeout(function(){ if (pend) { fire(pend.el); pend = null; } }, 90) };
+  }, {passive:true});
+  document.addEventListener('pointermove', function(e){ if (pend && Math.hypot(e.clientX - pend.x, e.clientY - pend.y) > 8) { clearTimeout(pend.t); pend = null; } }, {passive:true});
+  document.addEventListener('pointerup', function(){ if (pend) { clearTimeout(pend.t); fire(pend.el); pend = null; } }, {passive:true});
+  document.addEventListener('pointercancel', function(){ if (pend) { clearTimeout(pend.t); pend = null; } }, {passive:true});
+  var sun = $('.sun-toggle'), fb = $('.footer-brand');
+  if (sun && fb) sun.addEventListener('pointerdown', function(){ fb.classList.add('sun-tap'); setTimeout(function(){ fb.classList.remove('sun-tap'); }, 900); }, {passive:true});
+  var hero = $('#v-accueil .plum');
+  if (hero && logo){
+    var raf = null;
+    var onS = function(){ if (raf) return; raf = requestAnimationFrame(function(){ raf = null; var y = Math.max(0, Math.min(1, window.scrollY / Math.max(1, hero.offsetHeight))); logo.style.setProperty('--py', (y * 3).toFixed(3)); logo.style.setProperty('--px', (y * 1.2).toFixed(3)); }); };
+    window.addEventListener('scroll', onS, {passive:true}); onS();
+  }
 })();
 })();
 </script>

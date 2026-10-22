@@ -51,7 +51,7 @@ function jsonld(view) {
     telephone: tel,
     contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: tel, availableLanguage: 'fr' },
     areaServed: { '@type': 'Country', name: 'Côte d\'Ivoire' },
-    priceRange: '600 – 550 000 FCFA', currenciesAccepted: 'XOF', paymentAccepted: 'Espèces, Wave',
+    priceRange: '600 – 550 000 FCFA', currenciesAccepted: 'XOF', paymentAccepted: 'Espèces, Wave, Mobile Money (Orange Money, MTN MoMo, Moov Money)',
     sameAs: [CONFIG.social && CONFIG.social.instagram, CONFIG.social && CONFIG.social.tiktok].filter(Boolean)
   };
   const website = {
@@ -178,7 +178,7 @@ fs.writeFileSync(path.join(OUT, 'llms.txt'), `# ${CONFIG.brand}
 
 > ${ROUTES.accueil.description}
 
-Boutique de puériculture en ligne à Abidjan (Côte d'Ivoire) : packs naissance par budget, valise de maternité et équipement de bébé classé en 8 univers. Commande sur le site, envoi du récapitulatif sur WhatsApp (${phoneDisplay}) avec une référence de commande, paiement à la livraison (espèces ou Wave), par lien Wave avant livraison, ou acompte de 50 % et solde à la livraison. Livraison à Abidjan en 24 à 48 h, offerte dès ${CONFIG.freeDeliveryFrom.toLocaleString('fr-FR')} FCFA ; envoi par compagnie de transport dans le reste du pays. Échange sous 48 h en cas de défaut. Horaires WhatsApp : tous les jours de 8 h à 21 h.
+Boutique de puériculture en ligne à Abidjan (Côte d'Ivoire) : packs naissance par budget, valise de maternité et équipement de bébé classé en 8 univers. Commande sur le site, envoi du récapitulatif sur WhatsApp (${phoneDisplay}) avec une référence de commande, paiement à la livraison (espèces, Wave ou Mobile Money), par Wave ou Mobile Money avant livraison, ou acompte de 50 % et solde à la livraison. Livraison à Abidjan en moins de 24 h, offerte dès ${CONFIG.freeDeliveryFrom.toLocaleString('fr-FR')} FCFA ; envoi par compagnie de transport dans le reste du pays. Échange sous 48 h en cas de défaut. Horaires WhatsApp : tous les jours de 8 h à 21 h.
 
 ## La marque
 
@@ -249,7 +249,7 @@ async function renderImages() {
   <div style="font-size:34px;font-weight:500;color:#F2A93B;margin-top:8px">Des racines solides dès le premier jour.</div>
   <div style="width:260px;height:3px;background:#F2A93B;margin:26px auto"></div>
   <div style="font-size:44px;font-weight:600;line-height:1.1">Le trousseau de naissance sans stress,<br>livré chez vous.</div>
-  <div style="font-family:'Nunito Sans',Arial,sans-serif;font-size:24px;font-weight:600;opacity:.85;margin-top:30px">Packs naissance · Valise de maternité · Livraison Abidjan 24–48 h</div>
+  <div style="font-family:'Nunito Sans',Arial,sans-serif;font-size:24px;font-weight:600;opacity:.85;margin-top:30px">Packs naissance · Valise de maternité · Livraison Abidjan en moins de 24 h</div>
 </body></html>`);
   await page.waitForTimeout(800);
   await page.screenshot({ path: path.join(OUT, 'og-image.png') });
