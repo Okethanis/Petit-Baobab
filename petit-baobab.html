@@ -100,6 +100,18 @@ img,svg{max-width:100%}
 .mark .lg-ground{fill:var(--brand-soft)}
 .mark .lg-trunk{fill:var(--brand-deep)}
 .mark .lg-tree{fill:var(--brand)}
+/* Clin d'œil : chercher « Myris » dans la boutique */
+.wink{display:flex;gap:20px;align-items:center;background:var(--brand-soft);border-radius:var(--radius);padding:20px 22px;color:var(--ink)}
+.wink .wink-mark{width:118px;flex:none;height:auto;overflow:visible}
+.wink .wink-mark > g:nth-of-type(6),.wink .wink-mark > g:nth-of-type(7),.wink .wink-mark > g:nth-of-type(8){transform-origin:99px 110px;animation:wink-grow .9s var(--spring) .4s both}
+.wink .wink-mark > g:nth-of-type(1){transform-origin:104px 18px;animation:lg-hop 1s var(--spring) 1.3s}
+.wink .wink-mark > g:nth-of-type(4){transform-origin:59px 58px;animation:lg-sway 5s ease-in-out 1.4s infinite}
+.wink h3{font-family:var(--font-display);font-size:1.7rem;color:var(--brand);margin:0 0 4px;line-height:1.1}
+.wink p{margin:0;color:var(--muted);max-width:52ch}
+.wink .wink-sign{margin-top:8px;font-weight:700;color:var(--brand)}
+@keyframes wink-grow{from{transform:scale(0)}to{transform:scale(1)}}
+@media (max-width:560px){.wink{flex-direction:column;text-align:center;align-items:center}.wink p{max-width:none}}
+@media (prefers-reduced-motion: reduce){.wink .wink-mark > g{animation:none !important}}
 .tools{display:flex;align-items:center;gap:2px}
 .tool{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:999px;position:relative;color:var(--ink);transition:background .2s,transform .15s var(--ease)}
 .tool:hover{background:var(--surface-2)}
@@ -2326,6 +2338,7 @@ function renderUnivChips(){
   if (u){ var cats = catsOfUniv(u.id); sub.hidden = cats.length < 2; sub.innerHTML = '<button type="button" class="chip' + (state.cat==='all'?' active':'') + '" data-action="chip" data-cat="all">Tout ' + esc(u.title.toLowerCase().replace('bébé','bébé')) + '</button>' + cats.map(function(c){ return '<button type="button" class="chip' + (state.cat===c.id?' active':'') + '" data-action="chip" data-cat="' + c.id + '">' + esc(c.label) + '</button>'; }).join(''); }
   else { sub.hidden = true; sub.innerHTML = ''; }
 }
+var WINK = '<div class="wink" style="grid-column:1/-1"><svg class="mark wink-mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><g class="lg-sun"><circle cx="104" cy="18" r="10"/></g><g class="lg-ground"><ellipse cx="60" cy="110" rx="56" ry="5"/></g><g class="lg-trunk"><path d="M43 110c4-18 5-34 1-54h30c-4 20-3 36 1 54z"/></g><g class="lg-tree"><circle cx="59" cy="44" r="26"/><circle cx="33" cy="54" r="17"/><circle cx="85" cy="54" r="17"/><circle cx="43" cy="30" r="15"/><circle cx="75" cy="30" r="15"/><circle cx="59" cy="22" r="13"/></g><g class="lg-fruit"><circle cx="71" cy="40" r="3"/></g><g class="lg-trunk"><path d="M94 110c1.5-7 1.8-13 .7-20h8.6c-1.1 7-.8 13 .7 20z"/></g><g class="lg-tree"><circle cx="99" cy="82" r="9.5"/><circle cx="91" cy="87" r="5.5"/><circle cx="107" cy="87" r="5.5"/></g><g class="lg-fruit"><circle cx="103" cy="80" r="2"/></g></svg><div><h3>Myris</h3><p>Le plus joli prénom qu\'on ait entendu par ici. Le petit baobab lui garde déjà une place, à l\'ombre du grand.</p><p class="wink-sign">Clin d\'œil de Hanis à la future maman.</p></div></div>';
 function renderShop(){
   if (state.univ==='favs' && !favCount()) state.univ = 'all';
   renderUnivChips();
@@ -2344,7 +2357,9 @@ function renderShop(){
   $('#shop-count').textContent = list.length + (list.length>1 ? ' articles' : ' article');
   if ($('#q').value !== state.q) $('#q').value = state.q;
   var shown = list.slice(0, state.shown);
-  var html = list.length ? shown.map(card).join('') : '<div class="empty" style="grid-column:1/-1">Aucun article ne correspond. Essayez un autre mot, ou écrivez-nous sur WhatsApp : on trouve ce qu\'il vous faut.</div>';
+  var wink = q.normalize('NFD').replace(/[\u0300-\u036f]/g,'') === 'myris';
+  var html = list.length ? shown.map(card).join('') : (wink ? '' : '<div class="empty" style="grid-column:1/-1">Aucun article ne correspond. Essayez un autre mot, ou écrivez-nous sur WhatsApp : on trouve ce qu\'il vous faut.</div>');
+  if (wink) html = WINK + html;
   if (list.length > shown.length) html += moreButton(shown.length, list.length);
   if (!state.shopRendered && !reduced){ state.shopRendered = true; $('#shop').innerHTML = skeletonCards(8); setTimeout(function(){ $('#shop').innerHTML = html; }, 350); }
   else { state.shopRendered = true; $('#shop').innerHTML = html; }
