@@ -152,6 +152,9 @@ fs.mkdirSync(path.join(OUT, 'images'), { recursive: true });
 // Photos des produits (dossier images/ à côté de ce script)
 const IMG_SRC = path.join(__dirname, 'images');
 if (fs.existsSync(IMG_SRC)) for (const f of fs.readdirSync(IMG_SRC)) fs.copyFileSync(path.join(IMG_SRC, f), path.join(OUT, 'images', f));
+// Bibliothèques servies par le site lui-même (three.js pour la carte Myris) : dossier vendor/
+const VENDOR = path.join(__dirname, 'vendor');
+if (fs.existsSync(VENDOR)) { fs.mkdirSync(path.join(OUT, 'vendor'), { recursive: true }); for (const f of fs.readdirSync(VENDOR)) fs.copyFileSync(path.join(VENDOR, f), path.join(OUT, 'vendor', f)); }
 let written = [];
 for (const view of Object.keys(ROUTES)) {
   const r = ROUTES[view];
@@ -209,6 +212,9 @@ fs.writeFileSync(path.join(OUT, '_headers'), `/*
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
 
 /images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/vendor/*
   Cache-Control: public, max-age=31536000, immutable
 
 /*.png
