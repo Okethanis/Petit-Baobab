@@ -22,7 +22,7 @@ cd site && python3 -m http.server 8000   # puis ouvrir http://localhost:8000
 
 - Hébergé sur **Netlify** (plan gratuit : **300 crédits/mois**, cycle du 22 au 21). Chaque mise en ligne du site = **15 crédits**. Le site est coupé si on atteint 300.
 - Déploiement automatique : `git push` sur la branche `main` du dépôt `Okethanis/Petit-Baobab` → Netlify reconstruit.
-- `netlify.toml` ne reconstruit QUE si `petit-baobab.html`, `build.js`, `images`, `static` ou `vendor` changent. Un commit qui ne touche que `admin/`, `brand/`, `CLAUDE.md` ne coûte rien.
+- `netlify.toml` ne reconstruit QUE si `petit-baobab.html`, `build.js`, `images`, `static`, `amenageur`, `photos` ou `vendor` changent. Un commit qui ne touche que `admin/`, `brand/`, `CLAUDE.md` ne coûte rien.
 - **Travailler sur une branche et ouvrir une Pull Request** donne un aperçu gratuit (`deploy-preview-N--petit-baobab.netlify.app`) sans dépenser de crédits. Ne fusionner dans `main` que quand c'est validé.
 - Envisager **Cloudflare Pages** (gratuit, sans crédits) avant le lancement public (TikTok, pub).
 
@@ -45,6 +45,15 @@ cd site && python3 -m http.server 8000   # puis ouvrir http://localhost:8000
 - Suivi : tableau de bord « Photos du catalogue » (artefact claude.ai, jeu de données `progression`).
 - **Aucun texte chinois sur les photos** (demande de Hanis, 23 oct. 2026). Sur l'aperçu, `admin/photos-ocr.py` (RapidOCR, lancé par `netlify.toml` hors production) lit chaque nouvelle photo HD et écrit `/verification-photos/ocr.json` + une étiquette rouge « Texte chinois » sur la page de vérification ; on retire alors l'adresse fautive de `photos/sources.json`. Photos du dépôt sans version HD : recadrées ou retouchées à la main (étiquette effacée), jamais un logo de marque.
 - Doublons (même article sous plusieurs codes ou prix) : **effacés le 23 oct. 2026** sur demande de Hanis (`brand/doublons.py`) : 55 fiches en `hidden:true` (rien de supprimé), prix = le plus haut du groupe, packs repointés ; 11 modèles « autre couleur » regroupés en une fiche avec choix de couleur (`brand/couleurs.py`). 08113 reste à part (prix différent). Anciens codes → fiche gardée dans `brand/alias.json` → `ID_ALIAS` (partagé avec `brand/ids-propres.py`). Ordre : `ids-propres.py` → `doublons.py` → `couleurs.py` → `node admin/packs.js` → `node build.js`. Suivi des groupes : artefact claude.ai « Doublons du catalogue ».
+
+## Aménageur de chambre 3D (page /amenageur/)
+
+- Le client entre les mesures de la chambre, place des meubles de la boutique sur un plan et en 3D (alertes porte, chevauchement, fenêtre, hauteur), puis commande toute la chambre sur WhatsApp (code de plan « PB1-… » qui rouvre le même plan).
+- Sources : `amenageur/page.html` (l'outil, repères `/*CATALOG*/`, `/*WA*/`, `/*WA_DISPLAY*/`) et `amenageur/meubles.json` (14 meubles : code du site, couleur montrée, dimensions en cm, `approx` = dimensions non vérifiées, modèle 3D). **L'ordre de `meubles.json` ne doit jamais changer** (les codes PB1 enregistrent la position) : ajouter à la fin.
+- `build.js` écrit `site/amenageur/index.html` : nom, référence, prix et photo viennent de `PRODUCTS` (toujours ceux du site), numéro WhatsApp de `CONFIG`. Un article absent ou masqué fait échouer le build (message clair).
+- `static/amenageur/` : `three.min.js` (r128, hébergé chez nous : la politique de sécurité du site bloque les CDN), film du bloc « Voir comment ça marche » (`demo-amenageur.mp4`/`.webm`, `preload="none"`) et son affiche.
+- Liens : encart sur l'accueil et lien sur les fiches lits, berceaux, lits parapluie, parcs, tables à langer et mobilier (`brand/amenageur-liens.py`), sans deuxième bouton orange.
+- Film de présentation (50 s, 1080 × 1920) : sources dans l'artefact claude.ai de l'aménageur (`sources/film/`), refait le 23 oct. 2026 avec les photos HD ; copie sur le Mac de Hanis : `~/Documents/Film-amenageur-Petit-Baobab/`.
 
 ## À faire (au 23 oct. 2026)
 

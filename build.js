@@ -170,11 +170,70 @@ for (const view of Object.keys(ROUTES)) {
   written.push(path.relative(OUT, file));
 }
 
+/* ---- Aménageur de chambre 3D : page à part (/amenageur/), chargée seulement quand on l'ouvre ----
+   amenageur/page.html (l'outil) + amenageur/meubles.json (dimensions, modèle 3D, couleurs du modèle).
+   Nom, référence, prix et photo viennent de PRODUCTS : toujours ceux du site. three.js, vidéo et affiche : static/amenageur/. */
+const AM_DIR = path.join(__dirname, 'amenageur');
+const AM_PATH = '/amenageur/';
+if (fs.existsSync(path.join(AM_DIR, 'page.html'))) {
+  const byIdP = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+  const catalog = JSON.parse(fs.readFileSync(path.join(AM_DIR, 'meubles.json'), 'utf8')).map(m => {
+    const p = byIdP[m.id];
+    if (!p) throw new Error('aménageur : l\'article ' + m.id + ' est absent ou masqué');
+    const col = m.couleur ? (p.colors || []).find(c => c[0] === m.couleur) : null;
+    if (m.couleur && !col) throw new Error('aménageur : couleur « ' + m.couleur + ' » absente de ' + m.id);
+    const o = Object.assign({}, m, { name: p.name + (col ? ' (' + col[0] + ')' : ''), ref: p.ref || p.id.toUpperCase(), price: p.price, img: '/' + (col && col[1] ? col[1] : p.image) });
+    delete o.couleur;
+    return o;
+  });
+  const t = fs.readFileSync(path.join(AM_DIR, 'page.html'), 'utf8');
+  const amTitle = 'Aménager la chambre de bébé en 3D · ' + CONFIG.brand;
+  const amDesc = 'Entrez les mesures de la chambre, placez les lits, armoires et commodes de la boutique sur un plan et en 3D, vérifiez que tout rentre, puis commandez sur WhatsApp.';
+  const amFonts = (t.match(/<link rel="preconnect"[\s\S]*?display=swap">/) || [''])[0];
+  const amStyle = t.slice(t.indexOf('<style>'), t.indexOf('</style>') + 8);
+  const amBody = t.slice(t.indexOf('</style>') + 8).trim()
+    .replace('/*CATALOG*/', JSON.stringify(catalog))
+    .replace("'/*WA*/'", JSON.stringify(String(CONFIG.whatsapp).replace(/\D/g, '')))
+    .replace('/*WA_DISPLAY*/', esc(CONFIG.whatsappDisplay));
+  const amUrl = SITE_URL + AM_PATH;
+  fs.mkdirSync(path.join(OUT, 'amenageur'), { recursive: true });
+  fs.writeFileSync(path.join(OUT, 'amenageur', 'index.html'), `<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>${esc(amTitle)}</title>
+<meta name="description" content="${esc(amDesc)}">
+<link rel="canonical" href="${amUrl}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="${esc(CONFIG.brand)}">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="${esc(amTitle)}">
+<meta property="og:description" content="${esc(amDesc)}">
+<meta property="og:url" content="${amUrl}">
+<meta property="og:image" content="${SITE_URL}/amenageur/demo-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1F6B4A">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+${amFonts}
+<style>[hidden]{display:none!important}</style>
+${amStyle}
+</head>
+<body>
+${amBody}
+</body>
+</html>
+`);
+  written.push('amenageur/index.html');
+}
+
 const indexable = Object.keys(ROUTES).filter(v => !ROUTES[v].noindex);
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${indexable.map(v => `  <url><loc>${SITE_URL}${ROUTES[v].path}</loc><lastmod>${TODAY}</lastmod><changefreq>${v === 'accueil' || v === 'boutique' ? 'weekly' : 'monthly'}</changefreq><priority>${v === 'accueil' ? '1.0' : v === 'packs' || v === 'boutique' ? '0.9' : '0.6'}</priority></url>`).join('\n')}
-</urlset>
+${written.includes('amenageur/index.html') ? `  <url><loc>${SITE_URL}${AM_PATH}</loc><lastmod>${TODAY}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n` : ''}</urlset>
 `);
 fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *
 Allow: /

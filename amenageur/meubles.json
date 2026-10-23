@@ -1,0 +1,16 @@
+[
+  {"id":"qs11","short":"Lit QS11","tag":"Lit","group":"couchage","model":"crib","w":130,"d":72,"h":100,"approx":true,"tint":"#F2E8D8","c":{"body":"#F4F2EC","post":"#C99A5B","mat":"#E9E5DA","deco":"cloud"}},
+  {"id":"4402","short":"Lit 4402","tag":"Lit","group":"couchage","model":"crib","w":124,"d":79,"h":109,"approx":false,"tint":"#EDE4D6","c":{"body":"#F3F1EA","post":"#F3F1EA","mat":"#E4E0D6","roof":"#E3C9A4","drawers":"#8E8A84"}},
+  {"id":"620","short":"Lit 620","tag":"Lit","group":"couchage","model":"crib","w":126,"d":60,"h":86,"approx":false,"tint":"#F6DCE5","c":{"body":"#F5F3EF","post":"#F5F3EF","mat":"#E9E5DD","cabinet":36,"accent":"#E8A9BE","drawers":"#E8A9BE"}},
+  {"id":"t-701l","short":"Lit parapluie","tag":"Lit","group":"couchage","model":"playard","w":125,"d":65,"h":74,"approx":false,"tint":"#D9DCE1","c":{"frame":"#3E434B","fabric":"#5A6069","mesh":"#8D939B","changer":true}},
+  {"id":"kjc-1b","short":"Cododo","tag":"Cododo","group":"couchage","model":"cododo","w":95,"d":58,"h":85,"approx":true,"tint":"#E1E4E7","c":{"frame":"#DADDE0","fabric":"#8E959C","mesh":"#C9CED3"}},
+  {"id":"hh7024","short":"Armoire HH7024","tag":"Armoire","group":"rangement","model":"wardrobe","w":70,"d":38,"h":135,"approx":false,"tint":"#EFEEEA","c":{"body":"#F4F2EC","door":"#CFD8DB","handle":"#C8A35A","style":"glass"}},
+  {"id":"f7025","couleur":"Bleu","short":"Armoire F7025","tag":"Armoire","group":"rangement","model":"wardrobe","w":70,"d":38,"h":159,"approx":false,"tint":"#DCE8F2","c":{"body":"#F6F5F1","door":"#F6F5F1","accent":"#3F7FB0","handle":"#9AA3AA","style":"kids"}},
+  {"id":"15506","short":"Commode 15506","tag":"Commode","group":"rangement","model":"dresser","w":55,"d":40,"h":109,"approx":false,"tint":"#F6D9DE","c":{"body":"#F7F1EE","a":"#E39AA8","b":"#F1C3CB","knob":"#FFFFFF"}},
+  {"id":"zg-551322t","short":"Chariot","tag":"Chariot","group":"rangement","model":"cart","w":62,"d":32,"h":89,"approx":false,"tint":"#F1ECDF","c":{"body":"#EFE8D8","drawer":"#DCE7EA"}},
+  {"id":"6018","short":"Table à langer","tag":"Table","group":"rangement","model":"changing","w":85,"d":55,"h":95,"approx":true,"tint":"#F1E8D4","c":{"body":"#EADFC8","leg":"#9AA08F","pad":"#F7F1E3"}},
+  {"id":"ybl-1518-2","short":"Parc 1,8 m","tag":"Parc","group":"eveil","model":"playpen","w":180,"d":150,"h":65,"approx":"h","tint":"#DADDE3","c":{"frame":"#3F4652","mesh":"#5B6573","floor":"#A3AAB4"}},
+  {"id":"8104","couleur":"Gris clair","short":"Balancelle","tag":"Balancelle","group":"eveil","model":"swing","w":70,"d":62,"h":75,"approx":true,"tint":"#E3E5E8","c":{"base":"#EEEFF1","seat":"#A8ADB3","toy":"#7FB7A4"}},
+  {"id":"kd013","short":"Chaise haute","tag":"Chaise","group":"eveil","model":"highchair","w":60,"d":70,"h":100,"approx":true,"tint":"#E3E6E5","c":{"leg":"#A3AAAA","seat":"#C9CECD","tray":"#F2F1EC"}},
+  {"id":"668-34","couleur":"Rose","short":"Tapis d'éveil","tag":"Tapis","group":"eveil","model":"playmat","w":95,"d":95,"h":45,"approx":true,"tint":"#F8DCE5","c":{"mat":"#F6C5D3","bumper":"#EE9DB5","arch":"#E8638F","arch2":"#F2A93B"}}
+]
