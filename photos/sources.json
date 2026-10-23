@@ -1107,5 +1107,64 @@
   "statut": "doute",
   "fiche": "https://www.alibaba.com/product-detail/Large-sized-Plastic-Infant-Toddler-Potty_1601881219943.html",
   "note": "Pot en forme de toilette avec réservoir (rose, vert, bleu) : même type, couleurs à vérifier"
+ },
+ "136-2": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H008198f004d84eddbf0e193dafec747eN.jpg",
+   "https://s.alicdn.com/@sc04/kf/H011e9e2d8cc741fd913aaef084e304b1K.jpg",
+   "https://s.alicdn.com/@sc04/kf/H7e9685db3d1e4204a34890281957cc39c.png"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/BPA-Free-3-Layer-Airtight-Baby_1601373692747.html",
+  "note": "Doseur de lait en poudre à étages, oreilles de lapin (même photo pour 136-2, 7276-3 et 1656-1)"
+ },
+ "7276-3": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H008198f004d84eddbf0e193dafec747eN.jpg",
+   "https://s.alicdn.com/@sc04/kf/H011e9e2d8cc741fd913aaef084e304b1K.jpg",
+   "https://s.alicdn.com/@sc04/kf/H7e9685db3d1e4204a34890281957cc39c.png"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/BPA-Free-3-Layer-Airtight-Baby_1601373692747.html",
+  "note": "Doseur de lait en poudre à étages, oreilles de lapin (même photo pour 136-2, 7276-3 et 1656-1)"
+ },
+ "1656-1": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H008198f004d84eddbf0e193dafec747eN.jpg",
+   "https://s.alicdn.com/@sc04/kf/H011e9e2d8cc741fd913aaef084e304b1K.jpg",
+   "https://s.alicdn.com/@sc04/kf/H7e9685db3d1e4204a34890281957cc39c.png"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/BPA-Free-3-Layer-Airtight-Baby_1601373692747.html",
+  "note": "Doseur de lait en poudre à étages, oreilles de lapin (même photo pour 136-2, 7276-3 et 1656-1)"
+ },
+ "1656-12": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H9e6c59dcb0034c97b7ce3fc01969f276x.jpg",
+   "https://s.alicdn.com/@sc04/kf/Hbbf9daa9a5c948d08ceda1241ad6c843j.jpg",
+   "https://s.alicdn.com/@sc04/kf/Hf63a42f6bedb4f7ea8fe128e4e831956T.png"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Factory-Wholesale-Free-Sample-Baby-Feeding_1601206941768.html",
+  "note": "Doseur de lait rose à têtes d'ourson : modèle proche (nombre d'étages à vérifier)"
+ },
+ "zly-118": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H3bff68c5a49744b7b8512a8ceec0e2e1N.jpg",
+   "https://s.alicdn.com/@sc04/kf/H4e5d626c913344859c9d2626ddc908518.jpg"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Baby-Hair-Trimmer-High-Quality-Electric_1601511088789.html",
+  "note": "Tondeuse bébé avec aspiration (blanche, capot gris) : modèle proche, à confirmer"
+ },
+ "7": {
+  "urls": [
+   "https://sc04.alicdn.com/kf/H5b15f81447ea4d8b849766efafc41d57z.jpg",
+   "https://sc04.alicdn.com/kf/H31257b9262d7453bbd0a7d52e0dbc966c.png",
+   "https://sc04.alicdn.com/kf/H0bcd3c05b95e45e1aa08ada69323e01dd.png"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/Infant-Toddler-Portable-Bathtub-Set-Mother_1601778346432.html",
+  "note": "Set de bain ourson (baignoire, pot, seau, bassines, boîte) en gris, rose et vert ; le nom « Pot bébé (lot) » est à revoir"
  }
 }
