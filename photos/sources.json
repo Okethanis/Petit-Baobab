@@ -1497,14 +1497,14 @@
  },
  "1656-13": {
   "urls": [
-   "https://s.alicdn.com/@sc04/kf/H8886dcb839834c1cbbaeefefe71fa3caT.png",
    "https://s.alicdn.com/@sc04/kf/H108a1cd911894b67a1229070da68c2bew.jpg",
    "https://s.alicdn.com/@sc04/kf/H3a5c03e83ab94bde87cc8928c4ef7378I.jpg",
    "https://s.alicdn.com/@sc04/kf/H75113d6ce4e14078bc6eaaa4b1ca7b18w.jpg"
   ],
   "statut": "trouve",
   "fiche": "https://www.alibaba.com/product-detail/Ins-New-Nordic-Woven-Bed-Skirt_1601565081804.html",
-  "note": "Même tour de lit tressé (plusieurs couleurs)"
+  "note": "Même tour de lit tressé (plusieurs couleurs)",
+  "cn_retirees": 1
  },
  "y12": {
   "urls": [
@@ -2093,13 +2093,13 @@
  "15506": {
   "urls": [
    "https://s.alicdn.com/@sc04/kf/H23c8272ad7004c2b82d532c2305d32a39.png",
-   "https://s.alicdn.com/@sc04/kf/Hf15845518c924cdb8a8f0a2cbb9611eeR.jpg",
    "https://s.alicdn.com/@sc04/kf/H4740d50173c3484691840c822355532eR.png",
    "https://s.alicdn.com/@sc04/kf/He97b9b2f8c5345a5aab419f629457086O.png"
   ],
   "statut": "trouve",
   "fiche": "https://www.alibaba.com/product-detail/45cm-Size-3-Layers-Plastic-Storage_1601151580658.html",
-  "note": "Même commode : rose à lapins et marron à ours, sans texte chinois"
+  "note": "Même commode : rose à lapins et marron à ours, sans texte chinois",
+  "cn_retirees": 1
  },
  "6005t": {
   "urls": [
@@ -2164,13 +2164,12 @@
  "0212-43": {
   "urls": [
    "https://sc04.alicdn.com/kf/H79a91f153508403cbe5d894fa8e896a5S.jpg",
-   "https://sc04.alicdn.com/kf/He3c8dfb5e54a41158e4d9219e9df7f88a.jpg",
-   "https://sc04.alicdn.com/kf/Hb8bf44aa37c441fd858b5583ad94e977A.jpg",
-   "https://sc04.alicdn.com/kf/H98efe12fe1c44ea7b9f43252174a1d18j.jpg"
+   "https://sc04.alicdn.com/kf/He3c8dfb5e54a41158e4d9219e9df7f88a.jpg"
   ],
   "statut": "trouve",
   "fiche": "https://www.alibaba.com/product-detail/Cotton-Baby-Safety-Products-Headrest-Anti_1601420960418.html",
-  "note": "Même casque anti-chute en coton (sans les gribouillis rouges)"
+  "note": "Même casque anti-chute en coton (sans les gribouillis rouges)",
+  "cn_retirees": 2
  },
  "15729": {
   "urls": [
@@ -2357,12 +2356,12 @@
   "urls": [
    "https://sc04.alicdn.com/kf/H64d938a502414fc497677b0b1fbd66394.jpg",
    "https://sc04.alicdn.com/kf/H1466eed212984d768d8fd44c828b485aU.jpg",
-   "https://sc04.alicdn.com/kf/Ha7e140e1f817466e9284fa0a2b48f486M.jpg",
-   "https://sc04.alicdn.com/kf/H61fc0a24f55a4b73932b4483a562a8c9o.jpg"
+   "https://sc04.alicdn.com/kf/Ha7e140e1f817466e9284fa0a2b48f486M.jpg"
   ],
   "statut": "trouve",
   "fiche": "https://www.alibaba.com/product-detail/BangTu-Urban-Minimalism-Oxford-Cloth-Maternity_1601740465226.html",
-  "note": "Même sac à langer en lot (sac, pochette, porte-biberon), plusieurs coloris"
+  "note": "Même sac à langer en lot (sac, pochette, porte-biberon), plusieurs coloris",
+  "cn_retirees": 1
  },
  "665205": {
   "urls": [
@@ -2385,12 +2384,11 @@
  },
  "22-13": {
   "urls": [
-   "https://sc04.alicdn.com/kf/H0639bb5d617f42a2bb268a588f23969fZ.jpg",
-   "https://sc04.alicdn.com/kf/H17581f9cadb74a308989cd5a8d39ada1G.jpg",
-   "https://sc04.alicdn.com/kf/Hbbb300f06f62440eb52601f55501412bb.jpg"
+   "https://sc04.alicdn.com/kf/H17581f9cadb74a308989cd5a8d39ada1G.jpg"
   ],
   "statut": "trouve",
   "fiche": "https://www.alibaba.com/product-detail/Upgrade-No-Bend-Folding-Plastic-Bathtub_1601948869330.html",
-  "note": "Même baignoire pliable grise sur support ; photo du carton évitée (marque écrite en chinois)"
+  "note": "Même baignoire pliable grise sur support ; photo du carton évitée (marque écrite en chinois)",
+  "cn_retirees": 2
  }
 }
