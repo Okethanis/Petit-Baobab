@@ -263,8 +263,8 @@ async function renderImages() {
 }
 
 (async () => {
-  const STATIC = path.join(__dirname, 'static');   // PNG déjà rendus (favicons, image de partage), utilisés tels quels quand Playwright manque
-  if (fs.existsSync(STATIC)) for (const f of fs.readdirSync(STATIC)) fs.copyFileSync(path.join(STATIC, f), path.join(OUT, f));
+  const STATIC = path.join(__dirname, 'static');   // fichiers publiés tels quels à la racine : PNG déjà rendus (favicons, image de partage), souvenirs/ de la carte Myris
+  if (fs.existsSync(STATIC)) fs.cpSync(STATIC, OUT, { recursive: true });
   await renderImages();
   try { fs.rmSync(path.join(__dirname, 'petit-baobab-site.zip'), { force: true }); execSync('zip -qr ../petit-baobab-site.zip .', { cwd: OUT }); } catch (e) { console.log('zip non créé :', e.message); }
   console.log('Pages : ' + written.join(', '));

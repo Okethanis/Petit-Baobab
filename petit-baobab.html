@@ -2843,7 +2843,8 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
   if (navigator.connection && navigator.connection.saveData) return;
   var pathMode = /^https?:$/.test(location.protocol) && !/\.html$/.test(location.pathname);
   var SRC = (pathMode ? '/' : '') + 'vendor/three.min.js';
-  var PHOTO = (pathMode ? '/' : '') + 'nous.jpg';
+  var BASE = (pathMode ? '/' : '') + 'souvenirs/';
+  var SLIDES = [{ img: 'ombre.jpg' }, { img: 'ascenseur.jpg' }, { img: 'rouge.jpg' }, { video: 'mains.mp4', img: 'mains.jpg' }];   // ordre d'apparition ; la vidéo joue en boucle, sans son
   var loading = null, current = null;
   function load(){
     if (window.THREE) return Promise.resolve();
@@ -2925,24 +2926,37 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
 
     // la photo de nous deux : un polaroid suspendu à une branche du grand baobab
     var PW = 2.3, PH = 2.75, STRING = 0.5;
-    var polaroid = new THREE.Group(); polaroid.position.set(-3.0, 3.4, 1.3); polaroid.visible = false; scene.add(polaroid);
+    var polaroid = new THREE.Group(); polaroid.position.set(-2.75, 3.4, 1.35); polaroid.visible = false; scene.add(polaroid);
     var cardMesh = new THREE.Mesh(new THREE.BoxGeometry(PW, PH, .05), new THREE.MeshToonMaterial({ color: 0xFFFFFF, gradientMap: grad })); cardMesh.position.y = -(STRING + PH / 2); cardMesh.castShadow = !touch; polaroid.add(cardMesh);
     var photoW = PW - .2, photoH = PH - .1 - .34;
     var photoMat = new THREE.MeshBasicMaterial({ color: 0xE1EFE5 });
     var photoMesh = new THREE.Mesh(new THREE.PlaneGeometry(photoW, photoH), photoMat); photoMesh.position.set(0, -(STRING + .1 + photoH / 2), .03); polaroid.add(photoMesh);
     var string = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -STRING, 0)]), new THREE.LineBasicMaterial({ color: 0x174F38 })); polaroid.add(string);
-    new THREE.TextureLoader().load(PHOTO, function(tex){
-      tex.encoding = THREE.sRGBEncoding; tex.minFilter = THREE.LinearMipmapLinearFilter;
-      var img = tex.image, ia = img.width / img.height, pa = photoW / photoH;   // recadrage centré pour remplir le cadre
-      if (ia < pa) { tex.repeat.set(1, ia / pa); tex.offset.set(0, (1 - ia / pa) / 2); } else { tex.repeat.set(pa / ia, 1); tex.offset.set((1 - pa / ia) / 2, 0); }
-      photoMat.map = tex; photoMat.color.set(0xFFFFFF); photoMat.needsUpdate = true;
+    function fit(tex, w, h){ var ia = w / h, pa = photoW / photoH; if (ia < pa) { tex.repeat.set(1, ia / pa); tex.offset.set(0, (1 - ia / pa) / 2); } else { tex.repeat.set(pa / ia, 1); tex.offset.set((1 - pa / ia) / 2, 0); } }
+    var loader = new THREE.TextureLoader(), slides = SLIDES.map(function(d){ return { def: d, tex: null, video: null }; });
+    slides.forEach(function(sl){
+      loader.load(BASE + sl.def.img, function(tex){ tex.encoding = THREE.sRGBEncoding; tex.minFilter = THREE.LinearFilter; fit(tex, tex.image.width, tex.image.height); sl.tex = tex; if (sl === slides[slide] && !photoMat.map) show(sl); });
+      if (sl.def.video) {
+        var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.preload = 'auto'; v.src = BASE + sl.def.video; v.crossOrigin = 'anonymous';
+        var vt = new THREE.VideoTexture(v); vt.encoding = THREE.sRGBEncoding; vt.minFilter = THREE.LinearFilter;
+        v.addEventListener('loadedmetadata', function(){ fit(vt, v.videoWidth, v.videoHeight); });
+        sl.video = v; sl.videoTex = vt;
+      }
     });
+    var slide = 0, flip = 0, flipping = false, swapped = false, lastSwitch = 0;
+    function show(sl){
+      slides.forEach(function(o){ if (o.video && o !== sl) o.video.pause(); });
+      if (sl.video && sl.video.readyState >= 2) { photoMat.map = sl.videoTex; sl.video.currentTime = 0; sl.video.play().catch(function(){ photoMat.map = sl.tex; }); }
+      else photoMat.map = sl.tex;
+      photoMat.color.set(0xFFFFFF); photoMat.needsUpdate = true;
+    }
+    function next(){ if (flipping) return; flipping = true; swapped = false; flip = 0; }
     var sw = 0, swV = 0;
     var falling = [];
     function dropFruit(from, to){ var f = new THREE.Mesh(new THREE.SphereGeometry(.17, 14, 10), mFruit); f.position.copy(from); scene.add(f); falling.push({ m: f, from: from.clone(), to: to.clone(), t: 0 }); }
 
     var T0 = performance.now(), gust = 0, gustV = 0, px = 0, py = 0, tpx = 0, tpy = 0, frame = 0, seeded = false;
-    function replay(){ T0 = performance.now(); seeded = false; sw = 0; swV = 0; falling.forEach(function(f){ scene.remove(f.m); }); falling = []; if (card) { card.classList.remove('is3d'); void card.offsetWidth; card.classList.add('is3d'); } }
+    function replay(){ T0 = performance.now(); seeded = false; sw = 0; swV = 0; lastSwitch = 0; flipping = false; flip = 0; slide = 0; show(slides[0]); falling.forEach(function(f){ scene.remove(f.m); }); falling = []; if (card) { card.classList.remove('is3d'); void card.offsetWidth; card.classList.add('is3d'); } }
     function layout(){ var w = holder.clientWidth || 280, h = Math.round(w * 284 / 400); renderer.setSize(w, h, false); canvas.style.width = w + 'px'; canvas.style.height = h + 'px'; camera.aspect = w / h; camera.updateProjectionMatrix(); }
     layout();
     if ('ResizeObserver' in window) new ResizeObserver(layout).observe(holder);
@@ -2952,14 +2966,14 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
     canvas.addEventListener('click', function(e){
       var r = canvas.getBoundingClientRect(); ndc.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera);
       if (ray.intersectObject(sun).length) { replay(); return; }
-      if (polaroid.visible && ray.intersectObject(cardMesh).length) { swV += 1.4; return; }
+      if (polaroid.visible && ray.intersectObject(cardMesh).length) { swV += .8; next(); lastSwitch = performance.now(); return; }
       gustV += 0.9;
       if ((performance.now() - T0) / 1000 > 1.6) { var src = leaves[Math.floor(Math.random() * leaves.length)]; var wp = new THREE.Vector3(); src.getWorldPosition(wp); wp.y -= src.geometry.parameters.radius * .6; wp.z += .4; dropFruit(wp, new THREE.Vector3(wp.x + (Math.random() - .5) * 1.4, .17, 1.2 + Math.random())); }
     });
 
     function tick(now){
       current.raf = requestAnimationFrame(tick);
-      if (document.hidden || !document.body.contains(canvas)) { if (!document.body.contains(canvas)) { cancelAnimationFrame(current.raf); try { renderer.forceContextLoss(); renderer.dispose(); } catch (e) {} current = null; } return; }
+      if (document.hidden || !document.body.contains(canvas)) { if (!document.body.contains(canvas)) { cancelAnimationFrame(current.raf); slides.forEach(function(o){ if (o.video) { o.video.pause(); o.video.removeAttribute('src'); o.video.load(); } }); try { renderer.forceContextLoss(); renderer.dispose(); } catch (e) {} current = null; } return; }
       frame++; if (touch && frame % 2) return;
       var t = (now - T0) / 1000;
       ground.scale.set(seg(t, 0, .4, ease.out), .42 * seg(t, 0, .4, ease.out), 1);
@@ -2987,7 +3001,17 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
       }
       var pg = seg(t, 4.4, 5.1, ease.spring); polaroid.visible = t > 4.4; polaroid.scale.setScalar(Math.max(.0001, pg));
       swV -= sw * 7 / 60; swV *= .97; sw += swV / 60;
-      polaroid.rotation.z = Math.sin(t * 1.1) * .05 + sw * .5; polaroid.rotation.y = Math.sin(t * .45) * .16 + px * .2;
+      if (polaroid.visible && pg > .99) {
+        if (!lastSwitch) lastSwitch = now;
+        if (!flipping && now - lastSwitch > 5000) { next(); lastSwitch = now; }
+      }
+      var flipAngle = 0;
+      if (flipping) {
+        flip += (touch ? 2 : 1) / 60 / .7;
+        if (flip >= .5 && !swapped) { swapped = true; slide = (slide + 1) % slides.length; show(slides[slide]); }
+        if (flip >= 1) { flipping = false; flip = 0; } else flipAngle = Math.sin(flip * Math.PI) * Math.PI / 2;
+      }
+      polaroid.rotation.z = Math.sin(t * 1.1) * .05 + sw * .5; polaroid.rotation.y = Math.sin(t * .45) * .16 + px * .2 + flipAngle;
       gustV -= gust * 9 / 60; gustV *= .94; gust += gustV / 60;
       canopy.rotation.z = Math.sin(t * .9) * .028 + gust * .35; canopy.rotation.x = Math.sin(t * .7 + 1) * .012;
       sCanopy.rotation.z = Math.sin(t * 1.3 + 2) * .035 - gust * .25;
