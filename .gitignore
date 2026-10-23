@@ -1,8 +1,9 @@
-site/
-petit-baobab-site.zip
-node_modules/
+.DS_Store
+.photos-cache/
 admin/catalogue-admin.html
 admin/tableau-de-bord.html
 admin/tableau-de-bord.local.html
-.DS_Store
 images-sans-filigrane/
+node_modules/
+petit-baobab-site.zip
+site/

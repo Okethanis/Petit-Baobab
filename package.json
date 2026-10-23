@@ -1,0 +1,8 @@
+{
+  "name": "petit-baobab",
+  "private": true,
+  "description": "Site Petit Baobab : build.js construit le site, admin/photos-fetch.js prépare les photos HD sur Netlify.",
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

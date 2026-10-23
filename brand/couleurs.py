@@ -55,7 +55,8 @@ rep("function openProduct(id){\n  var p = byId(id); if (!p) return;\n",
     "  var cur = p.colors && p.colors.length ? (colorOf(p, pick) || p.colors[0]) : null;\n",
     marker="var cur = p.colors && p.colors.length ?")
 rep("openSheet('<div class=\"product\"><div class=\"tile\">' + (p.image ? '<img src=\"' + esc(img(p)) + '\"",
-    "openSheet('<div class=\"product\"><div class=\"tile\">' + (p.image ? '<img src=\"' + esc(cur ? img({image:cur[1]}) : img(p)) + '\"")
+    "openSheet('<div class=\"product\"><div class=\"tile\">' + (p.image ? '<img src=\"' + esc(cur ? img({image:cur[1]}) : img(p)) + '\"",
+    marker="esc(cur ? img({image:cur[1]}) : img(p))")
 rep("(p.ref ? '<div class=\"ref\" style=\"margin-top:4px\">Référence ' + esc(p.ref) + '</div>' : '') +",
     "(p.ref ? '<div class=\"ref\" style=\"margin-top:4px\">Référence ' + esc(p.ref) + '</div>' : '') + colorPicker(p, cur) +")
 rep("'<button type=\"button\" class=\"btn btn-primary\" data-action=\"add-sheet\" data-id=\"' + p.id + '\">'",

@@ -1,8 +1,11 @@
 # Netlify construit le site à chaque modification poussée sur GitHub.
 [build]
-  command = "node build.js"
+  command = "node build.js && node admin/photos-fetch.js"
   publish = "site"
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- petit-baobab.html build.js images static vendor"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- petit-baobab.html build.js images static vendor photos admin/photos-fetch.js package.json netlify"
+
+[[plugins]]
+  package = "./netlify/plugins/photos-cache"
 
 [build.environment]
   NODE_VERSION = "22"

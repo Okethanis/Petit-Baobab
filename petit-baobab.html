@@ -866,6 +866,13 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .col-chip.on{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft);font-weight:700}
 .col-note{margin:8px 0 0;font-size:.85rem;color:var(--muted);font-style:italic}
 .ncol{display:block;font-size:.78rem;color:var(--brand);font-weight:600;margin-top:2px}
+
+/* Galerie de photos d'un article (brand/galerie.py) */
+.pgal{min-width:0}
+.gal{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
+.gal-t{flex:0 0 auto;width:62px;height:62px;padding:0;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;overflow:hidden;transition:border-color .2s var(--ease)}
+.gal-t img{width:100%;height:100%;object-fit:contain;display:block}
+.gal-t.on{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
 </style>
 
 <!-- Icônes -->
@@ -2283,6 +2290,19 @@ function byId(id){
 }
 /* Couleurs d'un article (brand/couleurs.py) */
 function colorOf(p, name){ var cs = (p && p.colors) || []; for (var j=0;j<cs.length;j++){ if (cs[j][0]===name) return cs[j]; } return null; }
+/* Galerie de photos d'un article (brand/galerie.py) */
+var GALERIE = {};
+setTimeout(function(){ try { fetch(img({image:'images/galerie.json'}), {cache:'no-cache'}).then(function(r){ return r.ok ? r.json() : {}; }).then(function(j){ GALERIE = j || {}; }).catch(function(){}); } catch(e){} }, 0);
+function galleryStrip(p, cur){
+  var extra = (GALERIE[p.id] || []).filter(function(f){ return f !== p.id + '.webp'; });
+  if (!extra.length) return '';
+  var list = [cur ? cur[1] : p.image].concat(extra.map(function(f){ return 'images/' + f; }));
+  return '<div class="gal" role="group" aria-label="Photos de l\'article">' + list.map(function(src, i){ return '<button type="button" class="gal-t' + (i ? '' : ' on') + '" data-action="gal" data-src="' + esc(img({image:src})) + '" aria-label="Photo ' + (i+1) + '"><img src="' + esc(img({image:src})) + '" alt="" loading="lazy" onerror="this.parentNode.remove()"></button>'; }).join('') + '</div>';
+}
+function pickPhoto(t){
+  var im = $('#sheet .product .tile img'); if (im) im.src = t.getAttribute('data-src');
+  $$('#sheet .gal-t').forEach(function(b){ b.classList.toggle('on', b===t); });
+}
 function colorKey(p){ return p.colors && p.colors.length && !p.baseId ? p.id + '~' + p.colors[0][0] : p.id; }
 function colorPicker(p, cur){
   if (!cur) return '';
@@ -2293,6 +2313,7 @@ function colorPicker(p, cur){
 function pickColor(t){
   var p = byId(t.getAttribute('data-id')), c = colorOf(p, t.getAttribute('data-color')); if (!c) return;
   var im = $('#sheet .product .tile img'); if (im){ im.src = img({image:c[1]}); im.alt = p.name + ' (' + c[0] + ')'; }
+  var g0 = $('#sheet .gal-t'); if (g0){ g0.setAttribute('data-src', img({image:c[1]})); $('img', g0).src = img({image:c[1]}); $$('#sheet .gal-t').forEach(function(b){ b.classList.toggle('on', b===g0); }); }
   $$('#sheet .col-chip').forEach(function(b){ var on = b===t; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
   var n = $('#col-name'); if (n) n.textContent = c[0];
   var note = $('#col-note'); if (note){ note.textContent = c[2] || ''; note.hidden = !c[2]; }
@@ -2791,7 +2812,7 @@ function openProduct(id){
   var cur = p.colors && p.colors.length ? (colorOf(p, pick) || p.colors[0]) : null;
   var c = catOf(p), u = univOfProduct(p);
   var contents = p.contents ? '<div class="list" style="margin-top:12px">' + (p.includes ? '<span class="incl">' + esc(p.includes) + '</span>' : '') + '<ul class="list">' + p.contents.map(function(x){ return '<li>' + icon('check') + '<span>' + esc(x) + '</span></li>'; }).join('') + '</ul></div>' : '';
-  openSheet('<div class="product"><div class="tile">' + (p.image ? '<img src="' + esc(cur ? img({image:cur[1]}) : img(p)) + '" alt="' + esc(p.alt||p.name) + '"' + (p.w ? ' class="small" width="' + p.w + '" height="' + p.h + '"' : '') + '>' : icon(c.icon)) + '</div>' +
+  openSheet('<div class="product"><div class="pgal"><div class="tile">' + (p.image ? '<img src="' + esc(cur ? img({image:cur[1]}) : img(p)) + '" alt="' + esc(p.alt||p.name) + '"' + (p.w ? ' class="small" width="' + p.w + '" height="' + p.h + '"' : '') + '>' : icon(c.icon)) + '</div>' + galleryStrip(p, cur) + '</div>' +
     '<div><div class="crumbs">' + (u ? '<a href="' + href(u.id) + '" data-action="nav" data-view="' + u.id + '">' + esc(u.title) + '</a><span aria-hidden="true">/</span>' : '') + '<a href="' + href('boutique') + '" data-action="cat" data-cat="' + c.id + '">' + esc(c.label) + '</a></div><h3 style="margin-top:6px">' + esc(p.name) + '</h3>' + (p.ref ? '<div class="ref" style="margin-top:4px">Référence ' + esc(p.ref) + '</div>' : '') + colorPicker(p, cur) +
     (p.badge ? '<div style="margin-top:6px"><span class="badge soft">' + esc(p.badge) + '</span></div>' : '') +
     '<p class="desc">' + esc(p.desc||'') + '</p>' +
@@ -2955,6 +2976,7 @@ document.addEventListener('click', function(e){
     case 'favs': state.univ = 'favs'; state.cat = 'all'; state.q = ''; state.shown = PAGE_SIZE; navigate('boutique'); break;
     case 'add': addToCart(id, 1, t); break;
     case 'color': pickColor(t); break;
+    case 'gal': pickPhoto(t); break;
     case 'add-sheet': addToCart(id, parseInt($('#sq').textContent,10)||1, t); closeAll(); break;
     case 'sq-minus': var o=$('#sq'); o.textContent = Math.max(1,(parseInt(o.textContent,10)||1)-1); o.classList.remove('bump'); void o.offsetWidth; o.classList.add('bump'); break;
     case 'sq-plus': var o2=$('#sq'); o2.textContent = (parseInt(o2.textContent,10)||1)+1; o2.classList.remove('bump'); void o2.offsetWidth; o2.classList.add('bump'); break;
