@@ -1,0 +1,64 @@
+/* Ambiance Petit Baobab : petites choses de bébé qui tombent, bulles qui montent, cigogne qui traverse (brand/ambiance.js) */
+.amb{position:fixed;inset:0;z-index:15;pointer-events:none;overflow:hidden;contain:strict;opacity:0;transition:opacity 2.4s ease;
+  --a-g1:#1F6B4A;--a-g2:#2E8A5E;--a-g3:#9ED4B2;--a-s1:#F2A93B;--a-s2:#F8CC6B;--a-c:#FFF3DC;--a-w:#FFFFFF;--a-ink:#1E2B22;--a-bub:rgba(46,138,94,.62);--a-bubf:rgba(158,212,178,.2)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .amb{--a-g1:#5FB58A;--a-g2:#7FCDA2;--a-g3:#4E8F6B;--a-s1:#F2B24C;--a-s2:#F6CF7A;--a-c:#F1E3C6;--a-ink:#121915;--a-bub:rgba(127,205,162,.6);--a-bubf:rgba(255,255,255,.07)}}
+:root[data-theme="dark"] .amb{--a-g1:#5FB58A;--a-g2:#7FCDA2;--a-g3:#4E8F6B;--a-s1:#F2B24C;--a-s2:#F6CF7A;--a-c:#F1E3C6;--a-ink:#121915;--a-bub:rgba(127,205,162,.6);--a-bubf:rgba(255,255,255,.07)}
+.amb.on{opacity:1}
+.amb-defs{position:absolute;width:0;height:0;overflow:hidden}
+.ab-g1{fill:var(--a-g1)} .ab-g2{fill:var(--a-g2)} .ab-g3{fill:var(--a-g3)} .ab-s1{fill:var(--a-s1)} .ab-s2{fill:var(--a-s2)}
+.ab-c{fill:var(--a-c)} .ab-w{fill:var(--a-w)} .ab-ink{fill:var(--a-ink)} .ab-bub{fill:var(--a-bubf);stroke:var(--a-bub)}
+[class*="abk-"]{stroke-linecap:round;stroke-linejoin:round}
+.abk-g1{stroke:var(--a-g1)} .abk-g2{stroke:var(--a-g2)} .abk-g3{stroke:var(--a-g3)} .abk-s1{stroke:var(--a-s1)} .abk-s2{stroke:var(--a-s2)} .abk-c{stroke:var(--a-c)} .abk-w{stroke:var(--a-w)}
+path[class^="abk-"],circle[class^="abk-"]{fill:none}
+/* les dessins sont des <use> : leurs couleurs viennent des variables posées sur .amb */
+.amb-wind{position:absolute;inset:0;will-change:transform}
+.amb-i{position:absolute;left:var(--x);top:-64px;width:var(--s);height:var(--s);animation:amb-fall var(--d) linear var(--dl) infinite;will-change:transform,opacity}
+.amb-bubble{top:auto;bottom:-64px;animation-name:amb-rise}
+.amb-sw{display:block;width:100%;height:100%;animation:amb-sway var(--sw) ease-in-out var(--dl) infinite alternate}
+.amb-in{display:block;width:100%;height:100%;overflow:visible}
+.amb-item .amb-in{transform-origin:50% 8%;animation:amb-swing var(--fl) ease-in-out var(--dl) infinite alternate}
+.amb-spark .amb-in{animation:amb-twinkle var(--fl) ease-in-out var(--dl) infinite}
+.amb-bubble .amb-in{animation:amb-wobble var(--fl) ease-in-out var(--dl) infinite alternate}
+/* liseré clair « autocollant » : les dessins restent lisibles sur le vert du bandeau comme sur le fond clair */
+.amb-in{filter:drop-shadow(0 0 1.4px rgba(255,251,242,.95))}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .amb-in{filter:drop-shadow(0 0 1.4px rgba(10,16,12,.8))}}
+:root[data-theme="dark"] .amb-in{filter:drop-shadow(0 0 1.4px rgba(10,16,12,.8))}
+@keyframes amb-fall{0%{transform:translate3d(0,0,0);opacity:0}6%{opacity:var(--o)}90%{opacity:var(--o)}100%{transform:translate3d(0,calc(100vh + 128px),0);opacity:0}}
+@keyframes amb-rise{0%{transform:translate3d(0,0,0) scale(.5);opacity:0}7%{transform:translate3d(0,-6vh,0) scale(1);opacity:var(--o)}93%{transform:translate3d(0,calc(var(--ph) * -1),0) scale(1);opacity:var(--o)}97%{transform:translate3d(0,calc(var(--ph) * -1 - 1vh),0) scale(1.55);opacity:0}100%{transform:translate3d(0,calc(var(--ph) * -1 - 1vh),0) scale(1.55);opacity:0}}
+@keyframes amb-sway{from{transform:translateX(calc(var(--amp) * -1))}to{transform:translateX(var(--amp))}}
+@keyframes amb-swing{from{transform:rotate(-17deg)}to{transform:rotate(17deg)}}
+@keyframes amb-twinkle{0%,100%{transform:scale(.82) rotate(0);opacity:.7}50%{transform:scale(1.14) rotate(calc(var(--r) * 28deg));opacity:1}}
+@keyframes amb-wobble{from{transform:scale(1.04,.93)}to{transform:scale(.94,1.05)}}
+/* la cigogne */
+.amb-stork{position:absolute;left:0;top:var(--y,30vh);width:150px;opacity:0;--a-line:rgba(30,43,34,.28)}
+.amb-stork.fly{animation:stork-fly var(--fd,14s) linear forwards}
+.amb-stork.rtl{animation-name:stork-fly-rtl}
+.amb-stork.rtl svg{transform:scaleX(-1)}
+.amb-stork-bob{animation:stork-bob 2.4s ease-in-out infinite alternate}
+.amb-stork svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 3px 4px rgba(30,43,34,.16))}
+.amb-stork .sk-body{fill:#FFFFFF;stroke:var(--a-line);stroke-width:1.1}
+.amb-stork .sk-tip,.amb-stork .sk-tail{fill:#2B3A31}
+.amb-stork .sk-far{fill:#E6EAE5;stroke:var(--a-line);stroke-width:1}
+.amb-stork .sk-beak{fill:#F08A3C}
+.amb-stork .sk-leg{fill:none;stroke:#F08A3C;stroke-width:2.6;stroke-linecap:round}
+.amb-stork .sk-eye,.amb-stork .sk-eyes{fill:#1E2B22}
+.amb-stork .sk-eyes{fill:none;stroke:#3A2418;stroke-width:1.1;stroke-linecap:round}
+.amb-stork .sk-knot{fill:none;stroke:#C98A3A;stroke-width:1.6;stroke-linecap:round}
+.amb-stork .sk-cloth{fill:#BFE3CB;stroke:var(--a-line);stroke-width:1}
+.amb-stork .sk-fold{fill:none;stroke:#8CC7A2;stroke-width:1.6;stroke-linecap:round}
+.amb-stork .sk-dot,.amb-stork .sk-tie{fill:#F2A93B}
+.amb-stork .sk-face{fill:#8A5A3B}
+.amb-stork .sk-wing{transform-box:view-box;transform-origin:58px 36px}
+.amb-stork .sk-near{animation:stork-flap .62s ease-in-out infinite alternate}
+.amb-stork .sk-far{animation:stork-flap-far .62s ease-in-out infinite alternate}
+.amb-stork .sk-bundle{transform-box:view-box;transform-origin:114px 27px;animation:stork-swing 1.24s ease-in-out infinite alternate}
+@keyframes stork-fly{0%{transform:translate3d(-170px,0,0);opacity:0}4%{opacity:1}96%{opacity:1}100%{transform:translate3d(calc(100vw + 20px),0,0);opacity:0}}
+@keyframes stork-fly-rtl{0%{transform:translate3d(calc(100vw + 20px),0,0);opacity:0}4%{opacity:1}96%{opacity:1}100%{transform:translate3d(-170px,0,0);opacity:0}}
+@keyframes stork-bob{from{transform:translateY(-10px) rotate(-2deg)}to{transform:translateY(10px) rotate(2deg)}}
+@keyframes stork-flap{from{transform:rotate(-6deg)}to{transform:scaleY(-.55) rotate(-4deg)}}
+@keyframes stork-flap-far{from{transform:rotate(4deg)}to{transform:scaleY(-.4) rotate(10deg)}}
+@keyframes stork-swing{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+@media (max-width:620px){.amb-stork{width:112px}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .amb-stork{--a-line:rgba(0,0,0,.35)}}
+@media (prefers-reduced-motion: reduce){.amb{display:none}}
+@media print{.amb{display:none!important}}

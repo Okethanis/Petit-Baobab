@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..700,100&family=Fredoka:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <style>
 /* Petit Baobab : vert baobab, soleil, crème ; 8 univers colorés inspirés du catalogue.
    Boutique en une page dont chaque vue devient une vraie adresse une fois construite pour Netlify. */
@@ -15,7 +15,8 @@
   --footer-bg:#1F6B4A; --footer-ink:#EAF4EC; --footer-muted:#B9D6C3;
   --overlay:rgba(20,30,24,.42); --shadow:0 10px 30px rgba(30,43,34,.10); --shadow-lg:0 18px 44px rgba(30,43,34,.16); --accent-glow:rgba(242,169,59,.38);
   --toast-bg:#1E2B22; --toast-ink:#F5F7F2; --wa:#1FA855; --wa-ink:#FFFFFF;
-  --font-display:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+  --font-brand:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+  --font-display:"Fraunces",Georgia,"Times New Roman",serif;
   --font-body:"Nunito Sans","Segoe UI",system-ui,sans-serif;
   --radius:14px; --radius-lg:20px;
   --sp-1:8px; --sp-2:12px; --sp-3:16px; --sp-4:24px; --sp-5:32px; --sp-6:48px; --sp-7:64px;
@@ -51,7 +52,8 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
-h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.005em;font-optical-sizing:auto;font-variant-numeric:lining-nums}
+.univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong,.baseline,.gift-card{font-variant-numeric:lining-nums tabular-nums}
 h2,.view-title{font-size:clamp(1.6rem,3.2vw,2.2rem)}
 h3{font-size:1.15rem}
 p{margin:0}
@@ -94,31 +96,12 @@ img,svg{max-width:100%}
 .header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);transition:box-shadow .3s var(--ease)}
 .header.scrolled{box-shadow:var(--shadow)}
 .header-row{display:flex;align-items:center;gap:6px;padding-block:10px}
-.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-display);font-weight:600;font-size:1.3rem;color:var(--brand);margin-right:auto;line-height:1}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-brand);font-weight:600;font-size:1.3rem;color:var(--brand);margin-right:auto;line-height:1}
 .logo svg{width:40px;height:40px}
 .mark .lg-sun,.mark .lg-fruit{fill:var(--accent)}
 .mark .lg-ground{fill:var(--brand-soft)}
 .mark .lg-trunk{fill:var(--brand-deep)}
 .mark .lg-tree{fill:var(--brand)}
-/* Clin d'œil : chercher « Myris » dans la boutique ou la recherche du menu */
-.wink{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:22px;align-items:center;background:var(--brand-soft);border-radius:var(--radius);padding:20px 22px;color:var(--ink)}
-.wink .wink-scene{position:relative;width:100%;aspect-ratio:400/284}
-.wink .wink-scene svg.wink-mark{position:absolute;inset:8%;width:84%;height:84%;overflow:visible}
-.wink .wink-scene canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.wink .wink-scene.is3d svg{display:none}
-.wink .wink-mark > g:nth-of-type(6),.wink .wink-mark > g:nth-of-type(7),.wink .wink-mark > g:nth-of-type(8){transform-origin:99px 110px;animation:wink-grow .9s var(--spring) .4s both}
-.wink .wink-mark > g:nth-of-type(1){transform-origin:104px 18px;animation:lg-hop 1s var(--spring) 1.3s}
-.wink .wink-mark > g:nth-of-type(4){transform-origin:59px 58px;animation:lg-sway 5s ease-in-out 1.4s infinite}
-.wink h3{font-family:var(--font-display);font-size:2rem;color:var(--brand);margin:0 0 6px;line-height:1.1}
-.wink p{margin:0;color:var(--muted);max-width:52ch}
-.wink .wink-sign{margin-top:8px;font-weight:700;color:var(--brand)}
-.wink.is3d h3{animation:wink-title 1s var(--spring) 3.3s both;transform-origin:50% 100%}
-.wink.is3d p{animation:pb-fade .7s var(--ease) 3.9s both}
-.wink.is3d .wink-sign{animation-delay:4.3s}
-@keyframes wink-grow{from{transform:scale(0)}to{transform:scale(1)}}
-@keyframes wink-title{from{opacity:0;transform:perspective(500px) rotateX(85deg) translateY(14px)}to{opacity:1;transform:none}}
-@media (max-width:620px){.wink{grid-template-columns:1fr;text-align:center;justify-items:center}.wink p{max-width:none}.wink .wink-scene{max-width:360px}}
-@media (prefers-reduced-motion: reduce){.wink .wink-mark > g,.wink h3,.wink p{animation:none !important}}
 .tools{display:flex;align-items:center;gap:2px}
 .tool{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:999px;position:relative;color:var(--ink);transition:background .2s,transform .15s var(--ease)}
 .tool:hover{background:var(--surface-2)}
@@ -264,7 +247,7 @@ img,svg{max-width:100%}
 .pb-logo .fruit-small circle{animation-delay:calc(5.05s * var(--speed))}
 .pb-logo .plx-sun{transform:translate(calc(var(--px,0)*10px),calc(var(--py,0)*6px));transition:transform .35s var(--ease)}
 .pb-logo .plx-tree{transform:translate(calc(var(--px,0)*4px),calc(var(--py,0)*2px));transition:transform .35s var(--ease)}
-.pb-logo .word{font-family:var(--font-display);font-weight:600;line-height:1;letter-spacing:-.01em;display:flex}
+.pb-logo .word{font-family:var(--font-brand);font-weight:600;line-height:1;letter-spacing:-.01em;display:flex}
 .pb-logo .word span{display:inline-block;animation:pb-letter calc(0.5s * var(--speed)) var(--ease) both;animation-delay:calc((4.9s + var(--i) * .06s) * var(--speed))}
 .pb-logo .sign{font-family:var(--font-body);font-weight:600;color:var(--accent);animation:pb-fade calc(0.7s * var(--speed)) var(--ease) calc(5.8s * var(--speed)) both}
 @keyframes pb-fade{from{opacity:0}to{opacity:1}}
@@ -606,7 +589,8 @@ details p{padding:0 0 14px;color:var(--muted);max-width:65ch}
 /* Pied de page */
 .footer{background:var(--footer-bg);color:var(--footer-ink);margin-top:var(--sp-5);padding-block:var(--sp-5) calc(var(--sp-5) + env(safe-area-inset-bottom,0px));border-top:4px solid var(--accent)}
 .footer-grid{display:grid;gap:var(--sp-4)}
-@media(min-width:760px){.footer-grid{grid-template-columns:1.4fr 1fr 1fr}}
+@media(min-width:620px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.footer-grid{grid-template-columns:1.35fr 1.1fr .9fr .9fr}}
 .footer .logo{color:var(--footer-ink);margin:0}
 .footer .footer-cta{margin-top:12px;border-color:rgba(255,255,255,.35);background:transparent;color:var(--footer-ink)}
 .footer .footer-cta:hover{background:rgba(255,255,255,.1)}
@@ -742,6 +726,12 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
 .footer a,.footer button.flink{color:var(--footer-ink);text-decoration:none;font-size:.95rem;text-align:left}
 .footer a:hover,.footer button.flink:hover{text-decoration:underline}
 .contact-num{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;font-variant-numeric:tabular-nums}
+.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.contact-list li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--footer-ink)}
+.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}
+.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}
+.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
+.contact-list .copy-btn{padding:5px 7px}.contact-list .copy-btn span{display:none}.contact-list .copy-btn.copied span{display:inline}
 .phones{display:grid;gap:4px;font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent)}
 .copy-btn{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid var(--footer-muted);color:var(--footer-ink);transition:background .2s,color .2s}
 .copy-btn .icon{width:1em;height:1em}
@@ -754,8 +744,21 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
 .fab:hover{transform:translateY(-2px)}
 .fab .icon{width:22px;height:22px}
 .fab-wa{background:var(--wa);color:var(--wa-ink)}
-.fab-wa span{display:none}
-@media(min-width:860px){.fab-wa{padding:0 18px 0 14px}.fab-wa span{display:inline}}
+.fab-wa,.fab-call{position:relative;width:58px;height:58px;min-height:0;padding:0;justify-content:center;border-radius:50%}
+.fab-wa .icon,.fab-call .icon{width:29px;height:29px}
+.fab-call{background:var(--accent);color:var(--accent-ink)}
+.fab-tip{position:absolute;right:calc(100% + 12px);top:50%;transform:translate(10px,-50%);opacity:0;white-space:nowrap;background:var(--surface);color:var(--ink);font-size:.86rem;font-weight:600;padding:8px 14px;border-radius:999px;box-shadow:var(--shadow);border:1px solid var(--line);pointer-events:none;transition:opacity .2s,transform .35s var(--spring)}
+@media (hover:hover){.fab-wa:hover .fab-tip,.fab-call:hover .fab-tip{opacity:1;transform:translate(0,-50%)}}
+.fab:focus-visible .fab-tip{opacity:1;transform:translate(0,-50%)}
+.fab-wa::after,.fab-call::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none}
+@media (prefers-reduced-motion: no-preference){
+  .fab-wa::after{animation:fab-halo 3.6s ease-out 2.5s infinite;--halo:31,168,85}
+  .fab-call::after{animation:fab-halo 3.6s ease-out 4.3s infinite;--halo:242,169,59}
+  .fab-call .icon{animation:lg-ring-idle 7s ease-in-out 6.5s infinite}
+  .fab-call:hover .icon,.fab-call.tapped .icon{animation:lg-ring .6s var(--ease)}
+}
+@keyframes fab-halo{0%{box-shadow:0 0 0 0 rgba(var(--halo),.5)}70%,100%{box-shadow:0 0 0 15px rgba(var(--halo),0)}}
+.fab-top{width:46px;height:46px;min-height:0;border-radius:50%;margin-right:6px}
 .fab-top{width:48px;padding:0;justify-content:center;background:var(--surface);color:var(--ink);border:1px solid var(--line)}
 .fab-top[hidden]{display:none}
 
@@ -789,6 +792,68 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
   .check-col,.panel,.pack,.card,.summary,.stage,.gift-box{border:1px solid #999;box-shadow:none;break-inside:avoid}
   a{text-decoration:none;color:#000}
 }
+/* Contactez-nous */
+.contact-cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:var(--sp-4) 0}
+.contact-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;text-decoration:none;color:var(--ink);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.contact-card strong{display:block;font-size:1.02rem}
+.contact-card strong + span{color:var(--muted);font-variant-numeric:tabular-nums;word-break:break-word}
+.cc-ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+.cc-ico .icon{width:22px;height:22px}
+.cc-ico.cc-wa{background:var(--ok-soft);color:var(--wa)}
+.contact-form{display:grid;gap:12px;max-width:560px}
+.contact-form label{display:grid;gap:6px;font-weight:600}
+.contact-form .btn{justify-self:start}
+.form-err{color:var(--danger);font-weight:600;margin:0}
+.prose ol{padding-left:1.3em;display:grid;gap:6px}
+/* Commande et fiche article (brand/commande.py) */
+.req{color:var(--danger);font-weight:700}
+.req-note{font-size:.86rem;color:var(--muted);margin:0 0 4px}
+.co-title{font-size:1.25rem;margin:0 0 4px}
+.co-pay{margin-top:6px}
+.opt{font-weight:400;color:var(--muted);font-size:.82em}
+.co-privacy{font-size:.86rem;color:var(--muted);margin:14px 0 8px}
+.co-accept{margin:0 0 12px}
+.co-accept .toggle{align-items:flex-start;gap:10px;font-weight:600}
+.co-accept input{margin-top:3px;width:18px;height:18px;accent-color:var(--brand);flex:none}
+.co-accept .req{color:var(--danger)}
+.co-accept.invalid .toggle{color:var(--danger)}
+#sum-lines .co-line{display:grid;grid-template-columns:auto 52px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+#sum-lines .co-line:last-child{border-bottom:0}
+.co-x{width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0}
+.co-x:hover{background:var(--surface-2);color:var(--danger)}
+.co-x .icon{width:16px;height:16px}
+.co-thumb{width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--surface-2);display:block}
+.co-info{display:grid;gap:6px;min-width:0}
+.co-name{font-weight:600;font-size:.92rem;line-height:1.3}
+.qty-sm{justify-self:start;transform-origin:left center;transform:scale(.86)}
+.help-box{margin-top:14px;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:grid;gap:14px;background:var(--surface)}
+.hb-row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.hb-row strong{display:block;margin-bottom:2px}
+.hb-row p{margin:0;color:var(--muted);font-size:.92rem}
+.hb-ico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.hb-ico .icon{width:20px;height:20px}
+.hb-ico.hb-wa{background:var(--ok-soft);color:var(--wa)}
+/* Commune de livraison (brand/livraison.py) */
+.zone-row{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem}
+.zone-row > span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.zone-row .icon{width:18px;height:18px;color:var(--accent)}
+.zone-pick{flex:1;min-width:0;height:40px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;font-weight:600}
+.zone-pick[data-empty]{border-color:var(--accent)}
+.drawer-foot .zone-row{margin-bottom:10px}
+.free-bar{height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.free-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--brand));border-radius:inherit;transition:width .5s var(--ease)}
+.free-note{font-size:.84rem;color:var(--muted);margin:6px 0 10px}
+.dl-box{margin-top:14px;padding:12px 14px;border-radius:var(--radius);background:var(--brand-soft);display:grid;gap:8px}
+.dl-line{margin:0;font-size:.9rem;color:var(--ink)}
+/* Images des packs (brand/packs-site.py) */
+.pack-img{display:block;width:calc(100% + 2*var(--sp-4,24px));margin:calc(-1*var(--sp-4,24px)) calc(-1*var(--sp-4,24px)) 14px;padding:0;border:0;background:none;cursor:zoom-in;overflow:hidden;border-radius:var(--radius-lg,20px) var(--radius-lg,20px) 0 0}
+.pack-img img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;transition:transform .5s var(--ease)}
+.pack-img:hover img{transform:scale(1.03)}
+/* pb-police:start */
+.univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong{font-family:var(--font-brand)}
+@media (max-width:620px){.fab-wa,.fab-call{width:52px;height:52px}.fab-wa .icon,.fab-call .icon{width:26px;height:26px}.fabs{gap:9px}}
+/* pb-police:end */
 </style>
 
 <!-- Icônes -->
@@ -818,7 +883,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
     <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></symbol>
-    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L4 20z"/><path d="M8 9.5h8M8 12.5h5"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L4 20z"/><path d="M8 9.5h8M8 12.5h5"/></symbol>
     <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3.5h10V8"/><rect x="3.5" y="8" width="17" height="9" rx="2"/><path d="M7 13.5h10V20H7z"/></symbol>
     <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
@@ -878,10 +943,10 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
   <ellipse class="seed" cx="198" cy="267" rx="5.5" ry="3.8"/>
 </svg><div class="word"><span style="--i:0">P</span><span style="--i:1">e</span><span style="--i:2">t</span><span style="--i:3">i</span><span style="--i:4">t</span><span style="--i:5">&nbsp;</span><span style="--i:6">B</span><span style="--i:7">a</span><span style="--i:8">o</span><span style="--i:9">b</span><span style="--i:10">a</span><span style="--i:11">b</span></div></div></div>
         <h1 class="plum-title hero-title">Le trousseau de naissance <em>sans stress</em>, livré chez vous.</h1>
-        <p class="lead">Packs naissance par budget, valise de maternité prête à partir et tout l'équipement de bébé, du premier jour aux premiers pas, avec les prix affichés. Vous commandez en ligne, on vous livre à Abidjan en moins de 24 h.</p>
+        <p class="lead">Packs naissance par budget, valise de maternité prête à partir et tout l'équipement de bébé, du premier jour aux premiers pas, avec les prix affichés. Vous commandez en ligne, on vous livre à Abidjan en moins de 24 h.</p>
         <div class="cta-row"><a href="#packs" class="btn btn-primary" data-action="nav" data-view="packs">Voir les packs naissance</a></div>
       </div>
-      <div class="trust"><span>Livraison en moins de 24 h à Abidjan</span><span>Paiement à la livraison, par Wave ou Mobile Money</span><span>Échange sous 48 h</span></div>
+      <div class="trust"><span>Livraison en moins de 24 h à Abidjan</span><span>Paiement à la livraison, par Wave ou Mobile Money</span><span>Échange sous 48 h</span></div>
     </div>
     <div class="plum-rule"></div>
   </div>
@@ -897,7 +962,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
   </div>
 
   <div class="wrap" style="padding-bottom:var(--sp-6)">
-    <div class="promise"><span class="kicker">Notre promesse</span><div class="promise-list"><span>Produits neufs sous emballage d'origine</span><span>Prix affichés, sans surprise</span><span>Conseils sur WhatsApp</span><span>Livraison à Abidjan en moins de 24 h</span><span>Paiement à la livraison, par Wave ou Mobile Money</span></div></div>
+    <div class="promise"><span class="kicker">Notre promesse</span><div class="promise-list"><span>Produits neufs sous emballage d'origine</span><span>Prix affichés, sans surprise</span><span>Conseils sur WhatsApp</span><span>Livraison à Abidjan en moins de 24 h</span><span>Paiement à la livraison, par Wave ou Mobile Money</span></div></div>
   </div>
 
   <div class="band">
@@ -933,7 +998,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
       <ol class="timeline">
         <li class="tstep"><span class="num">1</span><h3>Choisissez</h3><p>Ajoutez un pack ou des articles au panier, au prix affiché.</p></li>
         <li class="tstep"><span class="num">2</span><h3>Envoyez</h3><p>Votre commande part sur WhatsApp en un clic, avec sa référence. On la confirme avec vous.</p></li>
-        <li class="tstep"><span class="num">3</span><h3>Payez</h3><p>À la livraison, par Wave ou Mobile Money, ou avec un acompte de 50 %.</p></li>
+        <li class="tstep"><span class="num">3</span><h3>Payez</h3><p>À la livraison, en espèces, par Wave ou Mobile Money.</p></li>
         <li class="tstep"><span class="num">4</span><h3>Recevez</h3><p>Livraison à domicile ou au bureau, dans toutes les communes d'Abidjan.</p></li>
       </ol>
     </div>
@@ -1002,8 +1067,8 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
         <ul class="work">
           <li><strong>Vous choisissez</strong>Les prix sont affichés, le contenu des packs est détaillé article par article.</li>
           <li><strong>On confirme avec vous</strong>Votre commande part sur WhatsApp avec sa référence. On valide ensemble les coloris et le créneau de livraison.</li>
-          <li><strong>Vous payez simplement</strong>À la livraison, par Wave ou Mobile Money, ou avec un acompte de 50 % et le solde à la réception.</li>
-          <li><strong>On livre vite</strong>En moins de 24 h dans toutes les communes d'Abidjan, offert dès 100 000 FCFA, et par compagnie de transport dans le reste du pays.</li>
+          <li><strong>Vous payez simplement</strong>À la livraison, en espèces, par Wave ou Mobile Money, ou à distance avant la livraison.</li>
+          <li><strong>On livre vite</strong>En moins de 24 h dans toutes les communes d'Abidjan, offert dès 100 000 FCFA, et par compagnie de transport dans le reste du pays.</li>
         </ul>
       </div>
     </div>
@@ -1193,7 +1258,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
       <div class="panel">
         <h3>Le paiement</h3>
         <p class="muted"><strong>À la livraison :</strong> <span class="pay-surplace"></span>.</p>
-        <p class="muted"><strong>Avant la livraison :</strong> <span class="pay-avance"></span>, du montant exact de votre commande. Vous pouvez aussi verser un acompte de 50 % pour réserver votre commande et régler le solde à la livraison.</p>
+        <p class="muted"><strong>Avant la livraison :</strong> <span class="pay-avance"></span>, du montant exact de votre commande.</p>
         <p class="muted"><strong>Depuis l'étranger :</strong> <span class="pay-etranger"></span>. Après le paiement, envoyez-nous la capture d'écran sur WhatsApp : c'est elle qui déclenche la préparation.</p>
         <p class="muted">Aucune carte bancaire n'est demandée sur le site. Les prix sont en FCFA, toutes taxes comprises.</p>
         <h3 style="margin-top:8px">Les retours</h3>
@@ -1204,8 +1269,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
   <div class="wrap section faq" style="padding-top:0" id="faq">
     <div class="section-head"><h2>Questions fréquentes</h2></div>
     <details><summary>Comment passer commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Ajoutez vos articles au panier, puis cliquez sur « Envoyer la commande sur WhatsApp ». Le récapitulatif s'ouvre dans WhatsApp avec sa référence, vous n'avez plus qu'à l'envoyer. On vous répond pour confirmer les couleurs, les modèles et l'heure de livraison.</p></details>
-    <details><summary>Puis-je modifier ou annuler ma commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui, dans les 24 heures qui suivent la commande : écrivez-nous sur WhatsApp avec votre référence (elle commence par PB-). Passé ce délai, la commande est en préparation ; un acompte déjà versé reste acquis si l'annulation vient de vous.</p></details>
-    <details><summary>Comment fonctionne l'acompte de 50 % ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Vous payez la moitié du total par Wave ou Mobile Money au moment de la commande, ce qui la réserve, puis le solde au livreur à la remise du colis. C'est pratique pour les gros articles comme un lit ou une poussette.</p></details>
+    <details><summary>Puis-je modifier ou annuler ma commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui, dans les 24 heures qui suivent la commande : écrivez-nous sur WhatsApp avec votre référence (elle commence par PB-). Passé ce délai, la commande est en préparation.</p></details>
     <details><summary>Comment payer à distance, par Wave ou Mobile Money ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>On vous envoie sur WhatsApp le montant exact et le numéro à payer. Par Wave, ouvrez le lien reçu, le montant est déjà rempli, validez avec votre code. Par Orange Money, MTN MoMo ou Moov Money, faites le transfert vers notre numéro. Dans les deux cas, envoyez-nous la capture d'écran de confirmation.</p></details>
     <details><summary>Puis-je modifier le contenu d'un pack ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui. Précisez-le dans le message WhatsApp (par exemple remplacer les biberons par des bodys en plus). On ajuste le prix si nécessaire.</p></details>
     <details><summary>Je vis à l'étranger, comment offrir un trousseau ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Choisissez le pack, cochez « C'est un cadeau » dans la commande et indiquez les coordonnées de la maman. On vous envoie le montant et le moyen de régler sur WhatsApp : Wave, Mobile Money, ou depuis l'étranger Western Union et Ria.</p></details>
@@ -1225,38 +1289,42 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
     <div id="checkout-empty" class="empty" hidden>Votre panier est vide. <a href="#boutique" class="textlink" data-action="nav" data-view="boutique">Voir la boutique</a></div>
     <div class="checkout" id="checkout">
       <form class="form" id="form" novalidate>
+        <h3 class="co-title">Informations de livraison</h3>
+        <p class="req-note">Les champs marqués d'un <span class="req">*</span> sont obligatoires.</p>
         <div class="row2">
-          <div class="field"><label for="f-name">Votre nom</label><input type="text" id="f-name" autocomplete="name" placeholder="Prénom et nom" required><span class="err"></span></div>
-          <div class="field"><label for="f-phone">Votre numéro</label><input type="tel" id="f-phone" autocomplete="tel" placeholder="07 00 00 00 00" required><span class="hint">Pour vous appeler avant la livraison.</span><span class="err"></span></div>
+          <div class="field"><label for="f-name">Votre nom <span class="req" aria-hidden="true">*</span></label><input type="text" id="f-name" autocomplete="name" placeholder="Prénom et nom" required aria-required="true" maxlength="80"><span class="err"></span></div>
+          <div class="field"><label for="f-phone">Votre numéro <span class="req" aria-hidden="true">*</span></label><input type="tel" id="f-phone" autocomplete="tel" inputmode="tel" placeholder="07 00 00 00 00" required aria-required="true" maxlength="20"><span class="hint">Pour vous appeler avant la livraison.</span><span class="err"></span></div>
         </div>
+        <div class="field"><label for="f-phone2">Autre numéro <small class="opt">(facultatif)</small></label><input type="tel" id="f-phone2" autocomplete="tel" placeholder="Un proche joignable si vous ne répondez pas"><span class="err"></span></div>
         <div class="row2">
-          <div class="field"><label for="f-zone">Commune de livraison</label><select id="f-zone" required><option value="">Choisir…</option></select><span class="err"></span></div>
-          <div class="field"><label for="f-address">Quartier et repère</label><input type="text" id="f-address" placeholder="Ex. : Riviera 3, près de la pharmacie…"></div>
+          <div class="field"><label for="f-zone">Commune de livraison <span class="req" aria-hidden="true">*</span></label><select id="f-zone" required aria-required="true"><option value="">Choisir…</option></select><span class="err"></span></div>
+          <div class="field"><label for="f-address">Quartier et repère <span class="req" aria-hidden="true">*</span></label><input type="text" id="f-address" placeholder="Ex. : Riviera 3, près de la pharmacie…" required aria-required="true" maxlength="160"><span class="err"></span></div>
         </div>
         <div class="field">
-          <span class="legend">Paiement</span>
+          <h3 class="co-title co-pay">Méthode de paiement</h3>
           <div class="choices">
             <label class="choice"><input type="radio" name="pay" id="pay-cod" value="livraison" checked><span><strong>À la livraison</strong><small>En espèces, par Wave ou Mobile Money, au livreur.</small></span></label>
             <label class="choice"><input type="radio" name="pay" id="pay-wave" value="wave"><span><strong>Par Wave ou Mobile Money, avant la livraison</strong><small>On vous envoie le montant exact et le numéro à payer sur WhatsApp.</small></span></label>
-            <label class="choice"><input type="radio" name="pay" id="pay-deposit" value="acompte"><span><strong>Acompte de <span id="dep-pct">50</span> % par Wave ou Mobile Money, solde à la livraison</strong><small id="dep-note">Votre commande est réservée dès l'acompte reçu. Conseillé pour les gros articles.</small></span></label>
           </div>
         </div>
         <label class="toggle"><input type="checkbox" id="f-gift">C'est un cadeau pour une maman (livraison chez elle)</label>
         <div class="gift-fields" id="gift-fields" hidden>
           <div class="row2">
-            <div class="field"><label for="g-name">Nom de la maman</label><input type="text" id="g-name"><span class="err"></span></div>
-            <div class="field"><label for="g-phone">Son numéro</label><input type="tel" id="g-phone" placeholder="07 00 00 00 00"></div>
+            <div class="field"><label for="g-name">Nom de la maman <span class="req" aria-hidden="true">*</span></label><input type="text" id="g-name"><span class="err"></span></div>
+            <div class="field"><label for="g-phone">Son numéro <small class="opt">(facultatif)</small></label><input type="tel" id="g-phone" placeholder="07 00 00 00 00"></div>
           </div>
-          <div class="field"><label for="g-msg">Votre message pour la carte</label><textarea id="g-msg" placeholder="Félicitations ! On pense fort à vous…"></textarea></div>
+          <div class="field"><label for="g-msg">Votre message pour la carte <small class="opt">(facultatif)</small></label><textarea id="g-msg" placeholder="Félicitations ! On pense fort à vous…"></textarea></div>
         </div>
-        <div class="field"><label for="f-note">Précisions (couleurs, modèles, heure souhaitée)</label><textarea id="f-note"></textarea></div>
+        <div class="field"><label for="f-note">Précisions (couleurs, modèles, heure souhaitée) <small class="opt">(facultatif)</small></label><textarea id="f-note"></textarea></div>
         <div class="alert err" id="form-alert" hidden role="alert"><strong>Il manque quelques informations.</strong><span>Complétez les champs signalés en rouge, puis réessayez.</span></div>
       </form>
       <aside class="summary">
-        <h3>Récapitulatif</h3>
+        <h3>Votre commande</h3>
         <p class="muted" style="font-size:.86rem">Référence : <strong id="sum-ref" style="font-variant-numeric:tabular-nums"></strong>. Gardez-la pour suivre ou modifier votre commande sur WhatsApp.</p>
         <div class="lines" id="sum-lines"></div>
         <div class="totals" id="sum-totals"></div>
+        <p class="co-privacy">Vos coordonnées servent uniquement à préparer et livrer votre commande, comme expliqué dans notre <a href="#confidentialite" class="textlink" data-action="nav" data-view="confidentialite">politique de confidentialité</a>.</p>
+        <div class="field co-accept"><label class="toggle"><input type="checkbox" id="f-cgv"> <span>J'ai lu et j'accepte les <a href="#cgv" class="textlink" data-action="nav" data-view="cgv">conditions de vente</a> <span class="req" aria-hidden="true">*</span></span></label><span class="err" id="cgv-err"></span></div>
         <a class="btn btn-primary btn-block" id="wa-send" href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-chat"/></svg><span>Envoyer la commande sur WhatsApp</span></a>
         <p class="wa-note" id="wa-hint">WhatsApp s'ouvre avec le récapitulatif prêt à envoyer. On vous répond pour confirmer.</p>
         <div class="alert ok" id="order-done" hidden role="status"><strong>WhatsApp s'est ouvert avec votre commande.</strong><span>Votre référence : <strong class="ref-echo"></strong>. Elle est dans le message, gardez-la.</span><span>Appuyez sur « Envoyer » dans WhatsApp pour nous la transmettre. On répond en général en moins d'une heure.</span><span>WhatsApp ne s'est pas ouvert ? Copiez le message ci-dessous et envoyez-le au <span class="wa-num"></span>.</span></div>
@@ -1297,13 +1365,48 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
     <h2 class="view-title">Conditions de vente</h2>
     <p class="updated">Dernière mise à jour : <span class="legal-date"></span></p>
     <h3>Prix</h3><p>Les prix sont affichés en francs CFA, toutes taxes comprises. Les frais de livraison s'ajoutent selon la commune et sont indiqués avant l'envoi de la commande.</p>
-    <h3>Commande</h3><p>Chaque commande reçoit une référence (PB-…). Une commande est ferme une fois confirmée sur WhatsApp par la boutique ; les articles sont réservés à ce moment-là. Vous pouvez la modifier ou l'annuler dans les 24 heures, sur WhatsApp, avec sa référence.</p>
-    <h3>Paiement</h3><p>À la livraison (espèces, Wave ou Mobile Money), avant la livraison par Wave ou Mobile Money, ou par un acompte de 50 % à la commande et le solde à la livraison. Les commandes hors d'Abidjan et les cadeaux sont payés avant le départ du colis. En cas d'annulation de votre part après versement d'un acompte, celui-ci peut être conservé pour couvrir les frais engagés.</p>
-    <h3>Livraison</h3><p>À Abidjan en moins de 24 h après confirmation. Hors Abidjan, par compagnie de transport, selon les délais de celle-ci.</p>
+    <h3>Commande</h3><p>Chaque commande reçoit une référence (PB-…). Une commande est ferme une fois confirmée sur WhatsApp par la boutique ; les articles sont réservés à ce moment-là. Vous pouvez la modifier ou l'annuler dans les 24 heures, sur WhatsApp, avec sa référence.</p>
+    <h3>Paiement</h3><p>À la livraison (espèces, Wave ou Mobile Money), ou avant la livraison par Wave ou Mobile Money. Les commandes hors d'Abidjan et les cadeaux sont payés avant le départ du colis.</p>
+    <h3>Livraison</h3><p>À Abidjan en moins de 24 h après confirmation. Hors Abidjan, par compagnie de transport, selon les délais de celle-ci.</p>
     <h3>Échanges</h3><p>Un article abîmé ou non conforme est échangé sous 48 h après réception, dans son emballage d'origine, sur présentation d'une photo.</p>
     <h3>Contact</h3><p>Pour toute question : WhatsApp au <span class="wa-num"></span>.</p>
     <p>L'utilisation du site lui-même est régie par les <a href="#cgu" class="textlink" data-action="nav" data-view="cgu">Conditions d'utilisation</a>.</p>
     <p class="company-line" hidden></p>
+  </div>
+</section>
+
+<section class="view" id="v-contact" hidden>
+  <div class="wrap section">
+    <nav class="crumbs" aria-label="Fil d'Ariane" data-crumbs></nav>
+    <h2 class="view-title">Contactez-nous</h2>
+    <p class="lead muted" style="max-width:60ch">Une question sur un article, une taille, une livraison ? On vous répond <span class="hours"></span>.</p>
+    <div class="contact-cards">
+      <a class="contact-card tel-link" href="tel:+2250768211934"><span class="cc-ico"><svg class="icon"><use href="#i-phone"/></svg></span><span><strong>Appeler</strong><span class="wa-num">+225 07 68 21 19 34</span></span></a>
+      <a class="contact-card wa-link" href="#" target="_blank" rel="noopener"><span class="cc-ico cc-wa"><svg class="icon"><use href="#i-wa"/></svg></span><span><strong>WhatsApp</strong><span>Écrire maintenant</span></span></a>
+      <a class="contact-card mail-link-card" href="#" id="contact-mail-card" hidden><span class="cc-ico"><svg class="icon"><use href="#i-mail"/></svg></span><span><strong>E-mail</strong><span class="mail-text"></span></span></a>
+      <div class="contact-card"><span class="cc-ico"><svg class="icon"><use href="#i-clock"/></svg></span><span><strong>Horaires</strong><span class="hours-cap"></span></span></div>
+    </div>
+    <form class="panel contact-form" id="contact-form" novalidate>
+      <h3>Nous écrire</h3>
+      <p class="muted">Votre message s'ouvre dans WhatsApp, prêt à envoyer.</p>
+      <label>Votre prénom<input type="text" id="cf-name" autocomplete="given-name" required></label>
+      <label>Votre message<textarea id="cf-msg" rows="4" required placeholder="Par exemple : la poussette G606 existe-t-elle en gris ?"></textarea></label>
+      <p class="form-err" id="cf-err" hidden>Écrivez votre prénom et votre message.</p>
+      <button type="submit" class="btn btn-primary"><svg class="icon"><use href="#i-wa"/></svg><span>Envoyer sur WhatsApp</span></button>
+    </form>
+  </div>
+</section>
+
+<section class="view" id="v-retours" hidden>
+  <div class="wrap section prose">
+    <nav class="crumbs" aria-label="Fil d'Ariane" data-crumbs></nav>
+    <h2 class="view-title">Retours et échanges</h2>
+    <p class="updated">Dernière mise à jour : <span class="legal-date"></span></p>
+    <h3>Vous vérifiez avant de payer</h3><p>À la livraison, l'article est déballé devant vous. Prenez le temps de le regarder avant de le régler.</p>
+    <h3>Échange sous 48 h</h3><p>Un article abîmé ou qui ne correspond pas à votre commande est échangé sous 48 h après réception, dans son emballage d'origine, sur présentation d'une photo.</p>
+    <h3>Comment faire</h3><ol><li>Écrivez-nous sur WhatsApp au <span class="wa-num"></span> avec la référence de votre commande (elle commence par PB-).</li><li>Joignez une photo de l'article et de son emballage.</li><li>On vous répond pour organiser l'échange.</li></ol>
+    <h3>Modifier ou annuler une commande</h3><p>C'est possible dans les 24 heures qui suivent la commande, sur WhatsApp, avec sa référence. Le détail est dans les <a href="#cgv" class="textlink" data-action="nav" data-view="cgv">Conditions de vente</a>.</p>
+    <div class="cta-row"><a class="btn btn-primary wa-link" href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-wa"/></svg><span>Demander un échange sur WhatsApp</span></a><a href="#contact" class="btn btn-ghost" data-action="nav" data-view="contact">Contactez-nous</a></div>
   </div>
 </section>
 
@@ -1341,9 +1444,9 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
 </main>
 
 <section class="reassure-band" aria-label="Nos engagements"><div class="wrap">
-  <div class="item"><span class="ico"><svg class="icon"><use href="#i-truck"/></svg></span><div><strong>Livraison en moins de 24 h à Abidjan</strong><span>Toutes les communes, offerte dès <span class="free-from"></span>. Envoi par car dans le reste du pays.</span></div></div>
+  <div class="item"><span class="ico"><svg class="icon"><use href="#i-truck"/></svg></span><div><strong>Livraison en moins de 24 h à Abidjan</strong><span>Toutes les communes, offerte dès <span class="free-from"></span>. Envoi par car dans le reste du pays.</span></div></div>
   <div class="item"><span class="ico"><svg class="icon"><use href="#i-check"/></svg></span><div><strong>Vous vérifiez avant de payer</strong><span>L'article est déballé devant vous à la livraison. Échange sous 48 h en cas de défaut.</span></div></div>
-  <div class="item"><span class="ico"><svg class="icon"><use href="#i-wallet"/></svg></span><div><strong>Paiement simple</strong><span>Espèces, Wave ou Mobile Money à la livraison, paiement à distance, ou acompte et solde à la réception.</span></div></div>
+  <div class="item"><span class="ico"><svg class="icon"><use href="#i-wallet"/></svg></span><div><strong>Paiement simple</strong><span>Espèces, Wave ou Mobile Money à la livraison, ou paiement à distance avant la livraison.</span></div></div>
   <div class="item"><span class="ico"><svg class="icon"><use href="#i-chat"/></svg></span><div><strong>Un conseil sur WhatsApp</strong><span>Avant d'acheter comme après, <span class="hours"></span>.</span></div></div>
 </div></section>
 <footer class="footer">
@@ -1356,37 +1459,50 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
       </div>
       <div>
         <h4>Restons en contact</h4>
-        <div class="contact-num"><span class="wa-num"></span><button type="button" class="copy-btn" data-action="copy-num"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></div>
+        <ul class="contact-list">
+          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250768211934"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num" aria-label="Copier le numéro" title="Copier le numéro"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
+          <li><svg class="icon"><use href="#i-wa"/></svg><a class="wa-link" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li id="contact-mail" hidden><svg class="icon"><use href="#i-mail"/></svg><a class="mail-link" href="#"></a></li>
+          <li><svg class="icon"><use href="#i-clock"/></svg><span class="hours-cap"></span></li>
+        </ul>
         <div class="phones" id="phones" style="margin-top:10px" hidden></div>
-        <p style="margin-top:8px">Sur WhatsApp, <span class="hours"></span>.</p>
         <a class="btn btn-ghost btn-sm footer-cta" id="wa-news" href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-chat"/></svg><span>Recevoir les arrivages et promos</span></a>
         <div id="social" hidden style="margin-top:14px"><h4>Nous suivre</h4><ul id="social-links"></ul></div>
       </div>
       <div>
-        <h4>Informations</h4>
-        <ul id="footer-links">
+        <h4>Boutique</h4>
+        <ul class="footer-links">
           <li><a href="#packs" data-action="nav" data-view="packs">Packs naissance</a></li>
           <li><a href="#valise" data-action="nav" data-view="valise">Valise de maternité</a></li>
+          <li><a href="#liste" data-action="nav" data-view="liste">Liste de naissance</a></li>
+          <li><a href="#cadeaux" data-action="nav" data-view="cadeaux">Cadeaux de naissance</a></li>
           <li><a href="#guide" data-action="nav" data-view="guide">Que prévoir mois par mois</a></li>
           <li><a href="#conseils" data-action="nav" data-view="conseils">Conseils d'achat</a></li>
-          <li><a href="#liste" data-action="nav" data-view="liste">Liste de naissance</a></li>
           <li><a href="#histoire" data-action="nav" data-view="histoire">Notre histoire</a></li>
-          <li><a href="#livraison" data-action="nav" data-view="livraison">Livraison, paiement et questions fréquentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>À propos</h4>
+        <ul class="footer-links" id="footer-links">
+          <li><a href="#contact" data-action="nav" data-view="contact">Contactez-nous</a></li>
+          <li><a href="#livraison" data-action="nav" data-view="livraison">Livraison, paiement et FAQ</a></li>
+          <li><a href="#retours" data-action="nav" data-view="retours">Retours et échanges</a></li>
           <li><a href="#cgv" data-action="nav" data-view="cgv">Conditions de vente</a></li>
           <li><a href="#cgu" data-action="nav" data-view="cgu">Conditions d'utilisation</a></li>
-          <li><a href="#confidentialite" data-action="nav" data-view="confidentialite">Confidentialité</a></li>
+          <li><a href="#confidentialite" data-action="nav" data-view="confidentialite">Politique de confidentialité</a></li>
           <li><a href="#compte" data-action="account">Mon compte</a></li>
           <li id="cookie-link" hidden><button type="button" class="flink" data-action="consent-open">Gérer les cookies</button></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab. Tous les prix sont en FCFA.</span><span>Site mis à jour le <span class="legal-date"></span></span></div>
+    <div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab — Tous droits réservés. Prix en FCFA.</span><span>Site mis à jour le <span class="legal-date"></span></span></div>
   </div>
 </footer>
 
 <div class="fabs">
   <button type="button" class="fab fab-top" id="fab-top" data-action="top" aria-label="Retour en haut de page" hidden><svg class="icon"><use href="#i-up"/></svg></button>
-  <a class="fab fab-wa" id="fab-wa" href="#" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp"><svg class="icon"><use href="#i-chat"/></svg><span>WhatsApp</span></a>
+  <a class="fab fab-wa" id="fab-wa" href="#" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp"><svg class="icon"><use href="#i-wa"/></svg><span class="fab-tip">Écrire sur WhatsApp</span></a>
+  <a class="fab fab-call" id="fab-call" href="tel:+2250768211934" aria-label="Nous appeler"><svg class="icon"><use href="#i-phone"/></svg><span class="fab-tip">Appeler le <span class="wa-num">+225 07 68 21 19 34</span></span></a>
 </div>
 
 <div class="consent" id="consent" hidden role="dialog" aria-label="Mesure d'audience">
@@ -1419,16 +1535,34 @@ var CONFIG = {
   whatsapp: '2250768211934',            // numéro WhatsApp de la marque, indicatif compris, sans + ni espaces
   whatsappDisplay: '+225 07 68 21 19 34',
   phones: [],                          // autres numéros à afficher en pied de page, si tu en as (ex. ['05 00 00 00 00'])
-  hours: 'tous les jours de 8 h à 21 h',
+  hours: 'tous les jours de 8 h à 18 h',
+  email: 'contact@petit-baobab.example',   // ADRESSE FICTIVE (domaine réservé, n'existe pas) : à remplacer par la vraie adresse avant le lancement
   freeDeliveryFrom: 100000,            // livraison offerte à Abidjan à partir de ce montant
-  stock: { defaut: 'En stock à Abidjan, livré en moins de 24 h', commande: 'Sur commande, 6 à 8 semaines (arrive par le prochain conteneur)' },   // un article peut porter stock:'commande'
-  deposit: { rate: 0.5, bigRate: 0.3, bigFrom: 150000 },   // acompte 50 % en général, 30 % à partir de 150 000 FCFA (lits, packs)
+  stock: { defaut: 'En stock à Abidjan, livré en moins de 24 h', commande: 'Sur commande, 6 à 8 semaines (arrive par le prochain conteneur)' },   // un article peut porter stock:'commande'
+  deposit: null,   // acompte retiré le 23 oct. 2026 (paiement à la livraison ou avant la livraison)
   zones: [
     ['Cocody', 1500], ['Plateau', 1500], ['Marcory', 1500], ['Treichville', 1500], ['Adjamé', 1500],
     ['Koumassi', 2000], ['Yopougon', 2000], ['Abobo', 2000], ['Port-Bouët', 2000], ['Attécoubé', 2000],
     ['Bingerville', 2500], ['Anyama', 2500], ['Songon', 2500],
     ['Hors Abidjan (envoi par car)', null]
   ],
+  zoneGroups: [['Abidjan', ['Abobo', 'Adjamé', 'Attécoubé', 'Cocody', 'Koumassi', 'Marcory', 'Plateau', 'Port-Bouët', 'Treichville', 'Yopougon']], ['Grand Abidjan', ['Bingerville', 'Anyama', 'Songon']], ['Ailleurs en Côte d\'Ivoire', ['Hors Abidjan (envoi par car)']]],
+  quartiers: {   // suggestions pour « Quartier et repère » (le client peut écrire autre chose)
+    'Abobo': ['Abobo Gare', 'PK 18', 'Avocatier', 'Abobo Baoulé', 'Belleville', 'N\'Dotré', 'Anonkoua-Kouté', 'Sagbé', 'Akeikoi', 'Abobo Té'],
+    'Adjamé': ['Adjamé Liberté', 'Williamsville', '220 Logements', 'Bracodi', 'Mairie', 'Paillet', 'Dallas', 'Renault'],
+    'Attécoubé': ['Santé', 'Locodjro', 'Agban', 'Abobo-Doumé', 'Mossikro', 'Sebroko'],
+    'Cocody': ['Riviera 2', 'Riviera 3', 'Riviera Palmeraie', 'Riviera Golf', 'Angré', 'Deux-Plateaux', 'Vallon', 'Blockhaus', 'Danga', 'Ambassades', 'Saint-Jean', 'Faya', 'M\'Pouto', 'Akouédo', 'Bonoumin', 'Cité des Arts', 'Mermoz'],
+    'Koumassi': ['Remblais', 'Sicogi', 'Grand Campement', 'Koumassi Centre', 'Prodomo', 'Soweto', 'Divo'],
+    'Marcory': ['Zone 4', 'Biétry', 'Marcory Résidentiel', 'Anoumabo', 'Hibiscus', 'Champroux', 'Sans-Fil', 'Konan Raphaël'],
+    'Plateau': ['Plateau Centre', 'Indénié', 'Cité Administrative'],
+    'Port-Bouët': ['Vridi', 'Gonzagueville', 'Aéroport', 'Adjahui', 'Jean Folly', 'Derrière Wharf', 'Anani'],
+    'Treichville': ['Arras', 'Biafra', 'Zone 1', 'Zone 2', 'France-Amérique', 'Gare Lagunaire'],
+    'Yopougon': ['Niangon', 'Selmer', 'Maroc', 'Toits Rouges', 'Sicogi', 'Andokoi', 'Wassakara', 'Port-Bouët 2', 'Ananeraie', 'Gesco', 'Siporex', 'Kouté', 'Sideci', 'Banco'],
+    'Bingerville': ['Bingerville Centre', 'Akandjé', 'Gbagba', 'Fêtê', 'Abatta'],
+    'Anyama': ['Anyama Centre', 'Ahoué', 'Ebimpé', 'Akoupé-Zeudji'],
+    'Songon': ['Songon Agban', 'Songon Kassemblé', 'Songon M\'Bratté', 'Songon Té'],
+    'Hors Abidjan (envoi par car)': ['Bouaké', 'Yamoussoukro', 'San-Pédro', 'Daloa', 'Korhogo', 'Grand-Bassam', 'Abengourou', 'Man', 'Gagnoa', 'Divo']
+  },
   payments: { surPlace: 'en espèces, par Wave ou Mobile Money, au livreur', avance: 'par Wave ou Mobile Money (Orange Money, MTN MoMo, Moov Money)', etranger: ['Wave', 'Mobile Money', 'Western Union', 'Ria Money Transfer'] },
   social: { instagram: '', tiktok: '' },  // adresses complètes des comptes, si tu veux les afficher
   legalUpdated: '2026-10-22',
@@ -1438,7 +1572,7 @@ var CONFIG = {
 
 /* Adresses des pages (une vraie URL par page une fois le site construit pour Netlify) */
 var ROUTES = {
-  accueil:         { path: '/', nav: 'Accueil', title: 'Petit Baobab · Packs naissance et équipement bébé livrés à Abidjan', description: 'Packs naissance par budget, valise de maternité prête à partir et tout l\'équipement de bébé, prix affichés. Commande en ligne, livraison à Abidjan en moins de 24 h, paiement à la livraison, par Wave ou Mobile Money.' },
+  accueil:         { path: '/', nav: 'Accueil', title: 'Petit Baobab · Packs naissance et équipement bébé livrés à Abidjan', description: 'Packs naissance par budget, valise de maternité prête à partir et tout l\'équipement de bébé, prix affichés. Commande en ligne, livraison à Abidjan en moins de 24 h, paiement à la livraison, par Wave ou Mobile Money.' },
   boutique:        { path: '/boutique/', nav: 'Boutique', title: 'Boutique puériculture en ligne à Abidjan · Petit Baobab', description: 'Près de 600 articles de puériculture avec les prix en FCFA : lits, poussettes, sièges auto, balancelles, biberons, bain, vêtements, rangement. Livraison à Abidjan.' },
   dort:            { path: '/bebe-dort/', nav: 'Bébé dort', univers: 'dort', title: 'Bébé dort : lits bébé, berceaux, lits parapluie, moustiquaires · Petit Baobab', description: 'Lits bébé en bois, berceaux cododo, lits parapluie, moustiquaires, couvertures et nids d\'ange, livrés à Abidjan. Conseils pour un sommeil paisible dès la naissance.' },
   balade:          { path: '/bebe-en-balade/', nav: 'Bébé en balade', univers: 'balade', title: 'Bébé en balade : poussettes, porte-bébés, sacs à langer · Petit Baobab', description: 'Poussettes compactes, combinées 3 en 1, doubles, porte-bébés ergonomiques et sacs à langer, livrés à Abidjan.' },
@@ -1448,17 +1582,19 @@ var ROUTES = {
   soigne:          { path: '/bebe-soigne/', nav: 'Bébé soigné', univers: 'soigne', title: 'Bébé soigné : bain, change, hygiène, tables à langer · Petit Baobab', description: 'Baignoires, tables à langer, sets de bain, lingettes, cotons-tiges et soins quotidiens, livrés à Abidjan.' },
   habille:         { path: '/bebe-habille/', nav: 'Bébé habillé', univers: 'habille', title: 'Bébé habillé : layette, packs naissance, vêtements · Petit Baobab', description: 'Packs naissance, valise de maternité, layette, ensembles bébé, chaussettes et chaussons, livrés à Abidjan.' },
   maison:          { path: '/bebe-a-la-maison/', nav: 'Bébé à la maison', univers: 'maison', title: 'Bébé à la maison : armoires, commodes, rangement · Petit Baobab', description: 'Armoires et commodes bébé, chariots et paniers de rangement, accessoires pour la chambre, livrés à Abidjan.' },
-  packs:           { path: '/packs-naissance/', nav: 'Packs naissance', title: 'Packs naissance à 50 000, 100 000 et 150 000 FCFA · Petit Baobab', description: 'Trois packs naissance complets, contenu détaillé et prix affichés, livrés à Abidjan en moins de 24 h.' },
+  packs:           { path: '/packs-naissance/', nav: 'Packs naissance', title: 'Packs naissance à 50 000, 100 000 et 150 000 FCFA · Petit Baobab', description: 'Trois packs naissance complets, contenu détaillé et prix affichés, livrés à Abidjan en moins de 24 h.' },
   valise:          { path: '/valise-maternite/', nav: 'Valise maternité', title: 'Valise de maternité prête à partir · Petit Baobab', description: 'La valise de maternité pour maman et bébé, déjà réunie, avec la liste de contrôle pour le jour J. Livraison à Abidjan.' },
   liste:           { path: '/liste-de-naissance/', nav: 'Liste de naissance', title: 'Liste de naissance en ligne, à partager sur WhatsApp · Petit Baobab', description: 'Composez votre liste de naissance parmi près de 600 articles, partagez le lien sur WhatsApp : vos proches offrent exactement ce qu\'il vous faut, livré chez vous à Abidjan.' },
   cadeaux:         { path: '/cadeaux-de-naissance/', nav: 'Cadeaux', title: 'Offrir un cadeau de naissance à Abidjan · Petit Baobab', description: 'Idées de cadeaux de naissance par budget et par style, emballage offert, et trousseau offert à distance depuis l\'étranger, livré chez la maman à Abidjan.' },
-  histoire:        { path: '/notre-histoire/', nav: 'Notre histoire', title: 'Notre histoire : pourquoi Petit Baobab · Petit Baobab', description: 'Le baobab est solide, protecteur et il dure : c\'est ce que nous voulons pour votre bébé. Une boutique de puériculture 100 % en ligne à Abidjan, des prix affichés, un conseil sur WhatsApp et une livraison en moins de 24 h.' },
+  histoire:        { path: '/notre-histoire/', nav: 'Notre histoire', title: 'Notre histoire : pourquoi Petit Baobab · Petit Baobab', description: 'Le baobab est solide, protecteur et il dure : c\'est ce que nous voulons pour votre bébé. Une boutique de puériculture 100 % en ligne à Abidjan, des prix affichés, un conseil sur WhatsApp et une livraison en moins de 24 h.' },
   conseils:        { path: '/conseils/', nav: 'Conseils', title: 'Conseils d\'achat : lit, siège auto, poussette, valise de maternité, chambre, biberons · Petit Baobab', description: 'Six guides courts pour bien choisir l\'équipement de bébé à Abidjan : le lit, le siège auto selon l\'âge, la poussette, la valise de maternité, la chambre et les premiers biberons.' },
   guide:           { path: '/que-prevoir-mois-par-mois/', nav: 'Guide', title: 'Que prévoir pour bébé mois par mois ? · Petit Baobab', description: 'Le guide pratique de 0 à 24 mois : l\'essentiel à prévoir, le confort en plus et nos astuces, étape par étape.' },
-  livraison:       { path: '/livraison-et-paiement/', nav: 'Livraison & paiement', title: 'Livraison, paiement et questions fréquentes · Petit Baobab', description: 'Frais de livraison par commune d\'Abidjan, livraison offerte dès 100 000 FCFA, paiement à la livraison, par Wave ou Mobile Money, ou acompte de 50 %, échanges sous 48 h.' },
+  livraison:       { path: '/livraison-et-paiement/', nav: 'Livraison & paiement', title: 'Livraison, paiement et questions fréquentes · Petit Baobab', description: 'Frais de livraison par commune d\'Abidjan, livraison offerte dès 100 000 FCFA, paiement à la livraison, par Wave ou Mobile Money, échanges sous 48 h.' },
   commande:        { path: '/commande/', nav: 'Commande', title: 'Votre commande · Petit Baobab', description: 'Finalisez votre commande et envoyez-la sur WhatsApp.', noindex: true },
   confidentialite: { path: '/confidentialite/', nav: 'Confidentialité', title: 'Politique de confidentialité · Petit Baobab', description: 'Les données utilisées pour livrer votre commande et vos droits.' },
   cgv:             { path: '/conditions-de-vente/', nav: 'Conditions de vente', title: 'Conditions de vente · Petit Baobab', description: 'Prix, commande, paiement, livraison et échanges.' },
+  contact:         { path: '/contactez-nous/', nav: 'Contactez-nous', title: 'Contactez-nous · Petit Baobab', description: 'Téléphone, WhatsApp, e-mail et horaires de Petit Baobab. Une question sur un article ou une livraison ? On vous répond.' },
+  retours:         { path: '/retours-et-echanges/', nav: 'Retours et échanges', title: 'Retours et échanges · Petit Baobab', description: 'Vérification à la livraison, échange sous 48 h d\'un article abîmé ou non conforme, annulation sous 24 h.' },
   cgu:             { path: '/conditions-d-utilisation/', nav: 'Conditions d\'utilisation', title: 'Conditions d\'utilisation du site · Petit Baobab', description: 'Règles d\'utilisation du site, propriété des contenus, prix indicatifs, responsabilité et droit applicable.' },
   notfound:        { path: '/404.html', nav: 'Page introuvable', title: 'Page introuvable · Petit Baobab', description: 'Cette page n\'existe pas.', noindex: true }
 };
@@ -1472,7 +1608,9 @@ var PAGES_INDEX = [
   { view:'guide', kw:'guide mois par mois prévoir âge nouveau-né éveil marche' },
   { view:'conseils', kw:'conseils guide d\'achat choisir lit siège auto poussette valise maternité chambre biberons bien choisir' },
   { view:'histoire', kw:'histoire marque nom baobab pourquoi valeurs promesse qui sommes-nous à propos' },
-  { view:'livraison', kw:'livraison frais commune délai paiement wave mobile money orange mtn moov espèces acompte retour échange questions' },
+  { view:'contact', kw:'contact contacter appeler téléphone numéro whatsapp email e-mail mail horaires joindre' },
+  { view:'retours', kw:'retour retours échange échanger remboursement défaut abîmé annuler annulation garantie' },
+  { view:'livraison', kw:'livraison frais commune délai paiement wave mobile money orange mtn moov espèces retour échange questions' },
   { view:'cgv', kw:'conditions vente cgv prix' },
   { view:'cgu', kw:'conditions utilisation cgu règles site propriété responsabilité' },
   { view:'confidentialite', kw:'confidentialité données cookies' }
@@ -1519,12 +1657,12 @@ var CATS = [
 ];
 
 var PRODUCTS = [
-  {id:'pack-essentiel', cat:'packs', name:'Pack naissance Essentiel', price:54500, tagline:'Le nécessaire des premières semaines', desc:'Le trousseau de base pour accueillir bébé : premières tenues, toilette et biberons, composés avec les articles de la boutique.', items:[{id:'vtgf204', qty:2}, {id:'r2051', qty:1}, {id:'0212-33', qty:1}, {id:'0212-35', qty:2}, {id:'x-n-6', qty:1}, {id:'9423', qty:1}, {id:'0212-30', qty:1}, {id:'0212-27', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'0212-18', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Set de 3 biberons (7 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Set brosse et peigne (1 300 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Mouche-bébé (1 100 FCFA)'], value:59300, saving:4800},
-  {id:'pack-confort', cat:'packs', name:'Pack naissance Confort', price:156000, badge:'Le plus choisi', featured:true, tagline:'L\'Essentiel, plus le bain, le change et le sommeil', desc:'Tout le pack Essentiel, avec en plus le bain, le change, la moustiquaire et le sac à langer : de quoi équiper la maison pour les premiers mois.', includes:'Tout le pack Essentiel, et en plus :', base:'pack-essentiel', items:[{id:'vtgf205', qty:2}, {id:'vtpt301', qty:1}, {id:'x-14', qty:1}, {id:'70-140cm-1pcs-50-90cm-2pcs-n', qty:1}, {id:'qc9982', qty:1}, {id:'0212-5', qty:1}, {id:'2001', qty:1}, {id:'f-8221', qty:1}], discount:0.1, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Pantalons (lot de 3) (7 500 FCFA)', '1 × Baignoire pliable avec support (22 500 FCFA)', '1 × Set de serviettes de bain (3 pièces) (19 000 FCFA)', '1 × Matelas à langer (17 300 FCFA)', '1 × Coffret biberons (10 500 FCFA)', '1 × Moustiquaire de lit sur pied (16 900 FCFA)', '1 × Sac à langer (12 200 FCFA)'], value:173200, saving:17200},
-  {id:'pack-prestige', cat:'packs', name:'Pack naissance Prestige', price:308000, tagline:'Le trousseau complet, prêt à offrir', desc:'Le pack Confort complété par le lit parapluie, le portage, l\'éveil et le chauffe-biberon. Livré dans un coffret cadeau avec une carte personnalisée.', includes:'Tout le pack Confort, et en plus :', base:'pack-confort', items:[{id:'ys202', qty:1}, {id:'a6607', qty:1}, {id:'668-35', qty:1}, {id:'8763', qty:1}, {id:'1656-6', qty:1}, {id:'x-n-7', qty:1}], discount:0.12, extras:['Coffret cadeau et carte personnalisée offerts'], contents:['1 × Lit parapluie avec moustiquaire (65 700 FCFA)', '1 × Porte-bébé ergonomique avec siège (21 800 FCFA)', '1 × Tapis d\'éveil avec arche (35 700 FCFA)', '1 × Mobile musical pour lit (16 200 FCFA)', '1 × Chauffe-biberon (14 300 FCFA)', '1 × Ensemble vêtements bébé (22 900 FCFA)', 'Coffret cadeau et carte personnalisée offerts'], value:349800, saving:41800},
-  {id:'valise-bebe', cat:'valise', name:'Valise maternité bébé', price:57500, tagline:'Les affaires de bébé pour le séjour', desc:'Ce qu\'il faut pour bébé pendant le séjour à la maternité, composé avec les articles de la boutique, lavé et plié dans un sac.', items:[{id:'vtgf202', qty:2}, {id:'r2052', qty:1}, {id:'0212-33', qty:1}, {id:'0212-36', qty:2}, {id:'0926-2', qty:1}, {id:'x-n-6', qty:1}, {id:'0212-30', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'x-5', qty:1}, {id:'0212-1', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture d\'emmaillotage à capuche (7 500 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Sucette bébé avec boîte (2 300 FCFA)', '1 × Biberon (3 400 FCFA)'], value:62600, saving:5100},
-  {id:'valise-maman', cat:'valise', name:'Valise maternité maman', price:35000, tagline:'Le confort de maman, avant et après', desc:'Les indispensables de maman pour l\'accouchement et les premiers jours, réunis dans un sac.', contents:['3 chemises de nuit ouvertes devant', '2 pagnes', '1 paquet de serviettes de maternité', '6 culottes de maternité jetables', '2 soutiens-gorge d\'allaitement', '1 lot de coussinets d\'allaitement', '1 serviette de toilette', '1 trousse de toilette garnie', '1 paire de claquettes', '1 ceinture post-partum']},
-  {id:'valise-complete', cat:'valise', name:'Valise maternité complète', price:87500, badge:'5 000 FCFA d\'économie', featured:true, tagline:'Maman et bébé, dans un seul sac', desc:'Les deux valises réunies, avec le sac de maternité offert.', includes:'La valise bébé et la valise maman, et en plus :', items:[{id:'valise-bebe', qty:1}, {id:'valise-maman', qty:1}], rebate:5000, extras:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], contents:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], value:92500, saving:5000},
+  {id:'pack-essentiel', cat:'packs', name:'Pack naissance Essentiel', price:54500, tagline:'Le nécessaire des premières semaines', desc:'Le trousseau de base pour accueillir bébé : premières tenues, toilette et biberons, composés avec les articles de la boutique.', items:[{id:'vtgf204', qty:2}, {id:'r2051', qty:1}, {id:'0212-33', qty:1}, {id:'0212-35', qty:2}, {id:'x-n-6', qty:1}, {id:'9423', qty:1}, {id:'0212-30', qty:1}, {id:'0212-27', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'0212-18', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Set de 3 biberons (7 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Set brosse et peigne (1 300 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Mouche-bébé (1 100 FCFA)'], value:59300, saving:4800, image:'images/pack-essentiel.webp'},
+  {id:'pack-confort', cat:'packs', name:'Pack naissance Confort', price:156000, badge:'Le plus choisi', featured:true, tagline:'L\'Essentiel, plus le bain, le change et le sommeil', desc:'Tout le pack Essentiel, avec en plus le bain, le change, la moustiquaire et le sac à langer : de quoi équiper la maison pour les premiers mois.', includes:'Tout le pack Essentiel, et en plus :', base:'pack-essentiel', items:[{id:'vtgf205', qty:2}, {id:'vtpt301', qty:1}, {id:'x-14', qty:1}, {id:'70-140cm-1pcs-50-90cm-2pcs-n', qty:1}, {id:'qc9982', qty:1}, {id:'0212-5', qty:1}, {id:'2001', qty:1}, {id:'f-8221', qty:1}], discount:0.1, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Pantalons (lot de 3) (7 500 FCFA)', '1 × Baignoire pliable avec support (22 500 FCFA)', '1 × Set de serviettes de bain (3 pièces) (19 000 FCFA)', '1 × Matelas à langer (17 300 FCFA)', '1 × Coffret biberons (10 500 FCFA)', '1 × Moustiquaire de lit sur pied (16 900 FCFA)', '1 × Sac à langer (12 200 FCFA)'], value:173200, saving:17200, image:'images/pack-confort.webp'},
+  {id:'pack-prestige', cat:'packs', name:'Pack naissance Prestige', price:308000, tagline:'Le trousseau complet, prêt à offrir', desc:'Le pack Confort complété par le lit parapluie, le portage, l\'éveil et le chauffe-biberon. Livré dans un coffret cadeau avec une carte personnalisée.', includes:'Tout le pack Confort, et en plus :', base:'pack-confort', items:[{id:'ys202', qty:1}, {id:'a6607', qty:1}, {id:'668-35', qty:1}, {id:'8763', qty:1}, {id:'1656-6', qty:1}, {id:'x-n-7', qty:1}], discount:0.12, extras:['Coffret cadeau et carte personnalisée offerts'], contents:['1 × Lit parapluie avec moustiquaire (65 700 FCFA)', '1 × Porte-bébé ergonomique avec siège (21 800 FCFA)', '1 × Tapis d\'éveil avec arche (35 700 FCFA)', '1 × Mobile musical pour lit (16 200 FCFA)', '1 × Chauffe-biberon (14 300 FCFA)', '1 × Ensemble vêtements bébé (22 900 FCFA)', 'Coffret cadeau et carte personnalisée offerts'], value:349800, saving:41800, image:'images/pack-prestige.webp'},
+  {id:'valise-bebe', cat:'valise', name:'Valise maternité bébé', price:57500, tagline:'Les affaires de bébé pour le séjour', desc:'Ce qu\'il faut pour bébé pendant le séjour à la maternité, composé avec les articles de la boutique, lavé et plié dans un sac.', items:[{id:'vtgf202', qty:2}, {id:'r2052', qty:1}, {id:'0212-33', qty:1}, {id:'0212-36', qty:2}, {id:'0926-2', qty:1}, {id:'x-n-6', qty:1}, {id:'0212-30', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'x-5', qty:1}, {id:'0212-1', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture d\'emmaillotage à capuche (7 500 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Sucette bébé avec boîte (2 300 FCFA)', '1 × Biberon (3 400 FCFA)'], value:62600, saving:5100, image:'images/valise-bebe.webp'},
+  {id:'valise-maman', cat:'valise', name:'Valise maternité maman', price:35000, tagline:'Le confort de maman, avant et après', desc:'Les indispensables de maman pour l\'accouchement et les premiers jours, réunis dans un sac.', contents:['3 chemises de nuit ouvertes devant', '2 pagnes', '1 paquet de serviettes de maternité', '6 culottes de maternité jetables', '2 soutiens-gorge d\'allaitement', '1 lot de coussinets d\'allaitement', '1 serviette de toilette', '1 trousse de toilette garnie', '1 paire de claquettes', '1 ceinture post-partum'], image:'images/valise-maman.webp'},
+  {id:'valise-complete', cat:'valise', name:'Valise maternité complète', price:87500, badge:'5 000 FCFA d\'économie', featured:true, tagline:'Maman et bébé, dans un seul sac', desc:'Les deux valises réunies, avec le sac de maternité offert.', includes:'La valise bébé et la valise maman, et en plus :', items:[{id:'valise-bebe', qty:1}, {id:'valise-maman', qty:1}], rebate:5000, extras:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], contents:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], value:92500, saving:5000, image:'images/valise-complete.webp'},
   {id:'qs11-2-1', cat:'lits-bebe', name:'Lit bébé évolutif en bois (grand modèle)', price:300000, ref:'QS11', desc:'Lit en bois qui évolue avec l\'enfant : lit à barreaux pour bébé, puis lit junior en retirant un côté. Un seul achat pour plusieurs années. Grand format, sommier réglable.', age:'De la naissance à 5 ans environ', plus:['Évolutif : lit bébé puis lit enfant', 'Grand format', 'Structure en bois', 'Sommier réglable en hauteur'], specs:[['Âge conseillé', 'De la naissance à 5 ans environ']], image:'images/qs11-2-1.webp'},
   {id:'kdd17-2-1', cat:'lits-bebe', name:'Lit bébé évolutif en bois (grand modèle)', price:300000, ref:'KDD17', desc:'Lit en bois qui évolue avec l\'enfant : lit à barreaux pour bébé, puis lit junior en retirant un côté. Un seul achat pour plusieurs années. Grand format, sommier réglable.', age:'De la naissance à 5 ans environ', plus:['Évolutif : lit bébé puis lit enfant', 'Grand format', 'Structure en bois', 'Sommier réglable en hauteur'], specs:[['Âge conseillé', 'De la naissance à 5 ans environ']], image:'images/kdd17-2-1.webp'},
   {id:'kdd18-2-1', cat:'lits-bebe', name:'Lit bébé en bois (grand modèle)', price:300000, ref:'KDD18', badge:'Nouveau', desc:'Grand lit à barreaux en bois, plus spacieux qu\'un lit bébé standard : il accompagne l\'enfant plus longtemps. Sommier réglable en hauteur, finition soignée.', age:'De la naissance à 4 ans environ', plus:['Grand format', 'Structure en bois', 'Sommier réglable en hauteur'], specs:[['Âge conseillé', 'De la naissance à 4 ans environ']], image:'images/kdd18-2-1.webp'},
@@ -2226,6 +2364,7 @@ function skeletonCards(n){ var out=''; for (var i=0;i<n;i++) out += '<article cl
 function packCard(p, gift, i){
   var items = (p.contents||[]).map(function(x, j){ return '<li style="--j:' + Math.min(j, 10) + '">' + icon('check') + '<span>' + esc(x) + '</span></li>'; }).join('');
   return '<article class="pack' + (p.featured ? ' featured' : '') + '" style="--i:' + (i||0) + '">' +
+    (p.image ? '<button type="button" class="pack-img" data-action="open" data-id="' + p.id + '" aria-label="Voir le détail : ' + esc(p.name) + '"><img src="' + esc(img(p)) + '" alt="' + esc(p.name) + ' : les articles du pack" loading="lazy" width="1000" height="1000"></button>' : '') +
     '<div class="pack-head"><div><h3>' + esc(p.name) + '</h3><div class="tag">' + esc(p.tagline||'') + '</div></div>' + (p.badge ? '<span class="badge">' + esc(p.badge) + '</span>' : '') + '</div>' +
     '<div class="big">' + fmt(p.price) + (gift ? ' <small>+ livraison</small>' : '') + '</div>' +
     (p.saving ? '<div class="pack-value">Valeur des articles achetés séparément : ' + fmt(p.value) + ' · <strong>vous économisez ' + fmt(p.saving) + '</strong></div>' : '') +
@@ -2266,11 +2405,13 @@ function complements(p, n){
   return out.slice(0, n);
 }
 function stockLine(p){ var st = CONFIG.stock || {}; return p.stock==='commande' ? (st.commande||'') : (st.defaut||''); }
-function reassure(){
+function reassure(p){
   return '<ul class="reassure"><li>' + icon('check') + '<span>Livraison dans toutes les communes d\'Abidjan, offerte dès ' + fmt(CONFIG.freeDeliveryFrom) + '</span></li>' +
     '<li>' + icon('check') + '<span>Vous vérifiez l\'article à la livraison avant de payer</span></li>' +
     '<li>' + icon('check') + '<span>Échange sous 48 h en cas de défaut</span></li>' +
-    '<li>' + icon('check') + '<span>Espèces, Wave ou Mobile Money à la livraison, ou acompte et solde à la réception</span></li></ul>';
+    '<li>' + icon('check') + '<span>Espèces, Wave ou Mobile Money à la livraison</span></li></ul>' +
+    '<div class="help-box"><div class="hb-row"><span class="hb-ico">' + icon('truck') + '</span><div><strong>Livraison à domicile</strong><p>On vous livre chez vous, en moins de 24 h à Abidjan. Ajoutez l\'article au panier, puis envoyez la commande sur WhatsApp : on vous rappelle pour confirmer.</p></div></div>' +
+    '<div class="hb-row"><span class="hb-ico hb-wa">' + icon('wa') + '</span><div><strong>Besoin d\'aide ?</strong><p>Un doute sur le modèle, la couleur ou la taille ? <a class="textlink" href="' + esc(waLink(p ? 'Bonjour, une question sur « ' + p.name + ' »' + (p.ref ? ' (réf. ' + p.ref + ')' : '') + '.' : 'Bonjour ' + CONFIG.brand + ', j\'ai une question.')) + '" target="_blank" rel="noopener">Écrivez-nous sur WhatsApp</a> ou appelez le <a class="textlink" href="tel:+' + CONFIG.whatsapp + '">' + esc(CONFIG.whatsappDisplay) + '</a>.</p></div></div></div>';
 }
 function bandById(id){ return AGE_BANDS.filter(function(b){ return b.id===id; })[0]; }
 function priceBandById(id){ return PRICE_BANDS.filter(function(b){ return b.id===id; })[0]; }
@@ -2345,8 +2486,6 @@ function renderUnivChips(){
   if (u){ var cats = catsOfUniv(u.id); sub.hidden = cats.length < 2; sub.innerHTML = '<button type="button" class="chip' + (state.cat==='all'?' active':'') + '" data-action="chip" data-cat="all">Tout ' + esc(u.title.toLowerCase().replace('bébé','bébé')) + '</button>' + cats.map(function(c){ return '<button type="button" class="chip' + (state.cat===c.id?' active':'') + '" data-action="chip" data-cat="' + c.id + '">' + esc(c.label) + '</button>'; }).join(''); }
   else { sub.hidden = true; sub.innerHTML = ''; }
 }
-var WINK_ON = false;   // clin d'œil « Myris » : désactivé le 23 oct. (mettre true pour le réactiver)
-var WINK = '<div class="wink" style="grid-column:1/-1"><div class="wink-scene"><svg class="mark wink-mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><g class="lg-sun"><circle cx="104" cy="18" r="10"/></g><g class="lg-ground"><ellipse cx="60" cy="110" rx="56" ry="5"/></g><g class="lg-trunk"><path d="M43 110c4-18 5-34 1-54h30c-4 20-3 36 1 54z"/></g><g class="lg-tree"><circle cx="59" cy="44" r="26"/><circle cx="33" cy="54" r="17"/><circle cx="85" cy="54" r="17"/><circle cx="43" cy="30" r="15"/><circle cx="75" cy="30" r="15"/><circle cx="59" cy="22" r="13"/></g><g class="lg-fruit"><circle cx="71" cy="40" r="3"/></g><g class="lg-trunk"><path d="M94 110c1.5-7 1.8-13 .7-20h8.6c-1.1 7-.8 13 .7 20z"/></g><g class="lg-tree"><circle cx="99" cy="82" r="9.5"/><circle cx="91" cy="87" r="5.5"/><circle cx="107" cy="87" r="5.5"/></g><g class="lg-fruit"><circle cx="103" cy="80" r="2"/></g></svg></div><div><h3>Myris</h3><p>Le plus joli prénom qu\'on ait entendu par ici. Le petit baobab lui garde déjà une place, à l\'ombre du grand.</p><p class="wink-sign">Clin d\'œil de Hanis à la future maman.</p></div></div>';
 function renderShop(){
   if (state.univ==='favs' && !favCount()) state.univ = 'all';
   renderUnivChips();
@@ -2365,9 +2504,7 @@ function renderShop(){
   $('#shop-count').textContent = list.length + (list.length>1 ? ' articles' : ' article');
   if ($('#q').value !== state.q) $('#q').value = state.q;
   var shown = list.slice(0, state.shown);
-  var wink = WINK_ON && q.normalize('NFD').replace(/[\u0300-\u036f]/g,'') === 'myris';
-  var html = list.length ? shown.map(card).join('') : (wink ? '' : '<div class="empty" style="grid-column:1/-1">Aucun article ne correspond. Essayez un autre mot, ou écrivez-nous sur WhatsApp : on trouve ce qu\'il vous faut.</div>');
-  if (wink) html = WINK + html;
+  var html = list.length ? shown.map(card).join('') : '<div class="empty" style="grid-column:1/-1">Aucun article ne correspond. Essayez un autre mot, ou écrivez-nous sur WhatsApp : on trouve ce qu\'il vous faut.</div>';
   if (list.length > shown.length) html += moreButton(shown.length, list.length);
   if (!state.shopRendered && !reduced){ state.shopRendered = true; $('#shop').innerHTML = skeletonCards(8); setTimeout(function(){ $('#shop').innerHTML = html; }, 350); }
   else { state.shopRendered = true; $('#shop').innerHTML = html; }
@@ -2378,16 +2515,25 @@ function goShop(o){
 }
 function renderStatic(){
   var sel = $('#f-zone');
-  CONFIG.zones.forEach(function(z){ var o = document.createElement('option'); o.value = z[0]; o.textContent = z[0] + (z[1]===null ? '' : ' · ' + fmt(z[1])); sel.appendChild(o); });
+  sel.innerHTML = zoneOptions('Choisir votre commune…');
+  var dl = document.createElement('datalist'); dl.id = 'quartiers'; document.body.appendChild(dl); $('#f-address').setAttribute('list', 'quartiers'); $('#f-address').setAttribute('autocomplete', 'off');
+  if (store('pb-zone')) setZone(store('pb-zone'), true);
   $('#zones-table tbody').innerHTML = CONFIG.zones.map(function(z){ return '<tr><td>' + esc(z[0]) + '</td><td>' + (z[1]===null ? 'Selon la ville' : fmt(z[1])) + '</td></tr>'; }).join('');
   $('#free-from').textContent = fmt(CONFIG.freeDeliveryFrom);
   $$('.free-from').forEach(function(el){ el.textContent = fmt(CONFIG.freeDeliveryFrom); });
   $$('.wa-num').forEach(function(el){ el.textContent = CONFIG.whatsappDisplay; });
   $$('.legal-date').forEach(function(el){ el.textContent = fmtDate(CONFIG.legalUpdated); });
   $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });
+  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });
+  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });
+  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.'); });
+  if (CONFIG.email){ var mc = $('#contact-mail-card'); if (mc){ mc.hidden = false; mc.href = 'mailto:' + CONFIG.email; mc.querySelector('.mail-text').textContent = CONFIG.email; } }
+  var cf = $('#contact-form'); if (cf) cf.addEventListener('submit', function(e){ e.preventDefault(); var n = $('#cf-name').value.trim(), m = $('#cf-msg').value.trim(); $('#cf-err').hidden = !!(n && m); if (!n || !m) return; window.open(waLink('Bonjour ' + CONFIG.brand + ', c\'est ' + n + '. ' + m), '_blank', 'noopener'); });
+  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }
   if ((CONFIG.phones||[]).length){ $('#phones').hidden = false; $('#phones').innerHTML = CONFIG.phones.map(function(n){ return '<span>' + esc(n) + '</span>'; }).join(''); }
   $('#year').textContent = String(new Date().getFullYear());
   $('#fab-wa').href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.');
+  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
   $('#wa-news').href = waLink('Bonjour ' + CONFIG.brand + ', je veux recevoir vos arrivages et promos sur WhatsApp.');
   var pay = CONFIG.payments || {};
   $$('.pay-surplace').forEach(function(el){ el.textContent = pay.surPlace || ''; });
@@ -2406,6 +2552,31 @@ function renderStatic(){
 function cartItems(){ var out=[]; for (var id in state.cart){ var p = byId(id); if (p && state.cart[id]>0) out.push({p:p, qty:state.cart[id]}); } return out; }
 function cartCount(){ return cartItems().reduce(function(n,i){ return n+i.qty; },0); }
 function subtotal(){ return cartItems().reduce(function(n,i){ return n+i.qty*i.p.price; },0); }
+/* Commune de livraison : un seul choix, retenu et repris partout (commande, panier, fiche article) */
+function zoneOptions(placeholder){
+  var fees = {}; CONFIG.zones.forEach(function(z){ fees[z[0]] = z[1]; });
+  return '<option value="">' + esc(placeholder) + '</option>' + (CONFIG.zoneGroups || [['', CONFIG.zones.map(function(z){ return z[0]; })]]).map(function(g){
+    return '<optgroup label="' + esc(g[0]) + '">' + g[1].filter(function(n){ return n in fees; }).map(function(n){ return '<option value="' + esc(n) + '">' + esc(n) + (fees[n]===null ? ' · frais selon la ville' : ' · ' + fmt(fees[n])) + '</option>'; }).join('') + '</optgroup>';
+  }).join('');
+}
+function currentZone(){ return (state && state.zone) || ''; }
+function setZone(z, silent){
+  var ok = CONFIG.zones.some(function(x){ return x[0] === z; }); if (!ok) z = '';
+  state.zone = z; store('pb-zone', z || null);
+  var f = $('#f-zone'); if (f && f.value !== z) f.value = z;
+  $$('.zone-pick').forEach(function(s){ if (s.value !== z) s.value = z; });
+  var dl = $('#quartiers'); if (dl) dl.innerHTML = ((CONFIG.quartiers || {})[z] || []).map(function(q){ return '<option value="' + esc(q) + '">'; }).join('');
+  $$('.dl-line').forEach(function(el){ el.innerHTML = deliveryLine(+el.getAttribute('data-price') || 0); });
+  if (!silent){ try { updateCheckout(); } catch(e){} try { renderCart(); } catch(e){} }
+}
+function deliveryLine(extra){
+  var z = currentZone(), sub = subtotal() + (extra || 0), f = zoneFee(z, sub);
+  if (!z) return 'Choisissez votre commune pour voir le prix de la livraison.';
+  if (!f.known) return 'Hors Abidjan : envoi par car, frais selon la ville (on vous les donne sur WhatsApp).';
+  if (f.fee === 0) return '<strong>Livraison offerte</strong> à ' + esc(z) + ', en moins de 24 h.';
+  var left = CONFIG.freeDeliveryFrom - sub;
+  return 'Livraison à ' + esc(z) + ' : <strong>' + fmt(f.fee) + '</strong>, en moins de 24 h. ' + (left > 0 ? 'Offerte dès ' + fmt(CONFIG.freeDeliveryFrom) + ' d\'achat.' : '');
+}
 function zoneFee(zoneName, sub){
   if (!zoneName) return {label:'à définir', fee:0, known:false};
   for (var i=0;i<CONFIG.zones.length;i++){ if (CONFIG.zones[i][0]===zoneName){
@@ -2462,11 +2633,18 @@ function renderCart(){
   lastQtyId = null;
   var sub = subtotal();
   var minFee = CONFIG.zones.filter(function(z){ return z[1]!==null; }).reduce(function(m,z){ return Math.min(m, z[1]); }, Infinity);
-  $('#drawer-foot').innerHTML = '<div class="totals"><div><span>Sous-total</span><span class="price" id="drawer-sub"></span></div><div class="muted"><span>Livraison</span><span>' + (sub>=CONFIG.freeDeliveryFrom ? 'offerte à Abidjan' : 'selon la commune, dès ' + fmt(minFee)) + '</span></div></div>' +
+  var zn = currentZone(), zf = zoneFee(zn, sub), left = CONFIG.freeDeliveryFrom - sub, pct = Math.max(0, Math.min(100, Math.round(sub / CONFIG.freeDeliveryFrom * 100)));
+  $('#drawer-foot').innerHTML = '<label class="zone-row"><span>Livrer à</span><select class="zone-pick" aria-label="Commune de livraison"' + (zn ? '' : ' data-empty="1"') + '>' + zoneOptions('Choisir la commune…') + '</select></label>' +
+    '<div class="free-bar" role="img" aria-label="' + (left > 0 ? 'Plus que ' + fmt(left) + ' pour la livraison offerte' : 'Livraison offerte') + '"><i style="width:' + pct + '%"></i></div>' +
+    '<p class="free-note">' + (left > 0 ? 'Plus que <strong>' + fmt(left) + '</strong> pour la livraison offerte à Abidjan.' : '<strong>Livraison offerte</strong> à Abidjan.') + '</p>' +
+    '<div class="totals"><div><span>Sous-total</span><span class="price" id="drawer-sub"></span></div>' +
+    '<div class="muted"><span>Livraison</span><span>' + (zn ? esc(zf.label) : (sub>=CONFIG.freeDeliveryFrom ? 'offerte à Abidjan' : 'dès ' + fmt(minFee))) + '</span></div>' +
+    (zn && zf.known ? '<div class="grand"><span>Total</span><span class="price">' + fmt(sub + zf.fee) + '</span></div>' : '') + '</div>' +
     '<button type="button" class="btn btn-primary btn-block" data-action="checkout">Passer la commande</button>' +
     '<button type="button" class="btn btn-ghost btn-block btn-sm" data-action="close">Continuer mes achats</button>' +
     '<button type="button" class="clear" data-action="clear-cart">Vider le panier</button>';
   tickTo('drawer-sub', $('#drawer-sub'), sub);
+  $$('#drawer-foot .zone-pick').forEach(function(s){ s.value = zn; });
 }
 var clearTimer = null;
 function askClear(btn){
@@ -2491,7 +2669,7 @@ function buildMessage(){
   var zone = val('f-zone'), fee = zoneFee(zone, sub);
   var gift = $('#f-gift').checked;
   var total = sub + fee.fee, dep = depositFor(total), half = Math.ceil(total*dep.rate/100)*100;
-  var pay = $('#pay-wave').checked ? 'Par Wave ou Mobile Money avant la livraison' : $('#pay-deposit').checked ? 'Acompte de ' + dep.pct + ' % par Wave ou Mobile Money (' + fmt(half) + (fee.known ? '' : ' + ' + dep.pct + ' % de la livraison') + '), solde à la livraison' : 'À la livraison';
+  var pay = $('#pay-wave').checked ? 'Par Wave ou Mobile Money avant la livraison' : 'À la livraison';
   if (!state.ref) state.ref = orderRef();
   var L = [];
   L.push('Bonjour ' + CONFIG.brand + ' 👋');
@@ -2506,6 +2684,7 @@ function buildMessage(){
   L.push('');
   L.push('Nom : ' + (val('f-name') || '…'));
   L.push('Téléphone : ' + (val('f-phone') || '…'));
+  if (val('f-phone2')) L.push('Autre numéro : ' + val('f-phone2'));
   L.push('Livraison : ' + ([zone, val('f-address')].filter(Boolean).join(', ') || '…'));
   L.push('Paiement : ' + pay);
   if (gift){ L.push(''); L.push('🎁 Cadeau pour : ' + (val('g-name') || '…') + (val('g-phone') ? ' (' + val('g-phone') + ')' : '')); if (val('g-msg')) L.push('Message pour la carte : « ' + val('g-msg') + ' »'); }
@@ -2526,11 +2705,14 @@ function showErrors(formSel, alertSel, errs){
   $(alertSel).hidden = !first;
   if (first){ try { first.focus(); } catch(e){} }
 }
+function ciPhone(v){ var d = String(v || '').replace(/\D/g, ''); if (d.indexOf('00225') === 0) d = d.slice(5); else if (d.indexOf('225') === 0 && d.length === 13) d = d.slice(3); return d.length === 10 || (d.length >= 8 && d.length <= 15 && /^\+|^00/.test(String(v).trim())); }
 function orderRules(){
   return [
-    {id:'f-name', ok:function(){ return !!val('f-name'); }, msg:'Indiquez votre nom.'},
-    {id:'f-phone', ok:function(){ return val('f-phone').replace(/\D/g,'').length >= 8; }, msg:'Indiquez un numéro valide (au moins 8 chiffres).'},
+    {id:'f-name', ok:function(){ return val('f-name').replace(/[^A-Za-zÀ-ÿ]/g,'').length >= 2; }, msg:'Indiquez votre nom (au moins 2 lettres).'},
+    {id:'f-phone', ok:function(){ return ciPhone(val('f-phone')); }, msg:'Indiquez un numéro ivoirien à 10 chiffres (ex. 07 00 00 00 00), ou un numéro étranger commençant par +.'},
+    {id:'f-address', ok:function(){ return val('f-address').length >= 3; }, msg:'Indiquez votre quartier et un repère pour le livreur.'},
     {id:'f-zone', ok:function(){ return !!val('f-zone'); }, msg:'Choisissez votre commune.'},
+    {id:'f-phone2', ok:function(){ return !val('f-phone2') || ciPhone(val('f-phone2')); }, msg:'Ce numéro paraît incomplet (10 chiffres), ou laissez la case vide.'},
     {id:'g-name', ok:function(){ return !$('#f-gift').checked || !!val('g-name'); }, msg:'Indiquez le nom de la maman.'}
   ];
 }
@@ -2543,14 +2725,14 @@ function updateCheckout(){
   var sub = subtotal(), zone = val('f-zone'), fee = zoneFee(zone, sub);
   if (!state.ref) state.ref = orderRef();
   $('#sum-ref').textContent = state.ref;
-  $('#sum-lines').innerHTML = items.map(function(i){ return '<div><span>' + esc(i.p.name) + ' × ' + i.qty + '</span><span class="price">' + fmt(i.p.price*i.qty) + '</span></div>'; }).join('');
+  $('#sum-lines').innerHTML = items.map(function(i){ return '<div class="co-line"><button type="button" class="co-x" data-action="remove" data-id="' + i.p.id + '" aria-label="Retirer ' + esc(i.p.name) + '">' + icon('x') + '</button>' +
+    (i.p.image ? '<img class="co-thumb" src="' + esc(img(i.p)) + '" alt="" loading="lazy">' : '<span class="co-thumb"></span>') +
+    '<span class="co-info"><span class="co-name">' + esc(i.p.name) + '</span><span class="qty qty-sm"><button type="button" data-action="qty-minus" data-id="' + i.p.id + '" aria-label="Moins">' + icon('minus') + '</button><output>' + i.qty + '</output><button type="button" data-action="qty-plus" data-id="' + i.p.id + '" aria-label="Plus">' + icon('plus') + '</button></span></span>' +
+    '<span class="price">' + fmt(i.p.price*i.qty) + '</span></div>'; }).join('');
   $('#sum-totals').innerHTML = '<div><span>Sous-total</span><span class="price">' + fmt(sub) + '</span></div>' +
     '<div><span>Livraison' + (zone ? ' · ' + esc(zone) : '') + '</span><span>' + esc(fee.label) + '</span></div>' +
     '<div class="grand"><span>Total</span><span class="price"><span id="grand"></span>' + (fee.known ? '' : ' <span class="muted" style="font-weight:400;font-size:.85rem">+ livraison</span>') + '</span></div>';
   tickTo('grand', $('#grand'), sub+fee.fee);
-  var dep = depositFor(sub+fee.fee);
-  $('#dep-pct').textContent = dep.pct;
-  $('#dep-note').textContent = dep.big ? 'Pour les commandes de ' + fmt(CONFIG.deposit.bigFrom) + ' et plus, l\'acompte passe à ' + dep.pct + ' % : ' + fmt(Math.ceil((sub+fee.fee)*dep.rate/100)*100) + ' maintenant, le reste à la livraison.' : 'Votre commande est réservée dès l\'acompte reçu. Conseillé pour les gros articles.';
   $('#gift-fields').hidden = !$('#f-gift').checked;
   var msg = buildMessage();
   $('#wa-msg').value = msg;
@@ -2559,13 +2741,16 @@ function updateCheckout(){
 function sendOrder(e, a){
   var errs = validateFields(orderRules());
   if (Object.keys(errs).length){ e.preventDefault(); showErrors('#form', '#form-alert', errs); return; }
+  if (!$('#f-cgv').checked){ e.preventDefault(); var ce = $('#cgv-err'); ce.textContent = 'Cochez la case pour accepter les conditions de vente.'; ce.closest('.field').classList.add('invalid'); try { $('#f-cgv').focus(); } catch(x){} return; }
+  $('#cgv-err').textContent = ''; $('#cgv-err').closest('.field').classList.remove('invalid');
   showErrors('#form', '#form-alert', {});
   a.classList.add('busy'); $('span', a).textContent = 'Ouverture de WhatsApp…';
   setTimeout(function(){ a.classList.remove('busy'); $('span', a).textContent = 'Envoyer la commande sur WhatsApp'; $('.ref-echo').textContent = state.ref; $('#order-done').hidden = false; $('#wa-hint').hidden = true; }, 1200);
 }
 
 /* ===== Feuilles ===== */
-function openSheet(html){ $('#sheet-body').innerHTML = html; $('#sheet').classList.add('open'); $('#sheet').setAttribute('aria-hidden','false'); $('#backdrop').classList.add('open'); $('#sheet').scrollTop = 0; }
+function openSheet(html){ $('#sheet-body').innerHTML = html; syncSheetZone(); $('#sheet').classList.add('open'); $('#sheet').setAttribute('aria-hidden','false'); $('#backdrop').classList.add('open'); $('#sheet').scrollTop = 0; }
+function syncSheetZone(){ $$('#sheet .zone-pick').forEach(function(s){ s.value = currentZone(); }); }
 function openProduct(id){
   var p = byId(id); if (!p) return;
   var c = catOf(p), u = univOfProduct(p);
@@ -2583,8 +2768,8 @@ function openProduct(id){
     '<button type="button" class="btn btn-ghost btn-sm fav-text' + (state.favs[p.id] ? ' on' : '') + '" data-action="fav" data-id="' + p.id + '" aria-pressed="' + (state.favs[p.id] ? 'true' : 'false') + '">' + icon('heart') + '<span>Favori</span></button>' +
     '<button type="button" class="btn btn-ghost btn-sm" data-action="list-add" data-id="' + p.id + '">' + icon('list') + '<span>' + (state.list.items[p.id] ? 'Dans ma liste de naissance' : 'Ajouter à ma liste de naissance') + '</span></button></div>' +
     '<p class="stock' + (p.stock==='commande' ? ' order' : '') + '"><i></i>' + esc(stockLine(p)) + '</p>' +
-    reassure() +
-    '<p class="wa-note" style="margin-top:12px">Une question sur cet article ? <a class="textlink" href="' + waLink('Bonjour, une question sur « ' + p.name + ' »' + (p.ref ? ' (réf. ' + p.ref + ')' : '') + '.') + '" target="_blank" rel="noopener">Demandez-nous sur WhatsApp</a>.</p>' +
+    '<div class="dl-box"><label class="zone-row"><span>' + icon('truck') + 'Livrer à</span><select class="zone-pick" aria-label="Commune de livraison">' + zoneOptions('Choisir la commune…') + '</select></label><p class="dl-line" data-price="' + (p.price || 0) + '">' + deliveryLine(p.price || 0) + '</p></div>' +
+    reassure(p) +
     (function(){ var cs = (p.cat==='packs' || p.cat==='valise') ? [] : complements(p, 4); return cs.length ? '<div class="complete"><h4>Complétez avec</h4><div class="mini-grid">' + cs.map(function(x){ return '<button type="button" class="mini" data-action="open" data-id="' + x.id + '"><img src="' + esc(img(x)) + '" alt="" loading="lazy"><span class="mini-name">' + esc(x.name) + '</span><span class="price">' + fmt(x.price) + '</span></button>'; }).join('') + '</div></div>' : ''; })() +
     '</div></div>');
   try { $('#sheet').scrollTop = 0; } catch(e){}
@@ -2629,7 +2814,6 @@ function renderSearch(q){
   if (univ.length){ html += '<div class="sq-group">Univers</div>' + univ.map(function(u){ return '<button type="button" class="sq-row" data-action="nav" data-view="' + u.id + '"><span><strong>' + esc(u.title) + '</strong><small>' + esc(u.tagline) + '</small></span>' + icon('chev') + '</button>'; }).join(''); }
   if (pages.length){ html += '<div class="sq-group">Pages</div>' + pages.map(function(x){ return '<button type="button" class="sq-row" data-action="nav" data-view="' + x.view + '"><span><strong>' + esc(ROUTES[x.view].nav) + '</strong><small>' + esc(ROUTES[x.view].description.slice(0,80)) + '…</small></span>' + icon('chev') + '</button>'; }).join(''); }
   if (faqs.length){ html += '<div class="sq-group">Questions fréquentes</div>' + faqs.map(function(f){ return '<button type="button" class="sq-row" data-action="faq" data-faq="' + FAQ.indexOf(f) + '"><span><strong>' + esc(f.q) + '</strong></span>' + icon('chev') + '</button>'; }).join(''); }
-  if (WINK_ON && q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim() === 'myris') html = WINK.replace(' style="grid-column:1/-1"', '') + html;
   if (!html) html = '<div class="empty">Rien trouvé pour « ' + esc(q) + ' ». Écrivez-nous sur WhatsApp, on trouve ce qu\'il vous faut.</div>';
   box.innerHTML = html;
 }
@@ -2766,10 +2950,12 @@ document.addEventListener('input', function(e){ var el = e.target; if (!el.close
 $('#f-age').addEventListener('change', function(){ state.age = this.value; state.shown = PAGE_SIZE; renderShop(); });
 $('#f-price').addEventListener('change', function(){ state.price = this.value; state.shown = PAGE_SIZE; renderShop(); });
 $('#f-sort').addEventListener('change', function(){ state.sort = this.value; state.shown = PAGE_SIZE; renderShop(); });
+document.addEventListener('change', function(e){ if (e.target && (e.target.id === 'f-zone' || e.target.classList.contains('zone-pick'))) setZone(e.target.value); });
 $('#form').addEventListener('input', updateCheckout);
 $('#form').addEventListener('change', updateCheckout);
 $('#form').addEventListener('submit', function(e){ e.preventDefault(); });
 $('#wa-send').addEventListener('click', function(e){ sendOrder(e, this); });
+$('#f-cgv').addEventListener('change', function(){ if (this.checked){ $('#cgv-err').textContent = ''; $('#cgv-err').closest('.field').classList.remove('invalid'); } });
 window.addEventListener('hashchange', function(){ if (ROUTING!=='hash') return; var v = (location.hash||'').replace('#',''); if (ROUTES[v] && v!==state.view) navigate(v, {fromHistory:true}); });
 window.addEventListener('popstate', function(){ if (ROUTING!=='path') return; navigate(viewFromLocation(), {fromHistory:true}); });
 window.addEventListener('scroll', onScroll, {passive:true});
@@ -2812,7 +2998,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
   var logo = $('.hero-logo .pb-logo');
   if (logo) logo.addEventListener('click', function(){ logo.classList.add('still'); void logo.offsetWidth; logo.classList.remove('still'); });
   if (!window.matchMedia('(hover:none)').matches) return;
-  var SEL = '.logo,.baobab-illus,.card,.univ-card,.who-card,.chip,.btn,.value,.gift-box,.stage,.tstep,.fab-wa,.fab-top,.footer-scene';
+  var SEL = '.logo,.baobab-illus,.card,.univ-card,.who-card,.chip,.btn,.value,.gift-box,.stage,.tstep,.fab-wa,.fab-call,.fab-top,.footer-scene';
   var pend = null;
   function fire(el){ el.classList.remove('tapped'); void el.offsetWidth; el.classList.add('tapped'); clearTimeout(el._tapT); el._tapT = setTimeout(function(){ el.classList.remove('tapped'); }, 1000); }
   document.addEventListener('pointerdown', function(e){
@@ -2832,198 +3018,5 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
     window.addEventListener('scroll', onS, {passive:true}); onS();
   }
 })();
-})();
-</script>
-<script id="pb-wink3d">
-/* ===== wink3d : la carte « Myris » en 3D (three.js chargé à la demande, seulement quand la carte apparaît) =====
-   Le grand baobab pousse, le soleil se lève, un fruit tombe du grand arbre et fait naître le petit baobab : Myris.
-   Puis le nom se redresse en 3D. La scène vit ensuite (feuillages, caméra, parallaxe) ; toucher = coup de vent et un fruit tombe ; toucher le soleil = tout repousse.
-   Sans WebGL, avec « réduire les animations » ou en économie de données, la carte garde son illustration vectorielle animée. */
-(function(){
-  if (!window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (navigator.connection && navigator.connection.saveData) return;
-  var pathMode = /^https?:$/.test(location.protocol) && !/\.html$/.test(location.pathname);
-  var SRC = (pathMode ? '/' : '') + 'vendor/three.min.js';
-  var BASE = (pathMode ? '/' : '') + 'souvenirs/';
-  var SLIDES = [{ img: 'ombre.jpg' }, { img: 'ascenseur.jpg' }, { img: 'rouge.jpg' }, { video: 'mains.mp4', img: 'mains.jpg' }];   // ordre d'apparition ; la vidéo joue en boucle, sans son
-  var loading = null, current = null;
-  function load(){
-    if (window.THREE) return Promise.resolve();
-    if (!loading) loading = new Promise(function(res, rej){ var s = document.createElement('script'); s.src = SRC; s.async = true; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
-    return loading;
-  }
-  function mountAll(){ var el = document.querySelector('.wink-scene:not(.is3d):not(.pending)'); if (!el) return; el.classList.add('pending'); load().then(function(){ try { mount(el); } catch (e) { el.classList.remove('pending'); } }).catch(function(){ el.classList.remove('pending'); }); }
-  new MutationObserver(mountAll).observe(document.body, { childList: true, subtree: true });
-  mountAll();
-
-  var ease = {
-    out: function(t){ return 1 - Math.pow(1 - t, 3); },
-    inout: function(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; },
-    spring: function(t){ return 1 - Math.pow(2, -8*t) * Math.cos(t * 7.5); },
-    bounce: function(t){ var n = 7.5625, d = 2.75; if (t < 1/d) return n*t*t; if (t < 2/d) return n*(t -= 1.5/d)*t + .75; if (t < 2.5/d) return n*(t -= 2.25/d)*t + .9375; return n*(t -= 2.625/d)*t + .984375; }
-  };
-  function seg(t, a, b, fn){ if (t <= a) return 0; if (t >= b) return 1; var k = (t - a) / (b - a); return fn ? fn(k) : k; }
-  function L(x, y){ return [(x - 60) / 15, (110 - y) / 15]; }
-
-  function mount(holder){
-    if (!document.body.contains(holder)) return;
-    var THREE = window.THREE; if (!THREE) return;
-    if (current) { cancelAnimationFrame(current.raf); try { current.renderer.forceContextLoss(); current.renderer.dispose(); } catch (e) {} current = null; }
-    var touch = window.matchMedia('(hover:none)').matches;
-    var renderer;
-    try { renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' }); } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3));   // pleine résolution de l'écran : la scène est légère, autant qu'elle soit nette
-    var aniso = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
-    renderer.setClearColor(0x000000, 0);
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    if (!touch) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
-    var canvas = renderer.domElement; canvas.setAttribute('aria-hidden', 'true');
-    holder.appendChild(canvas); holder.classList.add('is3d'); holder.classList.remove('pending');
-    var card = holder.closest('.wink'); if (card) card.classList.add('is3d');
-
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(32, 400 / 284, 0.1, 100);
-    var target = new THREE.Vector3(0.6, 3.0, 0);
-    var grad = new THREE.DataTexture(new Uint8Array([110, 180, 255]), 3, 1, THREE.LuminanceFormat);
-    grad.minFilter = THREE.NearestFilter; grad.magFilter = THREE.NearestFilter; grad.needsUpdate = true;
-    function toon(hex){ return new THREE.MeshToonMaterial({ color: hex, gradientMap: grad }); }
-    var mLeaf = toon(0x1F6B4A), mTrunk = toon(0x174F38), mFruit = toon(0xF2A93B);
-    var mShadow = new THREE.MeshBasicMaterial({ color: 0x174F38, transparent: true, opacity: touch ? .22 : .12, depthWrite: false });
-    scene.add(new THREE.HemisphereLight(0xFFFFFF, 0x9FC9B3, 0.55));
-    var sunLight = new THREE.DirectionalLight(0xFFE2B0, 0.7); sunLight.position.set(5, 8, 6);
-    if (!touch) { sunLight.castShadow = true; sunLight.shadow.mapSize.set(1024, 1024); sunLight.shadow.camera.left = -6; sunLight.shadow.camera.right = 6; sunLight.shadow.camera.top = 9; sunLight.shadow.camera.bottom = -1; sunLight.shadow.radius = 4; }
-    scene.add(sunLight);
-
-    var ground = new THREE.Mesh(new THREE.CircleGeometry(3.9, 48), new THREE.MeshBasicMaterial({ color: 0x1F6B4A, transparent: true, opacity: .14, depthWrite: false }));
-    ground.rotation.x = -Math.PI / 2; ground.position.y = 0.001; ground.scale.set(1, .42, 1); scene.add(ground);
-    var floor = new THREE.Mesh(new THREE.PlaneGeometry(14, 10), new THREE.ShadowMaterial({ opacity: .18 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
-
-    var big = new THREE.Group(); scene.add(big);
-    var trunkPts = [[0.98, 0], [0.92, 0.5], [0.74, 1.2], [0.6, 2.0], [0.6, 2.7], [0.76, 3.25], [1.02, 3.65], [0.7, 3.85], [0, 3.9]].map(function(p){ return new THREE.Vector2(p[0], p[1]); });
-    var trunk = new THREE.Mesh(new THREE.LatheGeometry(trunkPts, 28), mTrunk); trunk.castShadow = !touch; big.add(trunk);
-    var canopy = new THREE.Group(); canopy.position.y = 3.9; big.add(canopy);
-    var leaves = [[59, 44, 26, 0], [33, 54, 17, .55], [85, 54, 17, -.55], [43, 30, 15, -.5], [75, 30, 15, .5], [59, 22, 13, .15]].map(function(c){
-      var p = L(c[0], c[1]); var m = new THREE.Mesh(new THREE.SphereGeometry(c[2] / 15, 28, 20), mLeaf);
-      m.position.set(p[0], p[1] - 3.9, c[3]); m.castShadow = !touch; m.scale.setScalar(.0001); canopy.add(m); return m;
-    });
-    var fp = L(71, 40); var fruit = new THREE.Mesh(new THREE.SphereGeometry(.2, 16, 12), mFruit); fruit.position.set(fp[0], fp[1] - 3.9, 1.72); fruit.scale.setScalar(.0001); canopy.add(fruit);
-    var shadowBig = new THREE.Mesh(new THREE.CircleGeometry(1.1, 32), mShadow); shadowBig.rotation.x = -Math.PI / 2; shadowBig.position.y = .002; shadowBig.scale.set(1.4, .5, 1); scene.add(shadowBig);
-
-    var small = new THREE.Group(); small.position.x = L(99, 0)[0]; scene.add(small);
-    var sPts = [[0.3, 0], [0.26, 0.4], [0.2, 0.8], [0.26, 1.15], [0.34, 1.3], [0, 1.35]].map(function(p){ return new THREE.Vector2(p[0], p[1]); });
-    var sTrunk = new THREE.Mesh(new THREE.LatheGeometry(sPts, 20), mTrunk); sTrunk.castShadow = !touch; small.add(sTrunk);
-    var sCanopy = new THREE.Group(); sCanopy.position.y = 1.35; small.add(sCanopy);
-    var sLeaves = [[99, 82, 9.5, 0], [91, 87, 5.5, .3], [107, 87, 5.5, -.3]].map(function(c){
-      var p = L(c[0], c[1]); var m = new THREE.Mesh(new THREE.SphereGeometry(c[2] / 15, 24, 16), mLeaf);
-      m.position.set(p[0] - small.position.x, p[1] - 1.35, c[3]); m.castShadow = !touch; m.scale.setScalar(.0001); sCanopy.add(m); return m;
-    });
-    var sfp = L(103, 80); var sFruit = new THREE.Mesh(new THREE.SphereGeometry(.13, 14, 10), mFruit); sFruit.position.set(sfp[0] - small.position.x, sfp[1] - 1.35, .66); sFruit.scale.setScalar(.0001); sCanopy.add(sFruit);
-    var shadowSmall = new THREE.Mesh(new THREE.CircleGeometry(.5, 24), mShadow); shadowSmall.rotation.x = -Math.PI / 2; shadowSmall.position.set(small.position.x, .002, 0); shadowSmall.scale.set(1.3, .5, 1); scene.add(shadowSmall);
-
-    var sunPos = L(104, 18); var sunHome = new THREE.Vector3(sunPos[0] + .3, sunPos[1], -2.6);
-    var sun = new THREE.Mesh(new THREE.SphereGeometry(.68, 32, 24), new THREE.MeshBasicMaterial({ color: 0xF2A93B })); scene.add(sun);
-    var gc = document.createElement('canvas'); gc.width = gc.height = 128; var g = gc.getContext('2d');
-    var rg = g.createRadialGradient(64, 64, 10, 64, 64, 64); rg.addColorStop(0, 'rgba(242,169,59,.45)'); rg.addColorStop(.5, 'rgba(242,169,59,.14)'); rg.addColorStop(1, 'rgba(242,169,59,0)'); g.fillStyle = rg; g.fillRect(0, 0, 128, 128);
-    var glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(gc), transparent: true, depthWrite: false })); glow.scale.set(3.4, 3.4, 1); scene.add(glow);
-
-    // la photo de nous deux : un polaroid suspendu à une branche du grand baobab
-    var PW = 2.3, PH = 2.75, STRING = 0.5;
-    var polaroid = new THREE.Group(); polaroid.position.set(-2.75, 3.4, 1.35); polaroid.visible = false; scene.add(polaroid);
-    var cardMesh = new THREE.Mesh(new THREE.BoxGeometry(PW, PH, .05), new THREE.MeshToonMaterial({ color: 0xFFFFFF, gradientMap: grad })); cardMesh.position.y = -(STRING + PH / 2); cardMesh.castShadow = !touch; polaroid.add(cardMesh);
-    var photoW = PW - .2, photoH = PH - .1 - .34;
-    var photoMat = new THREE.MeshBasicMaterial({ color: 0xE1EFE5 });
-    var photoMesh = new THREE.Mesh(new THREE.PlaneGeometry(photoW, photoH), photoMat); photoMesh.position.set(0, -(STRING + .1 + photoH / 2), .03); polaroid.add(photoMesh);
-    var string = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -STRING, 0)]), new THREE.LineBasicMaterial({ color: 0x174F38 })); polaroid.add(string);
-    function fit(tex, w, h){ var ia = w / h, pa = photoW / photoH; if (ia < pa) { tex.repeat.set(1, ia / pa); tex.offset.set(0, (1 - ia / pa) / 2); } else { tex.repeat.set(pa / ia, 1); tex.offset.set((1 - pa / ia) / 2, 0); } }
-    var loader = new THREE.TextureLoader(), slides = SLIDES.map(function(d){ return { def: d, tex: null, video: null }; });
-    slides.forEach(function(sl){
-      loader.load(BASE + sl.def.img, function(tex){ tex.encoding = THREE.sRGBEncoding; tex.minFilter = THREE.LinearMipmapLinearFilter; tex.anisotropy = aniso; fit(tex, tex.image.width, tex.image.height); sl.tex = tex; if (sl === slides[slide] && !photoMat.map) show(sl); });
-      if (sl.def.video) {
-        var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.preload = 'auto'; v.src = BASE + sl.def.video; v.crossOrigin = 'anonymous';
-        var vt = new THREE.VideoTexture(v); vt.encoding = THREE.sRGBEncoding; vt.minFilter = THREE.LinearFilter; vt.anisotropy = aniso;
-        v.addEventListener('loadedmetadata', function(){ fit(vt, v.videoWidth, v.videoHeight); });
-        sl.video = v; sl.videoTex = vt;
-      }
-    });
-    var slide = 0, flip = 0, flipping = false, swapped = false, lastSwitch = 0;
-    function show(sl){
-      slides.forEach(function(o){ if (o.video && o !== sl) o.video.pause(); });
-      if (sl.video && sl.video.readyState >= 2) { photoMat.map = sl.videoTex; sl.video.currentTime = 0; sl.video.play().catch(function(){ photoMat.map = sl.tex; }); }
-      else photoMat.map = sl.tex;
-      photoMat.color.set(0xFFFFFF); photoMat.needsUpdate = true;
-    }
-    function next(){ if (flipping) return; flipping = true; swapped = false; flip = 0; }
-    var sw = 0, swV = 0;
-    var falling = [];
-    function dropFruit(from, to){ var f = new THREE.Mesh(new THREE.SphereGeometry(.17, 14, 10), mFruit); f.position.copy(from); scene.add(f); falling.push({ m: f, from: from.clone(), to: to.clone(), t: 0 }); }
-
-    var T0 = performance.now(), gust = 0, gustV = 0, px = 0, py = 0, tpx = 0, tpy = 0, frame = 0, seeded = false;
-    function replay(){ T0 = performance.now(); seeded = false; sw = 0; swV = 0; lastSwitch = 0; flipping = false; flip = 0; slide = 0; show(slides[0]); falling.forEach(function(f){ scene.remove(f.m); }); falling = []; if (card) { card.classList.remove('is3d'); void card.offsetWidth; card.classList.add('is3d'); } }
-    function layout(){ var w = holder.clientWidth || 280, h = Math.round(w * 284 / 400); renderer.setSize(w, h, false); canvas.style.width = w + 'px'; canvas.style.height = h + 'px'; camera.aspect = w / h; camera.updateProjectionMatrix(); }
-    layout();
-    if ('ResizeObserver' in window) new ResizeObserver(layout).observe(holder);
-    if (!touch) { canvas.addEventListener('mousemove', function(e){ var r = canvas.getBoundingClientRect(); tpx = (e.clientX - r.left) / r.width * 2 - 1; tpy = (e.clientY - r.top) / r.height * 2 - 1; }); canvas.addEventListener('mouseleave', function(){ tpx = 0; tpy = 0; }); }
-    else if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission !== 'function') window.addEventListener('deviceorientation', function(e){ if (e.gamma == null) return; tpx = Math.max(-1, Math.min(1, e.gamma / 30)); }, { passive: true });
-    var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
-    canvas.addEventListener('click', function(e){
-      var r = canvas.getBoundingClientRect(); ndc.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera);
-      if (ray.intersectObject(sun).length) { replay(); return; }
-      if (polaroid.visible && ray.intersectObject(cardMesh).length) { swV += .8; next(); lastSwitch = performance.now(); return; }
-      gustV += 0.9;
-      if ((performance.now() - T0) / 1000 > 1.6) { var src = leaves[Math.floor(Math.random() * leaves.length)]; var wp = new THREE.Vector3(); src.getWorldPosition(wp); wp.y -= src.geometry.parameters.radius * .6; wp.z += .4; dropFruit(wp, new THREE.Vector3(wp.x + (Math.random() - .5) * 1.4, .17, 1.2 + Math.random())); }
-    });
-
-    function tick(now){
-      current.raf = requestAnimationFrame(tick);
-      if (document.hidden || !document.body.contains(canvas)) { if (!document.body.contains(canvas)) { cancelAnimationFrame(current.raf); slides.forEach(function(o){ if (o.video) { o.video.pause(); o.video.removeAttribute('src'); o.video.load(); } }); try { renderer.forceContextLoss(); renderer.dispose(); } catch (e) {} current = null; } return; }
-      frame++; if (touch && frame % 2) return;
-      var t = (now - T0) / 1000;
-      ground.scale.set(seg(t, 0, .4, ease.out), .42 * seg(t, 0, .4, ease.out), 1);
-      var tg = seg(t, .1, .95, ease.spring); trunk.scale.set(1, Math.max(.0001, tg), 1); trunk.visible = t > .1;
-      canopy.visible = t > .65;
-      leaves.forEach(function(m, i){ m.scale.setScalar(Math.max(.0001, seg(t, .7 + i * .07, 1.15 + i * .07, ease.spring))); });
-      fruit.scale.setScalar(Math.max(.0001, seg(t, 1.3, 1.7, ease.spring)));
-      shadowBig.scale.set(1.4 * tg, .5 * tg, 1);
-      var sr = seg(t, .9, 1.8, ease.inout), breathe = 1 + Math.sin(t * 1.6) * .035;
-      sun.position.set(sunHome.x - 1.2 + 1.2 * sr, 2.4 + (sunHome.y - 2.4) * sr, sunHome.z); sun.scale.setScalar(breathe); sun.visible = t > .9;
-      glow.position.copy(sun.position); glow.visible = sun.visible; glow.material.opacity = sr * (.85 + Math.sin(t * 1.6) * .15); glow.scale.setScalar(3.4 * breathe);
-      sunLight.position.set(sun.position.x + 2, sun.position.y + 2.5, 6);
-      if (!seeded && t > 1.85) { seeded = true; var wp = new THREE.Vector3(); fruit.getWorldPosition(wp); dropFruit(wp, new THREE.Vector3(small.position.x, .17, 0)); }
-      var sg = seg(t, 2.95, 3.5, ease.spring); sTrunk.scale.set(1, Math.max(.0001, sg), 1); sTrunk.visible = t > 2.95;
-      sCanopy.visible = t > 3.35;
-      sLeaves.forEach(function(m, i){ m.scale.setScalar(Math.max(.0001, seg(t, 3.4 + i * .07, 3.85 + i * .07, ease.spring))); });
-      sFruit.scale.setScalar(Math.max(.0001, seg(t, 3.9, 4.25, ease.spring)));
-      shadowSmall.scale.set(1.3 * sg, .5 * sg, 1);
-      for (var i = falling.length - 1; i >= 0; i--) {
-        var f = falling[i]; f.t += touch ? 1 / 30 : 1 / 60; var k = f.t / 1.1;
-        if (k >= 1.9) { scene.remove(f.m); falling.splice(i, 1); continue; }
-        var kk = Math.min(1, k), b = ease.bounce(kk);
-        f.m.position.set(f.from.x + (f.to.x - f.from.x) * ease.out(kk), f.from.y + (f.to.y - f.from.y) * b, f.from.z + (f.to.z - f.from.z) * ease.out(kk));
-        f.m.scale.setScalar(k > 1.3 ? Math.max(.0001, 1 - (k - 1.3) / .6) : 1);
-      }
-      var pg = seg(t, 4.4, 5.1, ease.spring); polaroid.visible = t > 4.4; polaroid.scale.setScalar(Math.max(.0001, pg));
-      swV -= sw * 7 / 60; swV *= .97; sw += swV / 60;
-      if (polaroid.visible && pg > .99) {
-        if (!lastSwitch) lastSwitch = now;
-        if (!flipping && now - lastSwitch > 5000) { next(); lastSwitch = now; }
-      }
-      var flipAngle = 0;
-      if (flipping) {
-        flip += (touch ? 2 : 1) / 60 / .7;
-        if (flip >= .5 && !swapped) { swapped = true; slide = (slide + 1) % slides.length; show(slides[slide]); }
-        if (flip >= 1) { flipping = false; flip = 0; } else flipAngle = Math.sin(flip * Math.PI) * Math.PI / 2;
-      }
-      polaroid.rotation.z = Math.sin(t * 1.1) * .05 + sw * .5; polaroid.rotation.y = Math.sin(t * .45) * .16 + px * .2 + flipAngle;
-      gustV -= gust * 9 / 60; gustV *= .94; gust += gustV / 60;
-      canopy.rotation.z = Math.sin(t * .9) * .028 + gust * .35; canopy.rotation.x = Math.sin(t * .7 + 1) * .012;
-      sCanopy.rotation.z = Math.sin(t * 1.3 + 2) * .035 - gust * .25;
-      px += (tpx - px) * .06; py += (tpy - py) * .06;
-      var yaw = Math.sin(t * .22) * .14 + px * .32, pitch = .1 - py * .08;
-      camera.position.set(target.x + Math.sin(yaw) * 14.5 * Math.cos(pitch), target.y + Math.sin(pitch) * 14.5 + .6, target.z + Math.cos(yaw) * 14.5 * Math.cos(pitch));
-      camera.lookAt(target);
-      renderer.render(scene, camera);
-    }
-    current = { renderer: renderer, raf: requestAnimationFrame(tick), canvas: canvas };
-  }
 })();
 </script>
