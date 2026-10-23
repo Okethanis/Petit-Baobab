@@ -44,7 +44,7 @@ def main():
         p = os.path.join(IMG, f)
         h = hashlib.sha1(open(p, 'rb').read()).hexdigest()
         if h not in cache:
-            if time.time() - t0 > 600:  # garde de la marge sur la limite de temps de Netlify ; la suite au prochain aperçu
+            if time.time() - t0 > 360:  # garde de la marge sur la limite de 18 min de Netlify (photos comprises) ; la suite au prochain aperçu
                 continue
             im = Image.open(p).convert('RGB')
             if max(im.size) > 1000: im.thumbnail((1000, 1000))

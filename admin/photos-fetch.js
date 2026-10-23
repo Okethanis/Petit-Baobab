@@ -78,7 +78,10 @@ async function prepare(buf) {
   // téléchargements en parallèle limité (6 à la fois)
   const jobs = [];
   for (const id of ids) (SOURCES[id].urls || []).slice(0, 4).forEach((url, k) => jobs.push({ id, url, k }));
-  let next = 0;
+  let next = 0, reportees = 0;
+  // Limite de temps (Netlify coupe une construction à 18 min, avec la lecture des photos ensuite) :
+  // au-delà, les photos pas encore en cache restent celles du dépôt et seront préparées à la construction suivante.
+  const DEADLINE = Date.now() + (+process.env.PHOTOS_MAX_S || 480) * 1000;
   async function worker() {
     while (next < jobs.length) {
       const j = jobs[next++];
@@ -88,6 +91,7 @@ async function prepare(buf) {
       try {
         let out;
         if (fs.existsSync(cached)) out = fs.readFileSync(cached);
+        else if (Date.now() > DEADLINE) { reportees++; continue; }
         else { out = await prepare(await download(j.url)); fs.writeFileSync(cached, out); }
         const dest = path.join(OUT, 'images', name);
         if (j.k === 0 && fs.existsSync(dest) && !fs.existsSync(path.join(OUT, 'images', '_avant', name))) fs.copyFileSync(dest, path.join(OUT, 'images', '_avant', name));
@@ -103,7 +107,7 @@ async function prepare(buf) {
   const rank = f => { const m = f.match(/-(\d)\.webp$/); return m && !/^\d+$/.test(f.replace(/\.webp$/, '')) ? +m[1] : 1; };
   for (const id of Object.keys(result)) if (!id.includes(':')) result[id].sort((a, b) => (a === id + '.webp' ? 0 : rank(a)) - (b === id + '.webp' ? 0 : rank(b)));
   fs.writeFileSync(path.join(OUT, 'images', 'galerie.json'), JSON.stringify(result));
-  console.log('photos-fetch : ' + ok + ' photos prêtes, ' + ko + ' échecs, ' + ids.length + ' articles');
+  console.log('photos-fetch : ' + ok + ' photos prêtes, ' + ko + ' échecs, ' + ids.length + ' articles' + (reportees ? ', ' + reportees + ' reportées à la prochaine construction (limite de temps)' : ''));
 
   if (!PREVIEW) return;
   /* ---- Page de vérification (aperçus seulement, jamais en ligne) ---- */
