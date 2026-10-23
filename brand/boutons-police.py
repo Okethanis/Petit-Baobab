@@ -71,6 +71,39 @@ s = s[:i] + ('/* pb-police:start */\n'
 # « 24 h » ne se coupe plus en fin de ligne
 s = s.replace('24 h', '24\u00a0h')
 
+# ---------- 2 bis. pied de page « Restons en contact » (liste avec icônes, comme Keraby) et mention de droits ----------
+rep("""        <div class="contact-num"><span class="wa-num"></span><button type="button" class="copy-btn" data-action="copy-num"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></div>
+        <div class="phones" id="phones" style="margin-top:10px" hidden></div>
+        <p style="margin-top:8px">Sur WhatsApp, <span class="hours"></span>.</p>""",
+"""        <ul class="contact-list">
+          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250768211934"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
+          <li><svg class="icon"><use href="#i-wa"/></svg><a class="wa-link" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li id="contact-mail" hidden><svg class="icon"><use href="#i-mail"/></svg><a class="mail-link" href="#"></a></li>
+          <li><svg class="icon"><use href="#i-clock"/></svg><span class="hours-cap"></span></li>
+        </ul>
+        <div class="phones" id="phones" style="margin-top:10px" hidden></div>""")
+rep('<div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab. Tous les prix sont en FCFA.</span>',
+    '<div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab — Tous droits réservés. Prix en FCFA.</span>')
+rep("  hours: 'tous les jours de 8 h à 21 h',", "  hours: 'tous les jours de 8 h à 21 h',\n  email: '',   // adresse e-mail de la boutique : la ligne apparaît dans le pied de page dès qu'elle est remplie")
+rep("  $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });",
+    "  $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });\n"
+    "  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });\n"
+    "  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });\n"
+    "  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\\'ai une question.'); });\n"
+    "  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }")
+rep('<symbol id="i-chat" viewBox="0 0 24 24">',
+    '<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>'
+    '<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>'
+    '<symbol id="i-chat" viewBox="0 0 24 24">')
+rep('.contact-num{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;font-variant-numeric:tabular-nums}',
+    '.contact-num{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;font-variant-numeric:tabular-nums}\n'
+    '.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}\n'
+    '.contact-list li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--footer-ink)}\n'
+    '.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}\n'
+    '.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}\n'
+    '.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}\n'
+    '.contact-list .copy-btn{margin-left:auto}')
+
 # ---------- 3. ambiance ----------
 css = open(os.path.join(HERE, 'ambiance.css'), encoding='utf-8').read().strip()
 s = re.sub(r'/\* pb-ambiance:start \*/[\s\S]*?/\* pb-ambiance:end \*/\n?', '', s)
