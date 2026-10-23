@@ -1193,5 +1193,24 @@
   "statut": "doute",
   "fiche": "https://www.alibaba.com/product-detail/8-in-1-Baby-Bathtub-Color_1601577440322.html",
   "note": "Set de bain avec baignoire pliable (même boîte que notre photo) ; contenu exact à confirmer"
+ },
+ "x-9": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/Hc8cf33c5fa684fbfa6b618d498a60c39R.png",
+   "https://s.alicdn.com/@sc04/kf/Hce823b7c24eb4435bfc6e8c31fb2a6e6x.png",
+   "https://s.alicdn.com/@sc04/kf/Hdad005ef044d4e7aa3a32fd874fed4fcO.jpg"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/Baby-Bath-Tub-Set-Plastic-Multifunction_1601822842279.html",
+  "note": "Set de bain rose avec meuble à tiroirs ourson (baignoire, pot, seau, bassines)"
+ },
+ "109-4-8619-30-60-60": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/Hce823b7c24eb4435bfc6e8c31fb2a6e6x.png",
+   "https://s.alicdn.com/@sc04/kf/Hc8cf33c5fa684fbfa6b618d498a60c39R.png"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Baby-Bath-Tub-Set-Plastic-Multifunction_1601822842279.html",
+  "note": "Set de bain rose avec meuble à tiroirs : semble être le même ensemble que X-9, à confirmer (le nom dit « Pot bébé »)"
  }
 }
