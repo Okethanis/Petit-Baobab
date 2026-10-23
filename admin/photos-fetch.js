@@ -108,7 +108,7 @@ async function prepare(buf) {
   if (!PREVIEW) return;
   /* ---- Page de vérification (aperçus seulement, jamais en ligne) ---- */
   const html = fs.readFileSync(path.join(ROOT, 'petit-baobab.html'), 'utf8');
-  const nameOf = id => { const m = html.match(new RegExp("\\{id:'" + id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "', cat:'[^']*', name:'((?:[^'\\\\]|\\\\.)*)', price:(\\d+), ref:'((?:[^'\\\\]|\\\\.)*)'")); return m ? { name: m[1].replace(/\\'/g, "'"), price: +m[2], ref: m[3] } : { name: id, ref: id }; };
+  const nameOf = id => { const m = html.match(new RegExp("\\{id:'" + id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "', cat:'[^']*', name:'((?:[^'\\\\]|\\\\.)*)', price:(\\d+)(?:, ref:'((?:[^'\\\\]|\\\\.)*)')?")); return m ? { name: m[1].replace(/\\'/g, "'"), price: +m[2], ref: m[3] || '' } : { name: id, ref: '' }; };
   const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   const LBL = { trouve: ['Même article', '#1F6B4A'], couleur: ['Autre couleur', '#C9711C'], doute: ['À vérifier', '#B4423B'] };
   let n = 0;
