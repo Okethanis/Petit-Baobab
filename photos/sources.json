@@ -1001,5 +1001,41 @@
   "statut": "trouve",
   "fiche": "https://www.alibaba.com/product-detail/Double-Wearable-Electric-Breast-Pump-with_1601827674329.html",
   "note": "Tire-lait électrique portable mains libres (rose ; aussi blanc et vert en photo 3)"
+ },
+ "5261-2": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H6a5a5b7710fd4d26bec3f2daf116a919p.jpg"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Hot-Seller-2-Pcs-Wireless-Massaging_1601181704368.html",
+  "note": "Tire-lait portable (base blanche à écran + base rose) : modèle proche, à confirmer"
+ },
+ "2314": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H3865e2177a1743d184d5351a248fdc6dO.jpg",
+   "https://s.alicdn.com/@sc04/kf/Hd424f30549cb4a5e920521025a761dael.png"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Little-Yellow-Duck-Color-PP-Material_1601948848475.html",
+  "note": "Même objet que notre photo, mais c'est une étagère de rangement à roulettes (tête de poussin), pas un pot : le nom de l'article est à corriger"
+ },
+ "ba06": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H2bb760eae1bb47ba85bd595df600b154z.jpg",
+   "https://s.alicdn.com/@sc04/kf/H0de6d0c0420c4131967b8b671c131611C.jpg",
+   "https://s.alicdn.com/@sc04/kf/H37140a12e1c645509609ebecfbc56354z.png"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/Baby-Bathroom-Bathtub-6-piece-Sets_1601217168470.html",
+  "note": "Set de bain BA-06 (baignoire, pot, panier, seau, tabouret, bassine) ; rouge et orange"
+ },
+ "22-13": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H5c97dbca85a945b6aa73b006d25ef5583.jpg",
+   "https://s.alicdn.com/@sc04/kf/H3e21ee77e719420a82dab9432b15cd7cE.jpg"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/Newborn-baby-products-Dog-Black-Gold_1601356318392.html",
+  "note": "Set baignoire pliable Tenbabe avec support (même photo en HD + dimensions)"
  }
 }
