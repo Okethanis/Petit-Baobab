@@ -853,6 +853,18 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .hb-ico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
 .hb-ico .icon{width:20px;height:20px}
 .hb-ico.hb-wa{background:var(--ok-soft);color:var(--wa)}
+/* Commune de livraison (brand/livraison.py) */
+.zone-row{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem}
+.zone-row > span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.zone-row .icon{width:18px;height:18px;color:var(--accent)}
+.zone-pick{flex:1;min-width:0;height:40px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;font-weight:600}
+.zone-pick[data-empty]{border-color:var(--accent)}
+.drawer-foot .zone-row{margin-bottom:10px}
+.free-bar{height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.free-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--brand));border-radius:inherit;transition:width .5s var(--ease)}
+.free-note{font-size:.84rem;color:var(--muted);margin:6px 0 10px}
+.dl-box{margin-top:14px;padding:12px 14px;border-radius:var(--radius);background:var(--brand-soft);display:grid;gap:8px}
+.dl-line{margin:0;font-size:.9rem;color:var(--ink)}
 /* pb-police:start */
 .univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong{font-family:var(--font-brand)}
 @media (max-width:620px){.fab-wa,.fab-call{width:52px;height:52px}.fab-wa .icon,.fab-call .icon{width:26px;height:26px}.fabs{gap:9px}}
@@ -1617,6 +1629,23 @@ var CONFIG = {
     ['Bingerville', 2500], ['Anyama', 2500], ['Songon', 2500],
     ['Hors Abidjan (envoi par car)', null]
   ],
+  zoneGroups: [['Abidjan', ['Abobo', 'Adjamé', 'Attécoubé', 'Cocody', 'Koumassi', 'Marcory', 'Plateau', 'Port-Bouët', 'Treichville', 'Yopougon']], ['Grand Abidjan', ['Bingerville', 'Anyama', 'Songon']], ['Ailleurs en Côte d\'Ivoire', ['Hors Abidjan (envoi par car)']]],
+  quartiers: {   // suggestions pour « Quartier et repère » (le client peut écrire autre chose)
+    'Abobo': ['Abobo Gare', 'PK 18', 'Avocatier', 'Abobo Baoulé', 'Belleville', 'N\'Dotré', 'Anonkoua-Kouté', 'Sagbé', 'Akeikoi', 'Abobo Té'],
+    'Adjamé': ['Adjamé Liberté', 'Williamsville', '220 Logements', 'Bracodi', 'Mairie', 'Paillet', 'Dallas', 'Renault'],
+    'Attécoubé': ['Santé', 'Locodjro', 'Agban', 'Abobo-Doumé', 'Mossikro', 'Sebroko'],
+    'Cocody': ['Riviera 2', 'Riviera 3', 'Riviera Palmeraie', 'Riviera Golf', 'Angré', 'Deux-Plateaux', 'Vallon', 'Blockhaus', 'Danga', 'Ambassades', 'Saint-Jean', 'Faya', 'M\'Pouto', 'Akouédo', 'Bonoumin', 'Cité des Arts', 'Mermoz'],
+    'Koumassi': ['Remblais', 'Sicogi', 'Grand Campement', 'Koumassi Centre', 'Prodomo', 'Soweto', 'Divo'],
+    'Marcory': ['Zone 4', 'Biétry', 'Marcory Résidentiel', 'Anoumabo', 'Hibiscus', 'Champroux', 'Sans-Fil', 'Konan Raphaël'],
+    'Plateau': ['Plateau Centre', 'Indénié', 'Cité Administrative'],
+    'Port-Bouët': ['Vridi', 'Gonzagueville', 'Aéroport', 'Adjahui', 'Jean Folly', 'Derrière Wharf', 'Anani'],
+    'Treichville': ['Arras', 'Biafra', 'Zone 1', 'Zone 2', 'France-Amérique', 'Gare Lagunaire'],
+    'Yopougon': ['Niangon', 'Selmer', 'Maroc', 'Toits Rouges', 'Sicogi', 'Andokoi', 'Wassakara', 'Port-Bouët 2', 'Ananeraie', 'Gesco', 'Siporex', 'Kouté', 'Sideci', 'Banco'],
+    'Bingerville': ['Bingerville Centre', 'Akandjé', 'Gbagba', 'Fêtê', 'Abatta'],
+    'Anyama': ['Anyama Centre', 'Ahoué', 'Ebimpé', 'Akoupé-Zeudji'],
+    'Songon': ['Songon Agban', 'Songon Kassemblé', 'Songon M\'Bratté', 'Songon Té'],
+    'Hors Abidjan (envoi par car)': ['Bouaké', 'Yamoussoukro', 'San-Pédro', 'Daloa', 'Korhogo', 'Grand-Bassam', 'Abengourou', 'Man', 'Gagnoa', 'Divo']
+  },
   payments: { surPlace: 'en espèces, par Wave ou Mobile Money, au livreur', avance: 'par Wave ou Mobile Money (Orange Money, MTN MoMo, Moov Money)', etranger: ['Wave', 'Mobile Money', 'Western Union', 'Ria Money Transfer'] },
   social: { instagram: '', tiktok: '' },  // adresses complètes des comptes, si tu veux les afficher
   legalUpdated: '2026-10-22',
@@ -2572,7 +2601,9 @@ function goShop(o){
 }
 function renderStatic(){
   var sel = $('#f-zone');
-  CONFIG.zones.forEach(function(z){ var o = document.createElement('option'); o.value = z[0]; o.textContent = z[0] + (z[1]===null ? '' : ' · ' + fmt(z[1])); sel.appendChild(o); });
+  sel.innerHTML = zoneOptions('Choisir votre commune…');
+  var dl = document.createElement('datalist'); dl.id = 'quartiers'; document.body.appendChild(dl); $('#f-address').setAttribute('list', 'quartiers'); $('#f-address').setAttribute('autocomplete', 'off');
+  if (store('pb-zone')) setZone(store('pb-zone'), true);
   $('#zones-table tbody').innerHTML = CONFIG.zones.map(function(z){ return '<tr><td>' + esc(z[0]) + '</td><td>' + (z[1]===null ? 'Selon la ville' : fmt(z[1])) + '</td></tr>'; }).join('');
   $('#free-from').textContent = fmt(CONFIG.freeDeliveryFrom);
   $$('.free-from').forEach(function(el){ el.textContent = fmt(CONFIG.freeDeliveryFrom); });
@@ -2607,6 +2638,31 @@ function renderStatic(){
 function cartItems(){ var out=[]; for (var id in state.cart){ var p = byId(id); if (p && state.cart[id]>0) out.push({p:p, qty:state.cart[id]}); } return out; }
 function cartCount(){ return cartItems().reduce(function(n,i){ return n+i.qty; },0); }
 function subtotal(){ return cartItems().reduce(function(n,i){ return n+i.qty*i.p.price; },0); }
+/* Commune de livraison : un seul choix, retenu et repris partout (commande, panier, fiche article) */
+function zoneOptions(placeholder){
+  var fees = {}; CONFIG.zones.forEach(function(z){ fees[z[0]] = z[1]; });
+  return '<option value="">' + esc(placeholder) + '</option>' + (CONFIG.zoneGroups || [['', CONFIG.zones.map(function(z){ return z[0]; })]]).map(function(g){
+    return '<optgroup label="' + esc(g[0]) + '">' + g[1].filter(function(n){ return n in fees; }).map(function(n){ return '<option value="' + esc(n) + '">' + esc(n) + (fees[n]===null ? ' · frais selon la ville' : ' · ' + fmt(fees[n])) + '</option>'; }).join('') + '</optgroup>';
+  }).join('');
+}
+function currentZone(){ return (state && state.zone) || ''; }
+function setZone(z, silent){
+  var ok = CONFIG.zones.some(function(x){ return x[0] === z; }); if (!ok) z = '';
+  state.zone = z; store('pb-zone', z || null);
+  var f = $('#f-zone'); if (f && f.value !== z) f.value = z;
+  $$('.zone-pick').forEach(function(s){ if (s.value !== z) s.value = z; });
+  var dl = $('#quartiers'); if (dl) dl.innerHTML = ((CONFIG.quartiers || {})[z] || []).map(function(q){ return '<option value="' + esc(q) + '">'; }).join('');
+  $$('.dl-line').forEach(function(el){ el.innerHTML = deliveryLine(+el.getAttribute('data-price') || 0); });
+  if (!silent){ try { updateCheckout(); } catch(e){} try { renderCart(); } catch(e){} }
+}
+function deliveryLine(extra){
+  var z = currentZone(), sub = subtotal() + (extra || 0), f = zoneFee(z, sub);
+  if (!z) return 'Choisissez votre commune pour voir le prix de la livraison.';
+  if (!f.known) return 'Hors Abidjan : envoi par car, frais selon la ville (on vous les donne sur WhatsApp).';
+  if (f.fee === 0) return '<strong>Livraison offerte</strong> à ' + esc(z) + ', en moins de 24 h.';
+  var left = CONFIG.freeDeliveryFrom - sub;
+  return 'Livraison à ' + esc(z) + ' : <strong>' + fmt(f.fee) + '</strong>, en moins de 24 h. ' + (left > 0 ? 'Offerte dès ' + fmt(CONFIG.freeDeliveryFrom) + ' d\'achat.' : '');
+}
 function zoneFee(zoneName, sub){
   if (!zoneName) return {label:'à définir', fee:0, known:false};
   for (var i=0;i<CONFIG.zones.length;i++){ if (CONFIG.zones[i][0]===zoneName){
@@ -2663,11 +2719,18 @@ function renderCart(){
   lastQtyId = null;
   var sub = subtotal();
   var minFee = CONFIG.zones.filter(function(z){ return z[1]!==null; }).reduce(function(m,z){ return Math.min(m, z[1]); }, Infinity);
-  $('#drawer-foot').innerHTML = '<div class="totals"><div><span>Sous-total</span><span class="price" id="drawer-sub"></span></div><div class="muted"><span>Livraison</span><span>' + (sub>=CONFIG.freeDeliveryFrom ? 'offerte à Abidjan' : 'selon la commune, dès ' + fmt(minFee)) + '</span></div></div>' +
+  var zn = currentZone(), zf = zoneFee(zn, sub), left = CONFIG.freeDeliveryFrom - sub, pct = Math.max(0, Math.min(100, Math.round(sub / CONFIG.freeDeliveryFrom * 100)));
+  $('#drawer-foot').innerHTML = '<label class="zone-row"><span>Livrer à</span><select class="zone-pick" aria-label="Commune de livraison"' + (zn ? '' : ' data-empty="1"') + '>' + zoneOptions('Choisir la commune…') + '</select></label>' +
+    '<div class="free-bar" role="img" aria-label="' + (left > 0 ? 'Plus que ' + fmt(left) + ' pour la livraison offerte' : 'Livraison offerte') + '"><i style="width:' + pct + '%"></i></div>' +
+    '<p class="free-note">' + (left > 0 ? 'Plus que <strong>' + fmt(left) + '</strong> pour la livraison offerte à Abidjan.' : '<strong>Livraison offerte</strong> à Abidjan.') + '</p>' +
+    '<div class="totals"><div><span>Sous-total</span><span class="price" id="drawer-sub"></span></div>' +
+    '<div class="muted"><span>Livraison</span><span>' + (zn ? esc(zf.label) : (sub>=CONFIG.freeDeliveryFrom ? 'offerte à Abidjan' : 'dès ' + fmt(minFee))) + '</span></div>' +
+    (zn && zf.known ? '<div class="grand"><span>Total</span><span class="price">' + fmt(sub + zf.fee) + '</span></div>' : '') + '</div>' +
     '<button type="button" class="btn btn-primary btn-block" data-action="checkout">Passer la commande</button>' +
     '<button type="button" class="btn btn-ghost btn-block btn-sm" data-action="close">Continuer mes achats</button>' +
     '<button type="button" class="clear" data-action="clear-cart">Vider le panier</button>';
   tickTo('drawer-sub', $('#drawer-sub'), sub);
+  $$('#drawer-foot .zone-pick').forEach(function(s){ s.value = zn; });
 }
 var clearTimer = null;
 function askClear(btn){
@@ -2775,7 +2838,8 @@ function sendOrder(e, a){
 }
 
 /* ===== Feuilles ===== */
-function openSheet(html){ $('#sheet-body').innerHTML = html; $('#sheet').classList.add('open'); $('#sheet').setAttribute('aria-hidden','false'); $('#backdrop').classList.add('open'); $('#sheet').scrollTop = 0; }
+function openSheet(html){ $('#sheet-body').innerHTML = html; syncSheetZone(); $('#sheet').classList.add('open'); $('#sheet').setAttribute('aria-hidden','false'); $('#backdrop').classList.add('open'); $('#sheet').scrollTop = 0; }
+function syncSheetZone(){ $$('#sheet .zone-pick').forEach(function(s){ s.value = currentZone(); }); }
 function openProduct(id){
   var p = byId(id); if (!p) return;
   var c = catOf(p), u = univOfProduct(p);
@@ -2793,6 +2857,7 @@ function openProduct(id){
     '<button type="button" class="btn btn-ghost btn-sm fav-text' + (state.favs[p.id] ? ' on' : '') + '" data-action="fav" data-id="' + p.id + '" aria-pressed="' + (state.favs[p.id] ? 'true' : 'false') + '">' + icon('heart') + '<span>Favori</span></button>' +
     '<button type="button" class="btn btn-ghost btn-sm" data-action="list-add" data-id="' + p.id + '">' + icon('list') + '<span>' + (state.list.items[p.id] ? 'Dans ma liste de naissance' : 'Ajouter à ma liste de naissance') + '</span></button></div>' +
     '<p class="stock' + (p.stock==='commande' ? ' order' : '') + '"><i></i>' + esc(stockLine(p)) + '</p>' +
+    '<div class="dl-box"><label class="zone-row"><span>' + icon('truck') + 'Livrer à</span><select class="zone-pick" aria-label="Commune de livraison">' + zoneOptions('Choisir la commune…') + '</select></label><p class="dl-line" data-price="' + (p.price || 0) + '">' + deliveryLine(p.price || 0) + '</p></div>' +
     reassure(p) +
     (function(){ var cs = (p.cat==='packs' || p.cat==='valise') ? [] : complements(p, 4); return cs.length ? '<div class="complete"><h4>Complétez avec</h4><div class="mini-grid">' + cs.map(function(x){ return '<button type="button" class="mini" data-action="open" data-id="' + x.id + '"><img src="' + esc(img(x)) + '" alt="" loading="lazy"><span class="mini-name">' + esc(x.name) + '</span><span class="price">' + fmt(x.price) + '</span></button>'; }).join('') + '</div></div>' : ''; })() +
     '</div></div>');
@@ -2975,6 +3040,7 @@ document.addEventListener('input', function(e){ var el = e.target; if (!el.close
 $('#f-age').addEventListener('change', function(){ state.age = this.value; state.shown = PAGE_SIZE; renderShop(); });
 $('#f-price').addEventListener('change', function(){ state.price = this.value; state.shown = PAGE_SIZE; renderShop(); });
 $('#f-sort').addEventListener('change', function(){ state.sort = this.value; state.shown = PAGE_SIZE; renderShop(); });
+document.addEventListener('change', function(e){ if (e.target && (e.target.id === 'f-zone' || e.target.classList.contains('zone-pick'))) setZone(e.target.value); });
 $('#form').addEventListener('input', updateCheckout);
 $('#form').addEventListener('change', updateCheckout);
 $('#form').addEventListener('submit', function(e){ e.preventDefault(); });
