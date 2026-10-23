@@ -35,7 +35,8 @@
     spark:  { pool: night ? ['star', 'star', 'moon', 'heart'] : ['star', 'heart', 'sun', 'heart'], sz: [14, 22], d: [19, 30], fl: [2.4, 4] },
     bubble: { pool: ['bubble'], sz: [16, 34], d: [13, 21], fl: [1.6, 2.6] }
   };
-  var PLAN = small ? { item: 3, spark: 1, bubble: 1 } : { item: 5, spark: 2, bubble: 2 };
+  // 23 oct. : la pluie de petites choses est arrêtée (trop proche de Keraby) ; seule la cigogne passe. Remettre des nombres ici pour la rallumer.
+  var PLAN = {};
   if (small) { FAM.item.sz = [19, 27]; FAM.spark.sz = [12, 18]; FAM.bubble.sz = [14, 27]; }
 
   function rnd(a, b){ return a + Math.random() * (b - a); }

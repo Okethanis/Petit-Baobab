@@ -155,12 +155,21 @@ if (fs.existsSync(IMG_SRC)) for (const f of fs.readdirSync(IMG_SRC)) fs.copyFile
 // Bibliothèques servies par le site lui-même (three.js pour la carte Myris) : dossier vendor/
 const VENDOR = path.join(__dirname, 'vendor');
 if (fs.existsSync(VENDOR)) { fs.mkdirSync(path.join(OUT, 'vendor'), { recursive: true }); for (const f of fs.readdirSync(VENDOR)) fs.copyFileSync(path.join(VENDOR, f), path.join(OUT, 'vendor', f)); }
+// Sur les aperçus Netlify seulement (jamais en ligne) : un sélecteur pour comparer des polices de titres.
+const PREVIEW_TOOLS = process.env.CONTEXT === 'deploy-preview' ? `<div id="pv-fonts" style="position:fixed;left:12px;bottom:12px;z-index:60;background:#fff;color:#1E2B22;border:1px solid #D9E1D8;border-radius:14px;box-shadow:0 10px 30px rgba(30,43,34,.18);padding:10px 12px;font:600 13px/1.3 system-ui,sans-serif;max-width:calc(100vw - 100px)">
+<div style="margin-bottom:6px">Aperçu · police des titres</div><div id="pv-btns" style="display:flex;flex-wrap:wrap;gap:6px"></div></div>
+<script>(function(){var F=[['Fraunces','"Fraunces",Georgia,serif',''],['Young Serif','"Young Serif",Georgia,serif','Young+Serif'],['DM Serif Display','"DM Serif Display",Georgia,serif','DM+Serif+Display']];
+var cur=localStorage.getItem('pv-font')||'Fraunces',box=document.getElementById('pv-btns');
+function load(q){if(!q||document.querySelector('link[data-pv="'+q+'"]'))return;var l=document.createElement('link');l.rel='stylesheet';l.dataset.pv=q;l.href='https://fonts.googleapis.com/css2?family='+q+'&display=swap';document.head.appendChild(l);}
+function set(n){var f=F.filter(function(x){return x[0]===n})[0]||F[0];load(f[2]);document.documentElement.style.setProperty('--font-display',f[1]);var w=document.getElementById('pv-w')||document.head.appendChild(Object.assign(document.createElement('style'),{id:'pv-w'}));w.textContent=f[2]?'h1,h2,h3,h4{font-weight:400}':'';try{localStorage.setItem('pv-font',f[0])}catch(e){}
+[].forEach.call(box.children,function(b){var on=b.textContent===f[0];b.style.background=on?'#1F6B4A':'#fff';b.style.color=on?'#fff':'#1E2B22'})}
+F.forEach(function(f){var b=document.createElement('button');b.type='button';b.textContent=f[0];b.style.cssText='border:1px solid #1F6B4A;border-radius:999px;padding:6px 10px;font:600 13px system-ui,sans-serif;cursor:pointer';b.onclick=function(){set(f[0])};box.appendChild(b)});set(cur);})();</script>` : '';
 let written = [];
 for (const view of Object.keys(ROUTES)) {
   const r = ROUTES[view];
   const file = view === 'notfound' ? path.join(OUT, '404.html') : path.join(OUT, r.path.replace(/^\//, ''), 'index.html');
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, pageFor(view));
+  fs.writeFileSync(file, PREVIEW_TOOLS ? pageFor(view).replace('\n</body>', '\n' + PREVIEW_TOOLS + '\n</body>') : pageFor(view));
   written.push(path.relative(OUT, file));
 }
 

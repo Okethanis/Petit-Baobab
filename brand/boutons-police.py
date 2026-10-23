@@ -1,5 +1,5 @@
 """23 oct. 2026 — inspiré de Keraby, à l'identité Petit Baobab :
-   1. Titres en Cormorant Garamond (serif élégante), texte en Poppins ; le logo garde Fredoka.
+   1. Titres en Fraunces (serif douce), texte en Nunito Sans ; logo et prix en Fredoka.
    2. Deux boutons ronds empilés en bas à droite : WhatsApp (vert) au-dessus, Appeler (soleil) en dessous,
       avec une bulle d'aide au survol sur ordinateur.
    3. L'ambiance (brand/ambiance.css + brand/ambiance.js) : bloc CSS balisé dans le style principal, script à la fin.
@@ -15,11 +15,16 @@ def rep(old, new, count=1):
     if n == 0 and s.count(new) >= 1: return          # déjà fait
     assert n == count, (n, old[:80]); s = s.replace(old, new)
 
-# ---------- 1. polices ----------
-rep('family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap',
-    'family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap')
-rep('  --font-display:"Fredoka","Trebuchet MS",system-ui,sans-serif;\n  --font-body:"Nunito Sans","Segoe UI",system-ui,sans-serif;',
-    '  --font-brand:"Fredoka","Trebuchet MS",system-ui,sans-serif;\n  --font-display:"Cormorant Garamond","Cormorant",Georgia,"Times New Roman",serif;\n  --font-body:"Poppins","Segoe UI",system-ui,sans-serif;')
+# ---------- 1. polices (réglées par expression régulière : le résultat ne dépend pas de l'état de départ) ----------
+FONTS = ('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..700,100'
+         '&family=Fredoka:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">')
+s = re.sub(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com/css2\?[^"]*">', lambda m: FONTS, s, count=1)
+s = re.sub(r'(  --font-brand:[^\n]*\n)?  --font-display:[^\n]*\n  --font-body:[^\n]*', lambda m:
+           '  --font-brand:"Fredoka","Trebuchet MS",system-ui,sans-serif;\n'
+           '  --font-display:"Fraunces",Georgia,"Times New Roman",serif;\n'
+           '  --font-body:"Nunito Sans","Segoe UI",system-ui,sans-serif;', s, count=1)
+s = re.sub(r'h1,h2,h3,h4\{font-family:var\(--font-display\);[^}]*\}', lambda m:
+           'h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.005em;font-optical-sizing:auto;font-variant-numeric:lining-nums}', s, count=1)
 rep('.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-display);',
     '.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-brand);')
 rep('.pb-logo .word{font-family:var(--font-display);', '.pb-logo .word{font-family:var(--font-brand);')
@@ -54,18 +59,14 @@ rep('.fab-wa span{display:none}\n@media(min-width:860px){.fab-wa{padding:0 18px 
     '@keyframes fab-halo{0%{box-shadow:0 0 0 0 rgba(var(--halo),.5)}70%,100%{box-shadow:0 0 0 15px rgba(var(--halo),0)}}\n'
     '.fab-top{width:46px;height:46px;min-height:0;border-radius:50%;margin-right:6px}\n')
 rep(".fab-wa,.fab-top,.footer-scene';", ".fab-wa,.fab-call,.fab-top,.footer-scene';")
-# les titres en serif : un peu plus grands à l'œil (x-height plus petite que Fredoka), chiffres alignés
-rep('h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}',
-    'h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:0;font-size-adjust:.46;font-variant-numeric:lining-nums}\n'
-    '.univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong,.baseline,.gift-card{font-variant-numeric:lining-nums tabular-nums}')
+# (chiffres alignés dans les titres : règle h1-h4 ci-dessus)
 
-# chiffres et prix : Fredoka (les chiffres de Cormorant descendent sous la ligne), bloc balisé avant la fin du style
+# chiffres et prix : Fredoka, comme le logo, bloc balisé avant la fin du style
 s = re.sub(r'/\* pb-police:start \*/[\s\S]*?/\* pb-police:end \*/\n?', '', s)
 i = s.index('</style>')
 s = s[:i] + ('/* pb-police:start */\n'
   '.univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong{font-family:var(--font-brand)}\n'
-  'h1,h2,h3,h4{font-feature-settings:"lnum" 1}\n'
-  '@media (max-width:620px){.fab-wa,.fab-call{width:52px;height:52px}.fab-wa .icon,.fab-call .icon{width:26px;height:26px}.fabs{gap:9px}}\n'
+    '@media (max-width:620px){.fab-wa,.fab-call{width:52px;height:52px}.fab-wa .icon,.fab-call .icon{width:26px;height:26px}.fabs{gap:9px}}\n'
   '/* pb-police:end */\n') + s[i:]
 # « 24 h » ne se coupe plus en fin de ligne
 s = s.replace('24 h', '24\u00a0h')
