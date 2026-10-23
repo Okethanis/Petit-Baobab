@@ -84,7 +84,7 @@ rep("""        <div class="contact-num"><span class="wa-num"></span><button type
         <div class="phones" id="phones" style="margin-top:10px" hidden></div>""")
 rep('<div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab. Tous les prix sont en FCFA.</span>',
     '<div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab — Tous droits réservés. Prix en FCFA.</span>')
-rep("  hours: 'tous les jours de 8 h à 21 h',", "  hours: 'tous les jours de 8 h à 18 h',\n  email: '',   // adresse e-mail de la boutique : la ligne apparaît dans le pied de page dès qu'elle est remplie")
+rep("  hours: 'tous les jours de 8 h à 21 h',", "  hours: 'tous les jours de 8 h à 18 h',\n  email: 'petit-baobab@gmail.com',   // adresse e-mail de la boutique : la ligne apparaît dans le pied de page dès qu'elle est remplie")
 rep("  $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });",
     "  $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });\n"
     "  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });\n"
