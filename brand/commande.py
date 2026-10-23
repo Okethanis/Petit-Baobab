@@ -77,6 +77,37 @@ s = s.replace("esc(waLink('Bonjour ' + CONFIG.brand + ', j\\'ai une question sur
 OLDQ = "    '<p class=\"wa-note\" style=\"margin-top:12px\">Une question sur cet article ? <a class=\"textlink\" href=\"' + waLink('Bonjour, une question sur « ' + p.name + ' »' + (p.ref ? ' (réf. ' + p.ref + ')' : '') + '.') + '\" target=\"_blank\" rel=\"noopener\">Demandez-nous sur WhatsApp</a>.</p>' +\n"
 if OLDQ in s: s = s.replace(OLDQ, '')
 
+# ---------- 3 bis. champs obligatoires marqués d'un astérisque et vérifiés (nom, numéro, commune, quartier) ----------
+R = ' <span class="req" aria-hidden="true">*</span>'
+once('Votre nom' + R, '<label for="f-name">Votre nom</label><input type="text" id="f-name" autocomplete="name" placeholder="Prénom et nom" required>',
+     '<label for="f-name">Votre nom' + R + '</label><input type="text" id="f-name" autocomplete="name" placeholder="Prénom et nom" required aria-required="true" maxlength="80">')
+once('Votre numéro' + R, '<label for="f-phone">Votre numéro</label><input type="tel" id="f-phone" autocomplete="tel" placeholder="07 00 00 00 00" required>',
+     '<label for="f-phone">Votre numéro' + R + '</label><input type="tel" id="f-phone" autocomplete="tel" inputmode="tel" placeholder="07 00 00 00 00" required aria-required="true" maxlength="20">')
+once('Commune de livraison' + R, '<label for="f-zone">Commune de livraison</label><select id="f-zone" required>',
+     '<label for="f-zone">Commune de livraison' + R + '</label><select id="f-zone" required aria-required="true">')
+once('Quartier et repère' + R, '<label for="f-address">Quartier et repère</label><input type="text" id="f-address" placeholder="Ex. : Riviera 3, près de la pharmacie…"></div>',
+     '<label for="f-address">Quartier et repère' + R + '</label><input type="text" id="f-address" placeholder="Ex. : Riviera 3, près de la pharmacie…" required aria-required="true" maxlength="160"><span class="err"></span></div>')
+once('Nom de la maman' + R, '<label for="g-name">Nom de la maman</label>', '<label for="g-name">Nom de la maman' + R + '</label>')
+once('Son numéro <small class="opt">', '<label for="g-phone">Son numéro</label>', '<label for="g-phone">Son numéro <small class="opt">(facultatif)</small></label>')
+once('Votre message pour la carte <small class="opt">', '<label for="g-msg">Votre message pour la carte</label>', '<label for="g-msg">Votre message pour la carte <small class="opt">(facultatif)</small></label>')
+once('heure souhaitée) <small class="opt">', '<label for="f-note">Précisions (couleurs, modèles, heure souhaitée)</label>', '<label for="f-note">Précisions (couleurs, modèles, heure souhaitée) <small class="opt">(facultatif)</small></label>')
+once('class="req-note"', '        <h3 class="co-title">Informations de livraison</h3>',
+     '        <h3 class="co-title">Informations de livraison</h3>\n        <p class="req-note">Les champs marqués d\'un <span class="req">*</span> sont obligatoires.</p>')
+# règles plus strictes : numéro ivoirien (10 chiffres, avec ou sans +225), nom de 2 lettres au moins, quartier renseigné
+once('function ciPhone(', 'function orderRules(){',
+     "function ciPhone(v){ var d = String(v || '').replace(/\\D/g, ''); if (d.indexOf('00225') === 0) d = d.slice(5); else if (d.indexOf('225') === 0 && d.length === 13) d = d.slice(3); return d.length === 10 || (d.length >= 8 && d.length <= 15 && /^\\+|^00/.test(String(v).trim())); }\n"
+     "function orderRules(){")
+once("msg:'Indiquez un numéro ivoirien à 10 chiffres",
+     "    {id:'f-name', ok:function(){ return !!val('f-name'); }, msg:'Indiquez votre nom.'},\n    {id:'f-phone', ok:function(){ return val('f-phone').replace(/\\D/g,'').length >= 8; }, msg:'Indiquez un numéro valide (au moins 8 chiffres).'},",
+     "    {id:'f-name', ok:function(){ return val('f-name').replace(/[^A-Za-zÀ-ÿ]/g,'').length >= 2; }, msg:'Indiquez votre nom (au moins 2 lettres).'},\n"
+     "    {id:'f-phone', ok:function(){ return ciPhone(val('f-phone')); }, msg:'Indiquez un numéro ivoirien à 10 chiffres (ex. 07 00 00 00 00), ou un numéro étranger commençant par +.'},\n"
+     "    {id:'f-address', ok:function(){ return val('f-address').length >= 3; }, msg:'Indiquez votre quartier et un repère pour le livreur.'},")
+once("ciPhone(val('f-phone2'))",
+     "    {id:'f-phone2', ok:function(){ var d = val('f-phone2').replace(/\\D/g,''); return !d || d.length >= 8; }, msg:'Ce numéro paraît incomplet (au moins 8 chiffres), ou laissez la case vide.'},",
+     "    {id:'f-phone2', ok:function(){ return !val('f-phone2') || ciPhone(val('f-phone2')); }, msg:'Ce numéro paraît incomplet (10 chiffres), ou laissez la case vide.'},")
+once('.req-note{', '/* Commande et fiche article (brand/commande.py) */',
+     '/* Commande et fiche article (brand/commande.py) */\n.req{color:var(--danger);font-weight:700}\n.req-note{font-size:.86rem;color:var(--muted);margin:0 0 4px}')
+
 # ---------- 4. styles ----------
 CSS = '''/* Commande et fiche article (brand/commande.py) */
 .co-title{font-size:1.25rem;margin:0 0 4px}
