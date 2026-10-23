@@ -37,7 +37,9 @@ cd site && python3 -m http.server 8000   # puis ouvrir http://localhost:8000
 - `python3 -I admin/photo.py <source> <id> --propose <dossier>` : prépare une proposition (carré 1000 px, fond blanc, marges rognées, filigrane) sans toucher au site ; sans `--propose`, remplace `images/<id>.webp`.
 - Trouver la source : recherche par image sur Alibaba (la plus efficace pour nos fournisseurs) ou Google Lens. Ne garder qu'une photo du **même modèle et de la même couleur** ; ne jamais effacer le logo ou le filigrane d'un autre.
 - Beaucoup de nos lits viennent d'**Anhui Cool Baby (酷豆丁 = « KDD »)**, boutique `ahcoolbaby.en.alibaba.com`, modèles nommés « B271 », « B2261 », « B4401 », « F3501 »… Leurs photos portent le logo Cool Baby (accepté par Hanis le 23 oct. 2026).
-- Photos des articles à refaire : 234 font moins de 600 px (148 moins de 400 px). Lot 1 (lits) fait le 23 oct. 2026 : 271, P271, P3501, 2261, 4401 ; non trouvés : KDD185, YSJ560, YSJ570, C316A, 608, 2201, 4402, 2151, 265B, TM799, 9655B, 5704.
+- Photos des articles à refaire : 234 font moins de 600 px (148 moins de 400 px). Lot 1 (lits) fait le 23 oct. 2026 : 271, P271, P3501, 2261, 4401 ; puis, en autre coloris : KDD185, C316A, 608. Non trouvés : YSJ560, YSJ570, 2201, 4402, 2151, 265B, TM799, 9655B, 5704 (2201 et YSJ560/570 existent avec un décor différent, non retenus).
+- Hanis accepte une photo du même modèle dans une autre couleur. Dans ce cas on fait des **versions par couleur** : champ `colors:[['Rose','images/x.webp'], ['Blanc','images/x-blanc.webp', 'note facultative']]` sur l'article (première couleur = vignette ; on garde l'ancienne photo comme version de la vraie couleur). Code dans `brand/couleurs.py` (liste `COLORS` en bas) ; la couleur choisie part dans le panier (clé `id~Couleur`) et le message WhatsApp.
+- Téléchargements par le navigateur : **un seul à la fois**, attendre qu'il arrive dans Téléchargements avant le suivant (plusieurs d'un coup ouvrent une fenêtre « Enregistrer sous » que Hanis doit fermer à la main). Le fichier arrive sous un nom imprévisible (`img.webp`, `&img.webp`…) : le renommer aussitôt.
 
 ## À faire (au 23 oct. 2026)
 
