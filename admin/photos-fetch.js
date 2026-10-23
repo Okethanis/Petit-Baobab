@@ -71,7 +71,14 @@ async function prepare(buf) {
 }
 
 (async () => {
-  const ids = Object.keys(SOURCES);
+  // En ligne (production) : seulement les photos sûres (« même article » ou « autre couleur ») ;
+  // les « à vérifier » attendent la validation de Hanis sur l'aperçu. Partout : on saute les fiches masquées
+  // dont la photo ne sert nulle part (doublons effacés) ; les couleurs regroupées gardent leur photo.
+  const HTML = fs.readFileSync(path.join(ROOT, 'petit-baobab.html'), 'utf8');
+  const hidden = new Set([...HTML.matchAll(/^  \{id:'([^']+)',[^\n]*hidden:true/gm)].map(m => m[1]));
+  const used = id => HTML.split('images/' + id + '.webp').length - 1 > 1;
+  const PROD = process.env.CONTEXT === 'production';
+  const ids = Object.keys(SOURCES).filter(id => !(hidden.has(id) && !used(id)) && !(PROD && SOURCES[id].statut === 'doute'));
   const result = {};
   let ok = 0, ko = 0;
   fs.mkdirSync(path.join(OUT, 'images', '_avant'), { recursive: true });
@@ -81,7 +88,7 @@ async function prepare(buf) {
   let next = 0, reportees = 0;
   // Limite de temps (Netlify coupe une construction à 18 min, avec la lecture des photos ensuite) :
   // au-delà, les photos pas encore en cache restent celles du dépôt et seront préparées à la construction suivante.
-  const DEADLINE = Date.now() + (+process.env.PHOTOS_MAX_S || 480) * 1000;
+  const DEADLINE = Date.now() + (+process.env.PHOTOS_MAX_S || (process.env.CONTEXT === 'production' ? 840 : 480)) * 1000;   // en ligne, pas de lecture des photos ensuite
   async function worker() {
     while (next < jobs.length) {
       const j = jobs[next++];

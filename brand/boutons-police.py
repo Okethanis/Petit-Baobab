@@ -33,7 +33,7 @@ rep('.wink h3{font-family:var(--font-display);', '.wink h3{font-family:var(--fon
 # ---------- 2. boutons flottants ----------
 rep('<a class="fab fab-wa" id="fab-wa" href="#" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp"><svg class="icon"><use href="#i-chat"/></svg><span>WhatsApp</span></a>',
     '<a class="fab fab-wa" id="fab-wa" href="#" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp"><svg class="icon"><use href="#i-wa"/></svg><span class="fab-tip">Écrire sur WhatsApp</span></a>\n'
-    '  <a class="fab fab-call" id="fab-call" href="tel:+2250768211934" aria-label="Nous appeler"><svg class="icon"><use href="#i-phone"/></svg><span class="fab-tip">Appeler le <span class="wa-num">+225 07 68 21 19 34</span></span></a>')
+    '  <a class="fab fab-call" id="fab-call" href="tel:+2250152358122" aria-label="Nous appeler"><svg class="icon"><use href="#i-phone"/></svg><span class="fab-tip">Appeler le <span class="wa-num">+225 01 52 35 81 22</span></span></a>')
 rep("  $('#fab-wa').href = waLink('Bonjour ' + CONFIG.brand + ', j\\'ai une question.');",
     "  $('#fab-wa').href = waLink('Bonjour ' + CONFIG.brand + ', j\\'ai une question.');\n  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;")
 # icônes : WhatsApp (pictogramme plein) et téléphone (plein)
@@ -76,7 +76,7 @@ rep("""        <div class="contact-num"><span class="wa-num"></span><button type
         <div class="phones" id="phones" style="margin-top:10px" hidden></div>
         <p style="margin-top:8px">Sur WhatsApp, <span class="hours"></span>.</p>""",
 """        <ul class="contact-list">
-          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250768211934"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num" aria-label="Copier le numéro" title="Copier le numéro"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
+          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250152358122"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num" aria-label="Copier le numéro" title="Copier le numéro"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
           <li><svg class="icon"><use href="#i-wa"/></svg><a class="wa-link" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
           <li id="contact-mail" hidden><svg class="icon"><use href="#i-mail"/></svg><a class="mail-link" href="#"></a></li>
           <li><svg class="icon"><use href="#i-clock"/></svg><span class="hours-cap"></span></li>

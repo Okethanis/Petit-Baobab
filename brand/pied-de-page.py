@@ -20,7 +20,7 @@ PAGES = '''<section class="view" id="v-contact" hidden>
     <h2 class="view-title">Contactez-nous</h2>
     <p class="lead muted" style="max-width:60ch">Une question sur un article, une taille, une livraison ? On vous répond <span class="hours"></span>.</p>
     <div class="contact-cards">
-      <a class="contact-card tel-link" href="tel:+2250768211934"><span class="cc-ico"><svg class="icon"><use href="#i-phone"/></svg></span><span><strong>Appeler</strong><span class="wa-num">+225 07 68 21 19 34</span></span></a>
+      <a class="contact-card tel-link" href="tel:+2250152358122"><span class="cc-ico"><svg class="icon"><use href="#i-phone"/></svg></span><span><strong>Appeler</strong><span class="wa-num">+225 01 52 35 81 22</span></span></a>
       <a class="contact-card wa-link" href="#" target="_blank" rel="noopener"><span class="cc-ico cc-wa"><svg class="icon"><use href="#i-wa"/></svg></span><span><strong>WhatsApp</strong><span>Écrire maintenant</span></span></a>
       <a class="contact-card mail-link-card" href="#" id="contact-mail-card" hidden><span class="cc-ico"><svg class="icon"><use href="#i-mail"/></svg></span><span><strong>E-mail</strong><span class="mail-text"></span></span></a>
       <div class="contact-card"><span class="cc-ico"><svg class="icon"><use href="#i-clock"/></svg></span><span><strong>Horaires</strong><span class="hours-cap"></span></span></div>
