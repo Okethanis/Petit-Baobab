@@ -1017,7 +1017,7 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
       <ol class="timeline">
         <li class="tstep"><span class="num">1</span><h3>Choisissez</h3><p>Ajoutez un pack ou des articles au panier, au prix affiché.</p></li>
         <li class="tstep"><span class="num">2</span><h3>Envoyez</h3><p>Votre commande part sur WhatsApp en un clic, avec sa référence. On la confirme avec vous.</p></li>
-        <li class="tstep"><span class="num">3</span><h3>Payez</h3><p>À la livraison, par Wave ou Mobile Money, ou avec un acompte de 50 %.</p></li>
+        <li class="tstep"><span class="num">3</span><h3>Payez</h3><p>À la livraison, en espèces, par Wave ou Mobile Money.</p></li>
         <li class="tstep"><span class="num">4</span><h3>Recevez</h3><p>Livraison à domicile ou au bureau, dans toutes les communes d'Abidjan.</p></li>
       </ol>
     </div>
@@ -1086,7 +1086,7 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
         <ul class="work">
           <li><strong>Vous choisissez</strong>Les prix sont affichés, le contenu des packs est détaillé article par article.</li>
           <li><strong>On confirme avec vous</strong>Votre commande part sur WhatsApp avec sa référence. On valide ensemble les coloris et le créneau de livraison.</li>
-          <li><strong>Vous payez simplement</strong>À la livraison, par Wave ou Mobile Money, ou avec un acompte de 50 % et le solde à la réception.</li>
+          <li><strong>Vous payez simplement</strong>À la livraison, en espèces, par Wave ou Mobile Money, ou à distance avant la livraison.</li>
           <li><strong>On livre vite</strong>En moins de 24 h dans toutes les communes d'Abidjan, offert dès 100 000 FCFA, et par compagnie de transport dans le reste du pays.</li>
         </ul>
       </div>
@@ -1277,7 +1277,7 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
       <div class="panel">
         <h3>Le paiement</h3>
         <p class="muted"><strong>À la livraison :</strong> <span class="pay-surplace"></span>.</p>
-        <p class="muted"><strong>Avant la livraison :</strong> <span class="pay-avance"></span>, du montant exact de votre commande. Vous pouvez aussi verser un acompte de 50 % pour réserver votre commande et régler le solde à la livraison.</p>
+        <p class="muted"><strong>Avant la livraison :</strong> <span class="pay-avance"></span>, du montant exact de votre commande.</p>
         <p class="muted"><strong>Depuis l'étranger :</strong> <span class="pay-etranger"></span>. Après le paiement, envoyez-nous la capture d'écran sur WhatsApp : c'est elle qui déclenche la préparation.</p>
         <p class="muted">Aucune carte bancaire n'est demandée sur le site. Les prix sont en FCFA, toutes taxes comprises.</p>
         <h3 style="margin-top:8px">Les retours</h3>
@@ -1288,8 +1288,7 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
   <div class="wrap section faq" style="padding-top:0" id="faq">
     <div class="section-head"><h2>Questions fréquentes</h2></div>
     <details><summary>Comment passer commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Ajoutez vos articles au panier, puis cliquez sur « Envoyer la commande sur WhatsApp ». Le récapitulatif s'ouvre dans WhatsApp avec sa référence, vous n'avez plus qu'à l'envoyer. On vous répond pour confirmer les couleurs, les modèles et l'heure de livraison.</p></details>
-    <details><summary>Puis-je modifier ou annuler ma commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui, dans les 24 heures qui suivent la commande : écrivez-nous sur WhatsApp avec votre référence (elle commence par PB-). Passé ce délai, la commande est en préparation ; un acompte déjà versé reste acquis si l'annulation vient de vous.</p></details>
-    <details><summary>Comment fonctionne l'acompte de 50 % ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Vous payez la moitié du total par Wave ou Mobile Money au moment de la commande, ce qui la réserve, puis le solde au livreur à la remise du colis. C'est pratique pour les gros articles comme un lit ou une poussette.</p></details>
+    <details><summary>Puis-je modifier ou annuler ma commande ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui, dans les 24 heures qui suivent la commande : écrivez-nous sur WhatsApp avec votre référence (elle commence par PB-). Passé ce délai, la commande est en préparation.</p></details>
     <details><summary>Comment payer à distance, par Wave ou Mobile Money ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>On vous envoie sur WhatsApp le montant exact et le numéro à payer. Par Wave, ouvrez le lien reçu, le montant est déjà rempli, validez avec votre code. Par Orange Money, MTN MoMo ou Moov Money, faites le transfert vers notre numéro. Dans les deux cas, envoyez-nous la capture d'écran de confirmation.</p></details>
     <details><summary>Puis-je modifier le contenu d'un pack ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Oui. Précisez-le dans le message WhatsApp (par exemple remplacer les biberons par des bodys en plus). On ajuste le prix si nécessaire.</p></details>
     <details><summary>Je vis à l'étranger, comment offrir un trousseau ?<svg class="icon"><use href="#i-chev"/></svg></summary><p>Choisissez le pack, cochez « C'est un cadeau » dans la commande et indiquez les coordonnées de la maman. On vous envoie le montant et le moyen de régler sur WhatsApp : Wave, Mobile Money, ou depuis l'étranger Western Union et Ria.</p></details>
@@ -1325,7 +1324,6 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
           <div class="choices">
             <label class="choice"><input type="radio" name="pay" id="pay-cod" value="livraison" checked><span><strong>À la livraison</strong><small>En espèces, par Wave ou Mobile Money, au livreur.</small></span></label>
             <label class="choice"><input type="radio" name="pay" id="pay-wave" value="wave"><span><strong>Par Wave ou Mobile Money, avant la livraison</strong><small>On vous envoie le montant exact et le numéro à payer sur WhatsApp.</small></span></label>
-            <label class="choice"><input type="radio" name="pay" id="pay-deposit" value="acompte"><span><strong>Acompte de <span id="dep-pct">50</span> % par Wave ou Mobile Money, solde à la livraison</strong><small id="dep-note">Votre commande est réservée dès l'acompte reçu. Conseillé pour les gros articles.</small></span></label>
           </div>
         </div>
         <label class="toggle"><input type="checkbox" id="f-gift">C'est un cadeau pour une maman (livraison chez elle)</label>
@@ -1387,7 +1385,7 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
     <p class="updated">Dernière mise à jour : <span class="legal-date"></span></p>
     <h3>Prix</h3><p>Les prix sont affichés en francs CFA, toutes taxes comprises. Les frais de livraison s'ajoutent selon la commune et sont indiqués avant l'envoi de la commande.</p>
     <h3>Commande</h3><p>Chaque commande reçoit une référence (PB-…). Une commande est ferme une fois confirmée sur WhatsApp par la boutique ; les articles sont réservés à ce moment-là. Vous pouvez la modifier ou l'annuler dans les 24 heures, sur WhatsApp, avec sa référence.</p>
-    <h3>Paiement</h3><p>À la livraison (espèces, Wave ou Mobile Money), avant la livraison par Wave ou Mobile Money, ou par un acompte de 50 % à la commande et le solde à la livraison. Les commandes hors d'Abidjan et les cadeaux sont payés avant le départ du colis. En cas d'annulation de votre part après versement d'un acompte, celui-ci peut être conservé pour couvrir les frais engagés.</p>
+    <h3>Paiement</h3><p>À la livraison (espèces, Wave ou Mobile Money), ou avant la livraison par Wave ou Mobile Money. Les commandes hors d'Abidjan et les cadeaux sont payés avant le départ du colis.</p>
     <h3>Livraison</h3><p>À Abidjan en moins de 24 h après confirmation. Hors Abidjan, par compagnie de transport, selon les délais de celle-ci.</p>
     <h3>Échanges</h3><p>Un article abîmé ou non conforme est échangé sous 48 h après réception, dans son emballage d'origine, sur présentation d'une photo.</p>
     <h3>Contact</h3><p>Pour toute question : WhatsApp au <span class="wa-num"></span>.</p>
@@ -1467,7 +1465,7 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 <section class="reassure-band" aria-label="Nos engagements"><div class="wrap">
   <div class="item"><span class="ico"><svg class="icon"><use href="#i-truck"/></svg></span><div><strong>Livraison en moins de 24 h à Abidjan</strong><span>Toutes les communes, offerte dès <span class="free-from"></span>. Envoi par car dans le reste du pays.</span></div></div>
   <div class="item"><span class="ico"><svg class="icon"><use href="#i-check"/></svg></span><div><strong>Vous vérifiez avant de payer</strong><span>L'article est déballé devant vous à la livraison. Échange sous 48 h en cas de défaut.</span></div></div>
-  <div class="item"><span class="ico"><svg class="icon"><use href="#i-wallet"/></svg></span><div><strong>Paiement simple</strong><span>Espèces, Wave ou Mobile Money à la livraison, paiement à distance, ou acompte et solde à la réception.</span></div></div>
+  <div class="item"><span class="ico"><svg class="icon"><use href="#i-wallet"/></svg></span><div><strong>Paiement simple</strong><span>Espèces, Wave ou Mobile Money à la livraison, ou paiement à distance avant la livraison.</span></div></div>
   <div class="item"><span class="ico"><svg class="icon"><use href="#i-chat"/></svg></span><div><strong>Un conseil sur WhatsApp</strong><span>Avant d'acheter comme après, <span class="hours"></span>.</span></div></div>
 </div></section>
 <footer class="footer">
@@ -1560,7 +1558,7 @@ var CONFIG = {
   email: 'contact@petit-baobab.example',   // ADRESSE FICTIVE (domaine réservé, n'existe pas) : à remplacer par la vraie adresse avant le lancement
   freeDeliveryFrom: 100000,            // livraison offerte à Abidjan à partir de ce montant
   stock: { defaut: 'En stock à Abidjan, livré en moins de 24 h', commande: 'Sur commande, 6 à 8 semaines (arrive par le prochain conteneur)' },   // un article peut porter stock:'commande'
-  deposit: { rate: 0.5, bigRate: 0.3, bigFrom: 150000 },   // acompte 50 % en général, 30 % à partir de 150 000 FCFA (lits, packs)
+  deposit: null,   // acompte retiré le 23 oct. 2026 (paiement à la livraison ou avant la livraison)
   zones: [
     ['Cocody', 1500], ['Plateau', 1500], ['Marcory', 1500], ['Treichville', 1500], ['Adjamé', 1500],
     ['Koumassi', 2000], ['Yopougon', 2000], ['Abobo', 2000], ['Port-Bouët', 2000], ['Attécoubé', 2000],
@@ -1610,7 +1608,7 @@ var ROUTES = {
   histoire:        { path: '/notre-histoire/', nav: 'Notre histoire', title: 'Notre histoire : pourquoi Petit Baobab · Petit Baobab', description: 'Le baobab est solide, protecteur et il dure : c\'est ce que nous voulons pour votre bébé. Une boutique de puériculture 100 % en ligne à Abidjan, des prix affichés, un conseil sur WhatsApp et une livraison en moins de 24 h.' },
   conseils:        { path: '/conseils/', nav: 'Conseils', title: 'Conseils d\'achat : lit, siège auto, poussette, valise de maternité, chambre, biberons · Petit Baobab', description: 'Six guides courts pour bien choisir l\'équipement de bébé à Abidjan : le lit, le siège auto selon l\'âge, la poussette, la valise de maternité, la chambre et les premiers biberons.' },
   guide:           { path: '/que-prevoir-mois-par-mois/', nav: 'Guide', title: 'Que prévoir pour bébé mois par mois ? · Petit Baobab', description: 'Le guide pratique de 0 à 24 mois : l\'essentiel à prévoir, le confort en plus et nos astuces, étape par étape.' },
-  livraison:       { path: '/livraison-et-paiement/', nav: 'Livraison & paiement', title: 'Livraison, paiement et questions fréquentes · Petit Baobab', description: 'Frais de livraison par commune d\'Abidjan, livraison offerte dès 100 000 FCFA, paiement à la livraison, par Wave ou Mobile Money, ou acompte de 50 %, échanges sous 48 h.' },
+  livraison:       { path: '/livraison-et-paiement/', nav: 'Livraison & paiement', title: 'Livraison, paiement et questions fréquentes · Petit Baobab', description: 'Frais de livraison par commune d\'Abidjan, livraison offerte dès 100 000 FCFA, paiement à la livraison, par Wave ou Mobile Money, échanges sous 48 h.' },
   commande:        { path: '/commande/', nav: 'Commande', title: 'Votre commande · Petit Baobab', description: 'Finalisez votre commande et envoyez-la sur WhatsApp.', noindex: true },
   confidentialite: { path: '/confidentialite/', nav: 'Confidentialité', title: 'Politique de confidentialité · Petit Baobab', description: 'Les données utilisées pour livrer votre commande et vos droits.' },
   cgv:             { path: '/conditions-de-vente/', nav: 'Conditions de vente', title: 'Conditions de vente · Petit Baobab', description: 'Prix, commande, paiement, livraison et échanges.' },
@@ -1631,7 +1629,7 @@ var PAGES_INDEX = [
   { view:'histoire', kw:'histoire marque nom baobab pourquoi valeurs promesse qui sommes-nous à propos' },
   { view:'contact', kw:'contact contacter appeler téléphone numéro whatsapp email e-mail mail horaires joindre' },
   { view:'retours', kw:'retour retours échange échanger remboursement défaut abîmé annuler annulation garantie' },
-  { view:'livraison', kw:'livraison frais commune délai paiement wave mobile money orange mtn moov espèces acompte retour échange questions' },
+  { view:'livraison', kw:'livraison frais commune délai paiement wave mobile money orange mtn moov espèces retour échange questions' },
   { view:'cgv', kw:'conditions vente cgv prix' },
   { view:'cgu', kw:'conditions utilisation cgu règles site propriété responsabilité' },
   { view:'confidentialite', kw:'confidentialité données cookies' }
@@ -2430,7 +2428,7 @@ function reassure(p){
   return '<ul class="reassure"><li>' + icon('check') + '<span>Livraison dans toutes les communes d\'Abidjan, offerte dès ' + fmt(CONFIG.freeDeliveryFrom) + '</span></li>' +
     '<li>' + icon('check') + '<span>Vous vérifiez l\'article à la livraison avant de payer</span></li>' +
     '<li>' + icon('check') + '<span>Échange sous 48 h en cas de défaut</span></li>' +
-    '<li>' + icon('check') + '<span>Espèces, Wave ou Mobile Money à la livraison, ou acompte et solde à la réception</span></li></ul>' +
+    '<li>' + icon('check') + '<span>Espèces, Wave ou Mobile Money à la livraison</span></li></ul>' +
     '<div class="help-box"><div class="hb-row"><span class="hb-ico">' + icon('truck') + '</span><div><strong>Livraison à domicile</strong><p>On vous livre chez vous, en moins de 24 h à Abidjan. Ajoutez l\'article au panier, puis envoyez la commande sur WhatsApp : on vous rappelle pour confirmer.</p></div></div>' +
     '<div class="hb-row"><span class="hb-ico hb-wa">' + icon('wa') + '</span><div><strong>Besoin d\'aide ?</strong><p>Un doute sur le modèle, la couleur ou la taille ? <a class="textlink" href="' + esc(waLink(p ? 'Bonjour, une question sur « ' + p.name + ' »' + (p.ref ? ' (réf. ' + p.ref + ')' : '') + '.' : 'Bonjour ' + CONFIG.brand + ', j\'ai une question.')) + '" target="_blank" rel="noopener">Écrivez-nous sur WhatsApp</a> ou appelez le <a class="textlink" href="tel:+' + CONFIG.whatsapp + '">' + esc(CONFIG.whatsappDisplay) + '</a>.</p></div></div></div>';
 }
@@ -2694,7 +2692,7 @@ function buildMessage(){
   var zone = val('f-zone'), fee = zoneFee(zone, sub);
   var gift = $('#f-gift').checked;
   var total = sub + fee.fee, dep = depositFor(total), half = Math.ceil(total*dep.rate/100)*100;
-  var pay = $('#pay-wave').checked ? 'Par Wave ou Mobile Money avant la livraison' : $('#pay-deposit').checked ? 'Acompte de ' + dep.pct + ' % par Wave ou Mobile Money (' + fmt(half) + (fee.known ? '' : ' + ' + dep.pct + ' % de la livraison') + '), solde à la livraison' : 'À la livraison';
+  var pay = $('#pay-wave').checked ? 'Par Wave ou Mobile Money avant la livraison' : 'À la livraison';
   if (!state.ref) state.ref = orderRef();
   var L = [];
   L.push('Bonjour ' + CONFIG.brand + ' 👋');
@@ -2758,9 +2756,6 @@ function updateCheckout(){
     '<div><span>Livraison' + (zone ? ' · ' + esc(zone) : '') + '</span><span>' + esc(fee.label) + '</span></div>' +
     '<div class="grand"><span>Total</span><span class="price"><span id="grand"></span>' + (fee.known ? '' : ' <span class="muted" style="font-weight:400;font-size:.85rem">+ livraison</span>') + '</span></div>';
   tickTo('grand', $('#grand'), sub+fee.fee);
-  var dep = depositFor(sub+fee.fee);
-  $('#dep-pct').textContent = dep.pct;
-  $('#dep-note').textContent = dep.big ? 'Pour les commandes de ' + fmt(CONFIG.deposit.bigFrom) + ' et plus, l\'acompte passe à ' + dep.pct + ' % : ' + fmt(Math.ceil((sub+fee.fee)*dep.rate/100)*100) + ' maintenant, le reste à la livraison.' : 'Votre commande est réservée dès l\'acompte reçu. Conseillé pour les gros articles.';
   $('#gift-fields').hidden = !$('#f-gift').checked;
   var msg = buildMessage();
   $('#wa-msg').value = msg;
