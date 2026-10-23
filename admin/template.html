@@ -132,6 +132,12 @@ td.sel input{width:18px;height:18px;margin:0}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--surface);z-index:31;display:flex;flex-direction:column;box-shadow:var(--shadow);padding-top:env(safe-area-inset-top,0px)}
 .d-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
 .d-head img{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#fff}
+.d-photo{display:grid;grid-template-columns:200px 1fr;gap:14px;align-items:start}
+.d-photo .pic{width:200px;height:200px;border-radius:12px;background-color:#fff;background-repeat:no-repeat;background-size:600% 600%;border:1px solid var(--line)}
+.d-photo .pic.none{display:grid;place-items:center;color:var(--muted);font-size:.85rem;background-image:none}
+.d-photo .about{font-size:.88rem;color:var(--muted);display:grid;gap:6px;align-content:start}
+.d-photo .about b{color:var(--ink)}
+@media (max-width:460px){.d-photo{grid-template-columns:1fr;justify-items:center;text-align:center}}
 .d-head h2{flex:1;font-size:1.15rem;min-width:0}
 .d-head small{display:block;font-family:var(--font-body);font-weight:600;color:var(--muted);font-size:.82rem}
 .icon{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:1.2rem;line-height:1;display:grid;place-items:center;flex:none}
@@ -243,6 +249,7 @@ td.sel input{width:18px;height:18px;margin:0}
 <aside class="drawer" id="drawer" hidden aria-label="Détails de l'article">
   <div class="d-head"><img id="d-img" alt="" hidden><h2 id="d-title">Article<small id="d-sub"></small></h2><button type="button" class="icon" id="d-close" aria-label="Fermer">×</button></div>
   <div class="d-body">
+    <div class="d-photo"><div class="pic" id="d-pic" role="img" aria-label="Photo de l'article"></div><div class="about" id="d-about"></div></div>
     <label class="f">Nom<input id="d-name" type="text"><span class="pub" id="d-name-pub"></span></label>
     <div class="r2">
       <label class="f">Référence<input id="d-ref" type="text" placeholder="ex. QS11"><span class="pub" id="d-ref-pub"></span></label>
@@ -442,6 +449,10 @@ function openDrawer(id){
   var s = state[id], b = base[id]; editing = id;
   $('#d-title').firstChild.textContent = s.name; $('#d-sub').textContent = catLabel(b) + (b.computed ? ' · prix calculé d\'après les articles' : '');
   var img = $('#d-img'); if (THUMBS[b.img]){ img.src = THUMBS[b.img]; img.hidden = false; } else img.hidden = true;
+  var pic = $('#d-pic'), sh = SHEETS[b.img];
+  if (sh){ pic.className = 'pic'; pic.style.backgroundImage = 'url(sheets/sheet-' + (sh[0] < 10 ? '0' : '') + sh[0] + '.webp)'; pic.style.backgroundPosition = (sh[1] * 20) + '% ' + (sh[2] * 20) + '%'; pic.textContent = ''; }
+  else { pic.className = 'pic none'; pic.style.backgroundImage = 'none'; pic.textContent = b.computed ? 'Pack : photos des articles' : 'Pas de photo'; }
+  $('#d-about').innerHTML = '<span>Fichier photo : <b>' + esc(b.img ? b.img + '.webp' : '—') + '</b></span><span>Catégorie : <b>' + esc(catLabel(b)) + '</b></span>' + (b.computed ? '<span>Le prix de ce pack se calcule d\'après ses articles.</span>' : '<span>Pour changer la photo, envoie la nouvelle image à Claude en indiquant la référence.</span>');
   $('#d-name').value = s.name; $('#d-ref').value = s.ref; $('#d-price').value = s.price; $('#d-price').disabled = !!b.computed;
   $('#d-desc').value = s.desc; $('#d-age').value = s.age; $('#d-plus').value = s.plus.join('\n'); $('#d-specs').value = s.specs.map(function(x){ return x[0] + ' : ' + x[1]; }).join('\n');
   pub('d-name-pub', s.name, b.name); pub('d-ref-pub', s.ref, b.ref || ''); pub('d-price-pub', s.price, b.price ? fmt(b.price) + ' FCFA' : ''); pub('d-desc-pub', s.desc, b.desc || ''); pub('d-age-pub', s.age, b.age || '');
