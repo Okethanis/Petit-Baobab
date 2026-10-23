@@ -177,6 +177,17 @@ td.sel input{width:18px;height:18px;margin:0}
 .d-foot .grow{flex:1}
 @media (max-width:760px){ td.edit{grid-column:2;grid-row:6;padding-top:6px} }
 
+.addbtn{height:38px;padding:0 16px;border-radius:999px;border:0;background:var(--accent);color:#1E2B22;font-weight:700;display:inline-flex;align-items:center;gap:8px;margin-left:auto}
+.addbtn + .status{margin-left:0}
+.addbtn span{font-size:1.2rem;line-height:1}
+td.name .isnew{display:inline-block;font-size:.72rem;font-weight:700;color:#1E2B22;background:var(--accent);border-radius:999px;padding:1px 8px;margin-left:8px}
+.d-photo .pic.has{background-size:cover;background-position:center}
+.photo-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.photo-actions label.btn{display:inline-flex;align-items:center;cursor:pointer;height:36px;font-size:.88rem}
+.photo-actions input{position:absolute;width:1px;height:1px;opacity:0}
+.d-body select.sel{font:inherit;font-size:.98rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+.err{color:var(--warn);font-size:.85rem;font-weight:700}
+
 /* Pied de page */
 .foot{margin-top:18px;padding:14px;border-radius:var(--radius);background:var(--brand-soft);color:var(--ink);font-size:.92rem;display:grid;gap:6px}
 .foot b{color:var(--brand)}
@@ -212,6 +223,7 @@ td.sel input{width:18px;height:18px;margin:0}
 <header class="top"><div class="wrap">
   <div class="row">
     <span class="logo"><svg viewBox="0 0 120 120" class="mark" aria-hidden="true" focusable="false"><g class="lg-sun"><circle cx="104" cy="18" r="10"/></g><g class="lg-ground"><ellipse cx="60" cy="110" rx="56" ry="5"/></g><g class="lg-trunk"><path d="M43 110c4-18 5-34 1-54h30c-4 20-3 36 1 54z"/></g><g class="lg-tree"><circle cx="59" cy="44" r="26"/><circle cx="33" cy="54" r="17"/><circle cx="85" cy="54" r="17"/><circle cx="43" cy="30" r="15"/><circle cx="75" cy="30" r="15"/><circle cx="59" cy="22" r="13"/></g><g class="lg-fruit"><circle cx="71" cy="40" r="3"/></g><g class="lg-trunk"><path d="M94 110c1.5-7 1.8-13 .7-20h8.6c-1.1 7-.8 13 .7 20z"/></g><g class="lg-tree"><circle cx="99" cy="82" r="9.5"/><circle cx="91" cy="87" r="5.5"/><circle cx="107" cy="87" r="5.5"/></g><g class="lg-fruit"><circle cx="103" cy="80" r="2"/></g></svg>Petit Baobab <small>Catalogue</small></span>
+    <button type="button" class="addbtn" id="add-btn"><span>+</span> Ajouter un article</button>
     <span class="status" id="status" role="status"><i></i><span>Connexion…</span></span>
   </div>
   <div class="stats"><span>Articles <b id="st-total">0</b></span><span class="mod">Modifiés, non publiés <b id="st-mod">0</b></span><span>Masqués <b id="st-hidden">0</b></span><span id="st-pub"></span></div>
@@ -275,7 +287,8 @@ td.sel input{width:18px;height:18px;margin:0}
 <aside class="drawer" id="drawer" hidden aria-label="Détails de l'article">
   <div class="d-head"><img id="d-img" alt="" hidden><h2 id="d-title">Article<small id="d-sub"></small></h2><button type="button" class="icon" id="d-close" aria-label="Fermer">×</button></div>
   <div class="d-body">
-    <div class="d-photo"><div class="pic" id="d-pic" role="img" aria-label="Photo de l'article"></div><div class="about" id="d-about"></div></div>
+    <div class="d-photo"><div class="pic" id="d-pic" role="img" aria-label="Photo de l'article"></div><div class="about"><div id="d-about"></div><div class="photo-actions" id="d-photo-actions" hidden><label class="btn" for="d-file" id="d-file-label">Ajouter une photo</label><input type="file" id="d-file" accept="image/*"></div><span class="muted" id="d-up"></span></div></div>
+    <label class="f" id="d-cat-wrap">Univers et catégorie<select class="sel" id="d-cat"></select></label>
     <label class="f">Nom<input id="d-name" type="text"><span class="pub" id="d-name-pub"></span></label>
     <div class="r2">
       <label class="f">Référence<input id="d-ref" type="text" placeholder="ex. QS11"><span class="pub" id="d-ref-pub"></span></label>
@@ -288,7 +301,7 @@ td.sel input{width:18px;height:18px;margin:0}
   </div>
   <div class="d-foot">
     <button type="button" class="btn danger" id="d-reset">Revenir au publié</button>
-    <span class="grow"></span>
+    <span class="err" id="d-err"></span><span class="grow"></span>
     <button type="button" class="btn" id="d-cancel">Annuler</button>
     <button type="button" class="btn primary" id="d-save">Enregistrer</button>
   </div>
@@ -305,7 +318,10 @@ var catById = {}; CATS.forEach(function(c){ catById[c.id] = c; });
 var univById = {}; UNIV.forEach(function(u){ univById[u.id] = u; });
 var base = {}; BASE.forEach(function(p){ base[p.id] = p; });
 var state = {};  // id -> {price, name, badge, hidden, ref, desc, age, plus, specs}
-function fromBase(b){ return { price: b.price, name: b.name, badge: b.badge || '', hidden: !!b.hidden, ref: b.ref || '', desc: b.desc || '', age: b.age || '', plus: (b.plus || []).slice(), specs: (b.specs || []).map(function(x){ return x.slice(); }) }; }
+function fromBase(b){ return { price: b.price, name: b.name, badge: b.badge || '', hidden: !!b.hidden, ref: b.ref || '', desc: b.desc || '', age: b.age || '', plus: (b.plus || []).slice(), specs: (b.specs || []).map(function(x){ return x.slice(); }), cat: b.cat, photo: b.photo || '' }; }
+function addNewBase(id, cat){ var b = { id: id, ref: '', name: '', cat: cat || '', price: 0, badge: '', hidden: false, computed: false, img: '', isNew: true, desc: '', age: '', plus: [], specs: [], photo: '' }; base[id] = b; BASE.unshift(b); state[id] = fromBase(b); return b; }
+function dropNew(id){ var i = BASE.indexOf(base[id]); if (i >= 0) BASE.splice(i, 1); delete base[id]; delete state[id]; }
+var assets = null;
 BASE.forEach(function(p){ state[p.id] = fromBase(p); });
 var editing = null;
 var checked = {}, pending = {}, timers = {}, chains = {};
@@ -325,11 +341,15 @@ function diff(id){
   if (s.age !== (b.age || '')) o.age = s.age;
   if (JSON.stringify(s.plus) !== JSON.stringify(b.plus || [])) o.plus = s.plus;
   if (JSON.stringify(s.specs) !== JSON.stringify(b.specs || [])) o.specs = s.specs;
+  if (s.photo !== (b.photo || '')) o.photo = s.photo;
+  if (s.cat !== b.cat) o.cat = s.cat;
+  if (b.isNew) return o;   // un nouvel article est toujours « à publier »
   return Object.keys(o).length ? o : null;
 }
 function detailsMod(id){ var d = diff(id); return !!(d && (d.ref !== undefined || d.desc !== undefined || d.age !== undefined || d.plus !== undefined || d.specs !== undefined)); }
 function isMod(id){ return !!diff(id); }
 function applyDoc(id, d){
+  if (!base[id] && d.isNew) addNewBase(id, d.cat);
   if (!base[id]) return;
   var b = base[id];
   var s = fromBase(b);
@@ -342,11 +362,14 @@ function applyDoc(id, d){
   if (typeof d.age === 'string') s.age = d.age;
   if (Array.isArray(d.plus)) s.plus = d.plus.filter(function(x){ return typeof x === 'string'; });
   if (Array.isArray(d.specs)) s.specs = d.specs.filter(function(x){ return Array.isArray(x) && x.length === 2; }).map(function(x){ return [String(x[0]), String(x[1])]; });
+  if (typeof d.photo === 'string') s.photo = d.photo;
+  if (typeof d.cat === 'string' && d.cat) s.cat = d.cat;
+  if (b.isNew) b.cat = s.cat;
   state[id] = s;
 }
 function resetLocal(id){ state[id] = fromBase(base[id]); }
-function univOf(p){ if (p.cat === 'packs' || p.cat === 'valise') return 'packs'; var c = catById[p.cat]; return c ? c.univers : ''; }
-function catLabel(p){ var c = catById[p.cat]; return c ? c.label : (p.cat === 'packs' ? 'Packs naissance' : p.cat === 'valise' ? 'Valise de maternité' : p.cat); }
+function univOf(p){ if (state[p.id] && state[p.id].cat) p = { cat: state[p.id].cat }; if (p.cat === 'packs' || p.cat === 'valise') return 'packs'; var c = catById[p.cat]; return c ? c.univers : ''; }
+function catLabel(p){ if (state[p.id] && state[p.id].cat) p = { cat: state[p.id].cat }; var c = catById[p.cat]; return c ? c.label : (p.cat === 'packs' ? 'Packs naissance' : p.cat === 'valise' ? 'Valise de maternité' : p.cat); }
 
 /* ---------- état d'enregistrement ---------- */
 function setStatus(kind, text){
@@ -363,6 +386,8 @@ function queueWrite(id){
 }
 function writeDoc(id, attempt){
   var o = diff(id), ref = db.doc('articles/' + id);
+  if (base[id] && base[id].isNew){ var s = state[id]; o = { isNew: true, cat: s.cat, name: s.name, price: s.price, ref: s.ref, desc: s.desc, age: s.age, plus: s.plus, specs: s.specs, badge: s.badge, hidden: s.hidden, photo: s.photo }; }
+  else if (!base[id]) return ref.delete();
   var p = o ? ref.set(Object.assign(o, { updated: new Date().toISOString() })) : ref.delete();
   return p.catch(function(e){
     var code = e && e.code;
@@ -409,17 +434,17 @@ function compute(){
 }
 function rowHtml(p){
   var s = state[p.id], mod = isMod(p.id), b = base[p.id];
-  var th = THUMBS[p.img] ? '<img src="' + THUMBS[p.img] + '" alt="" loading="lazy" width="52" height="52">' : '<span class="noimg">sans photo</span>';
-  var delta = s.price !== b.price ? (s.price > b.price ? '<span class="delta up">+' : '<span class="delta down">') + (Math.round((s.price - b.price) / b.price * 1000) / 10).toLocaleString('fr-FR') + ' %</span>' : '';
+  var th = s.photo ? '<img src="/_blob/' + s.photo + '" alt="" loading="lazy" width="52" height="52">' : THUMBS[p.img] ? '<img src="' + THUMBS[p.img] + '" alt="" loading="lazy" width="52" height="52">' : '<span class="noimg">sans photo</span>';
+  var delta = s.price !== b.price && !b.isNew ? (s.price > b.price ? '<span class="delta up">+' : '<span class="delta down">') + (Math.round((s.price - b.price) / b.price * 1000) / 10).toLocaleString('fr-FR') + ' %</span>' : '';
   var badges = BADGES.slice(); if (b.badge && badges.indexOf(b.badge) < 0) badges.push(b.badge); if (s.badge && badges.indexOf(s.badge) < 0) badges.push(s.badge);
   var opts = badges.map(function(x){ return '<option value="' + esc(x) + '"' + (x === s.badge ? ' selected' : '') + '>' + (x ? esc(x) : 'Aucun') + '</option>'; }).join('');
   return '<tr data-id="' + p.id + '" style="--uc:var(--u-' + (univOf(p) || 'packs') + ')" class="' + (mod ? 'mod ' : '') + (s.hidden ? 'off' : '') + '">' +
     '<td class="sel"><input type="checkbox" id="c-' + p.id + '" data-f="check"' + (checked[p.id] ? ' checked' : '') + ' aria-label="Cocher"></td>' +
     '<td class="photo">' + th + '</td>' +
-    '<td class="name"><input type="text" id="n-' + p.id + '" data-f="name" value="' + esc(s.name) + '" aria-label="Nom">' + (s.name !== b.name ? '<small>Nom publié : ' + esc(b.name) + '</small>' : '') + '</td>' +
+    '<td class="name"><input type="text" id="n-' + p.id + '" data-f="name" value="' + esc(s.name) + '" aria-label="Nom">' + (b.isNew ? '<small>Nouvel article <span class="isnew">pas encore sur le site</span></small>' : s.name !== b.name ? '<small>Nom publié : ' + esc(b.name) + '</small>' : '') + '</td>' +
     '<td class="ref">' + esc(s.ref || '—') + '</td>' +
     '<td class="cat">' + esc(catLabel(p)) + '</td>' +
-    '<td class="base num">' + fmt(b.price) + '</td>' +
+    '<td class="base num">' + (b.isNew ? 'nouveau' : fmt(b.price)) + '</td>' +
     '<td class="price">' + (b.computed ? '<span class="num computed">' + fmt(s.price) + '</span><span class="delta muted">calculé d\'après les articles</span>' : '<input type="number" id="p-' + p.id + '" data-f="price" value="' + s.price + '" min="0" step="100" inputmode="numeric" aria-label="Nouveau prix" class="num">' + delta) + '</td>' +
     '<td class="badge"><select id="b-' + p.id + '" data-f="badge" aria-label="Badge">' + opts + '</select></td>' +
     '<td class="vis"><label class="switch"><input type="checkbox" id="v-' + p.id + '" data-f="visible"' + (s.hidden ? '' : ' checked') + ' aria-label="Visible sur le site"><i></i></label></td>' +
@@ -472,42 +497,95 @@ $('#rows').addEventListener('click', function(e){
 
 /* ---------- volet Détails ---------- */
 function pub(elId, cur, b){ var el = $('#' + elId); el.innerHTML = (cur !== b && b) ? 'Publié : <b>' + esc(b) + '</b>' : ''; }
+var pendingPhoto = null;   // photo choisie dans le volet, pas encore enregistrée : {id, url}
+function catOptions(sel){
+  var html = UNIV.map(function(u){ return '<optgroup label="' + esc(u.title) + '">' + CATS.filter(function(c){ return c.univers === u.id && c.id !== 'packs' && c.id !== 'valise'; }).map(function(c){ return '<option value="' + c.id + '"' + (c.id === sel ? ' selected' : '') + '>' + esc(c.label) + '</option>'; }).join('') + '</optgroup>'; }).join('');
+  return '<option value="">Choisir…</option>' + html;
+}
+function showPic(b, s){
+  var pic = $('#d-pic'), sh = SHEETS[b.img], ph = pendingPhoto ? pendingPhoto.url : (s.photo ? '/_blob/' + s.photo : '');
+  if (ph){ pic.className = 'pic has'; pic.style.backgroundImage = 'url("' + ph + '")'; pic.style.backgroundPosition = 'center'; pic.textContent = ''; }
+  else if (sh){ pic.className = 'pic'; pic.style.backgroundImage = 'url(sheets/sheet-' + (sh[0] < 10 ? '0' : '') + sh[0] + '.webp)'; pic.style.backgroundPosition = (sh[1] * 20) + '% ' + (sh[2] * 20) + '%'; pic.textContent = ''; }
+  else { pic.className = 'pic none'; pic.style.backgroundImage = 'none'; pic.textContent = b.computed ? 'Pack : photos des articles' : 'Pas encore de photo'; }
+}
 function openDrawer(id){
-  var s = state[id], b = base[id]; editing = id;
-  $('#d-title').firstChild.textContent = s.name; $('#d-sub').textContent = catLabel(b) + (b.computed ? ' · prix calculé d\'après les articles' : '');
+  var s = state[id], b = base[id]; editing = id; pendingPhoto = null; $('#d-err').textContent = ''; $('#d-up').textContent = '';
+  $('#d-title').firstChild.textContent = b.isNew ? (s.name || 'Nouvel article') : s.name; $('#d-sub').textContent = b.isNew ? 'Pas encore sur le site' : catLabel(b) + (b.computed ? ' · prix calculé d\'après les articles' : '');
   var img = $('#d-img'); if (THUMBS[b.img]){ img.src = THUMBS[b.img]; img.hidden = false; } else img.hidden = true;
-  var pic = $('#d-pic'), sh = SHEETS[b.img];
-  if (sh){ pic.className = 'pic'; pic.style.backgroundImage = 'url(sheets/sheet-' + (sh[0] < 10 ? '0' : '') + sh[0] + '.webp)'; pic.style.backgroundPosition = (sh[1] * 20) + '% ' + (sh[2] * 20) + '%'; pic.textContent = ''; }
-  else { pic.className = 'pic none'; pic.style.backgroundImage = 'none'; pic.textContent = b.computed ? 'Pack : photos des articles' : 'Pas de photo'; }
-  $('#d-about').innerHTML = '<span>Fichier photo : <b>' + esc(b.img ? b.img + '.webp' : '—') + '</b></span><span>Catégorie : <b>' + esc(catLabel(b)) + '</b></span>' + (b.computed ? '<span>Le prix de ce pack se calcule d\'après ses articles.</span>' : '<span>Pour changer la photo, envoie la nouvelle image à Claude en indiquant la référence.</span>');
-  $('#d-name').value = s.name; $('#d-ref').value = s.ref; $('#d-price').value = s.price; $('#d-price').disabled = !!b.computed;
+  showPic(b, s);
+  $('#d-about').innerHTML = b.isNew ? '<span>Remplis la fiche, ajoute une photo, puis enregistre. L\'article apparaîtra sur le site à la prochaine publication.</span>'
+    : '<span>Fichier photo : <b>' + esc(b.img ? b.img + '.webp' : '—') + '</b></span><span>Catégorie : <b>' + esc(catLabel(b)) + '</b></span>' + (b.computed ? '<span>Le prix de ce pack se calcule d\'après ses articles.</span>' : '');
+  $('#d-photo-actions').hidden = b.computed || !assets || readOnly; $('#d-file-label').textContent = (s.photo || b.img) ? 'Changer la photo' : 'Ajouter une photo'; $('#d-file').value = '';
+  $('#d-cat-wrap').hidden = !b.isNew; $('#d-cat').innerHTML = catOptions(s.cat);
+  $('#d-name').value = s.name; $('#d-ref').value = s.ref; $('#d-price').value = s.price || ''; $('#d-price').disabled = !!b.computed;
   $('#d-desc').value = s.desc; $('#d-age').value = s.age; $('#d-plus').value = s.plus.join('\n'); $('#d-specs').value = s.specs.map(function(x){ return x[0] + ' : ' + x[1]; }).join('\n');
-  pub('d-name-pub', s.name, b.name); pub('d-ref-pub', s.ref, b.ref || ''); pub('d-price-pub', s.price, b.price ? fmt(b.price) + ' FCFA' : ''); pub('d-desc-pub', s.desc, b.desc || ''); pub('d-age-pub', s.age, b.age || '');
-  if (s.price === b.price) $('#d-price-pub').innerHTML = '';
-  var ro = readOnly; ['d-name', 'd-ref', 'd-desc', 'd-age', 'd-plus', 'd-specs', 'd-save', 'd-reset'].forEach(function(x){ $('#' + x).disabled = ro; }); if (ro) $('#d-price').disabled = true;
+  if (b.isNew) ['d-name-pub', 'd-ref-pub', 'd-price-pub', 'd-desc-pub', 'd-age-pub'].forEach(function(x){ $('#' + x).innerHTML = ''; });
+  else { pub('d-name-pub', s.name, b.name); pub('d-ref-pub', s.ref, b.ref || ''); pub('d-price-pub', s.price, b.price ? fmt(b.price) + ' FCFA' : ''); pub('d-desc-pub', s.desc, b.desc || ''); pub('d-age-pub', s.age, b.age || ''); if (s.price === b.price) $('#d-price-pub').innerHTML = ''; }
+  $('#d-reset').textContent = b.isNew ? 'Supprimer cet article' : 'Revenir au publié'; $('#d-reset').hidden = b.isNew && !b.saved;
+  var ro = readOnly; ['d-name', 'd-ref', 'd-desc', 'd-age', 'd-plus', 'd-specs', 'd-save', 'd-reset', 'd-cat'].forEach(function(x){ $('#' + x).disabled = ro; }); if (ro) $('#d-price').disabled = true;
   $('#scrim').hidden = false; $('#drawer').hidden = false; $('#d-name').focus();
 }
-function closeDrawer(){ $('#scrim').hidden = true; $('#drawer').hidden = true; editing = null; }
+function closeDrawer(){
+  var id = editing; $('#scrim').hidden = true; $('#drawer').hidden = true; editing = null; pendingPhoto = null;
+  if (id && base[id] && base[id].isNew && !base[id].saved){ dropNew(id); compute(); }   // nouvel article abandonné avant le premier enregistrement
+}
 function parseSpecs(text){
   return text.split('\n').map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){
     var m = l.match(/^(.*?)\s*[:：]\s*(.+)$/); return m ? [m[1].trim(), m[2].trim()] : [l, ''];
   }).filter(function(x){ return x[0]; }).map(function(x){ return x[1] ? x : [x[0], '']; });
 }
 function saveDrawer(){
-  var id = editing; if (!id) return; var s = state[id], b = base[id];
-  var name = $('#d-name').value.trim(); if (!name){ $('#d-name').focus(); return; }
+  var id = editing; if (!id) return; var s = state[id], b = base[id], err = $('#d-err');
+  var name = $('#d-name').value.trim(); if (!name){ err.textContent = 'Donne un nom à l\'article.'; $('#d-name').focus(); return; }
+  if (b.isNew){
+    if (!$('#d-cat').value){ err.textContent = 'Choisis la catégorie.'; $('#d-cat').focus(); return; }
+    var pv = parseInt($('#d-price').value, 10); if (isNaN(pv) || pv <= 0){ err.textContent = 'Indique le prix.'; $('#d-price').focus(); return; }
+    s.cat = $('#d-cat').value; b.cat = s.cat; b.saved = true;
+  }
   s.name = name; s.ref = $('#d-ref').value.trim();
   if (!b.computed){ var v = parseInt($('#d-price').value, 10); if (!isNaN(v) && v >= 0) s.price = v; }
   s.desc = $('#d-desc').value.trim(); s.age = $('#d-age').value.trim();
   s.plus = $('#d-plus').value.split('\n').map(function(l){ return l.trim().replace(/^[-•·]\s*/, ''); }).filter(Boolean);
   s.specs = parseSpecs($('#d-specs').value).filter(function(x){ return x[1]; });
-  queueWrite(id); updateRow(id); renderCounts(); closeDrawer();
+  if (pendingPhoto) s.photo = pendingPhoto.id;
+  pendingPhoto = null;
+  queueWrite(id); editing = null; $('#scrim').hidden = true; $('#drawer').hidden = true;
+  if (b.isNew) compute(); else updateRow(id);
+  renderCounts();
 }
 $('#d-save').addEventListener('click', saveDrawer);
+$('#drawer').addEventListener('input', function(){ $('#d-err').textContent = ''; });
 $('#d-cancel').addEventListener('click', closeDrawer);
 $('#d-close').addEventListener('click', closeDrawer);
 $('#scrim').addEventListener('click', closeDrawer);
-$('#d-reset').addEventListener('click', function(){ if (!editing) return; var id = editing; resetLocal(id); queueWrite(id); updateRow(id); renderCounts(); openDrawer(id); });
+$('#d-reset').addEventListener('click', function(){
+  if (!editing) return; var id = editing, b = base[id];
+  if (b.isNew){
+    if ($('#d-reset').dataset.confirm !== '1'){ $('#d-reset').dataset.confirm = '1'; $('#d-reset').textContent = 'Confirmer la suppression'; return; }
+    $('#d-reset').dataset.confirm = ''; editing = null; $('#scrim').hidden = true; $('#drawer').hidden = true;
+    dropNew(id); if (db && !readOnly) db.doc('articles/' + id).delete().catch(function(){ banner('La suppression n\'a pas pu être enregistrée. Réessaie.', true); });
+    compute(); return;
+  }
+  resetLocal(id); queueWrite(id); updateRow(id); renderCounts(); openDrawer(id);
+});
+$('#d-file').addEventListener('change', function(e){
+  var f = e.target.files && e.target.files[0]; if (!f || !assets) return;
+  var up = $('#d-up'); up.textContent = 'Envoi de la photo…'; $('#d-save').disabled = true;
+  var id = editing;
+  assets.upload(f, f.type ? undefined : { type: 'image/jpeg' }).then(function(r){
+    if (editing !== id) return;
+    pendingPhoto = { id: r.id, url: r.url }; up.textContent = 'Photo prête. Enregistre pour la garder.'; showPic(base[id], state[id]);
+  }).catch(function(err){
+    var c = err && err.code; up.textContent = c === 'too_large' ? 'Photo trop lourde (20 Mo maximum).' : c === 'unsupported_type' ? 'Format non accepté : choisis une photo JPEG, PNG ou WebP.' : 'La photo n\'a pas pu être envoyée. Réessaie.';
+  }).then(function(){ $('#d-save').disabled = readOnly; });
+});
+$('#add-btn').addEventListener('click', function(){
+  if (readOnly){ banner('Tu peux consulter le catalogue mais pas le modifier avec ce compte.'); return; }
+  var u = $('#f-univ').value, c = $('#f-cat').value;
+  if (!c && u && u !== 'packs'){ var first = CATS.filter(function(k){ return k.univers === u && k.id !== 'packs' && k.id !== 'valise'; })[0]; c = first ? first.id : ''; }
+  var id = 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  addNewBase(id, c); openDrawer(id);
+});
 document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !$('#drawer').hidden) closeDrawer(); if (e.key === 'Enter' && (e.metaKey || e.ctrlKey) && !$('#drawer').hidden) saveDrawer(); });
 $('#rows').addEventListener('keydown', function(e){
   if (e.key !== 'Enter' || e.target.dataset.f !== 'price') return;
@@ -614,6 +692,7 @@ compute();
   try {
     var user = await claude.use('user');
     db = await claude.use('db');
+    try { assets = await claude.use('assets'); } catch (e) { assets = null; }
     if (!db){ setStatus('error', 'Non connecté'); banner('Les modifications ne peuvent pas être enregistrées : ouvre cette page connecté à ton compte Claude, puis recharge-la.', true); return; }
     if (user){ try { canWrite = await user.can('data.write'); } catch (e) { canWrite = null; } }
     if (canWrite === false){ readOnly = true; setReadOnly(); }
@@ -621,13 +700,16 @@ compute();
     db.collection('articles').onSnapshot(function(snap){
       var touched = [];
       snap.docChanges().forEach(function(ch){
-        var id = ch.doc.id; if (!base[id]) return;
+        var id = ch.doc.id; var dd = ch.doc.data() || {};
+        if (!base[id] && !(ch.type !== 'removed' && dd.isNew)) return;
+        if (ch.type === 'removed' && base[id] && base[id].isNew){ if (editing !== id) dropNew(id); touched.push(id); return; }
         if (pending[id] || timers[id] || editing === id) return;      // édition locale en cours : on garde la main
         var active = document.activeElement; if (active && active.closest && active.closest('tr') && active.closest('tr').dataset.id === id) return;
-        if (ch.type === 'removed') resetLocal(id); else applyDoc(id, ch.doc.data() || {});
+        if (ch.type === 'removed') resetLocal(id); else { applyDoc(id, dd); if (base[id] && base[id].isNew) base[id].saved = true; }
         touched.push(id);
       });
       if (first){ first = false; compute(); if (!readOnly) setStatus('saved', 'Enregistré'); }
+      else if (touched.some(function(id){ return !document.querySelector('tr[data-id="' + id + '"]'); })) compute();
       else { touched.forEach(updateRow); renderCounts(); }
     }, function(e){ setStatus('error', 'Connexion perdue'); banner('La liaison avec l\'enregistrement est perdue (' + (e && e.code) + '). Recharge la page.', true); });
     db.doc('meta/site').onSnapshot(function(snap){

@@ -44,6 +44,7 @@ const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const report = [];
 for (const d of docs) {
   const data = d.data || d;   // export brut ({id, data, version}) ou document seul
+  if (data.isNew) continue;   // nouveaux articles : traités par admin/import-new.js
   const re = new RegExp("^(\\s*\\{id:'" + d.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "',[^\\n]*\\}),?$", 'm');
   const m = src.match(re);
   if (!m) { report.push('? ' + d.id + ' : introuvable dans le fichier'); continue; }
