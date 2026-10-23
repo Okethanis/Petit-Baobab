@@ -2870,8 +2870,9 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
     if (current) { cancelAnimationFrame(current.raf); try { current.renderer.forceContextLoss(); current.renderer.dispose(); } catch (e) {} current = null; }
     var touch = window.matchMedia('(hover:none)').matches;
     var renderer;
-    try { renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !touch, powerPreference: 'low-power' }); } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2));
+    try { renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' }); } catch (e) { return; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3));   // pleine résolution de l'écran : la scène est légère, autant qu'elle soit nette
+    var aniso = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
     renderer.setClearColor(0x000000, 0);
     renderer.outputEncoding = THREE.sRGBEncoding;
     if (!touch) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
@@ -2935,10 +2936,10 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
     function fit(tex, w, h){ var ia = w / h, pa = photoW / photoH; if (ia < pa) { tex.repeat.set(1, ia / pa); tex.offset.set(0, (1 - ia / pa) / 2); } else { tex.repeat.set(pa / ia, 1); tex.offset.set((1 - pa / ia) / 2, 0); } }
     var loader = new THREE.TextureLoader(), slides = SLIDES.map(function(d){ return { def: d, tex: null, video: null }; });
     slides.forEach(function(sl){
-      loader.load(BASE + sl.def.img, function(tex){ tex.encoding = THREE.sRGBEncoding; tex.minFilter = THREE.LinearFilter; fit(tex, tex.image.width, tex.image.height); sl.tex = tex; if (sl === slides[slide] && !photoMat.map) show(sl); });
+      loader.load(BASE + sl.def.img, function(tex){ tex.encoding = THREE.sRGBEncoding; tex.minFilter = THREE.LinearMipmapLinearFilter; tex.anisotropy = aniso; fit(tex, tex.image.width, tex.image.height); sl.tex = tex; if (sl === slides[slide] && !photoMat.map) show(sl); });
       if (sl.def.video) {
         var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.preload = 'auto'; v.src = BASE + sl.def.video; v.crossOrigin = 'anonymous';
-        var vt = new THREE.VideoTexture(v); vt.encoding = THREE.sRGBEncoding; vt.minFilter = THREE.LinearFilter;
+        var vt = new THREE.VideoTexture(v); vt.encoding = THREE.sRGBEncoding; vt.minFilter = THREE.LinearFilter; vt.anisotropy = aniso;
         v.addEventListener('loadedmetadata', function(){ fit(vt, v.videoWidth, v.videoHeight); });
         sl.video = v; sl.videoTex = vt;
       }
