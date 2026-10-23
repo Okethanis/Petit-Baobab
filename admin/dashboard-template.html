@@ -134,7 +134,7 @@ details.twin td:last-child{text-align:right}
 .row .chev{color:var(--faint);text-align:right}
 .st{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
 .st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
-.st.acompte{background:var(--accent-soft);color:var(--accent-ink)}
+.st.confirme,.st.acompte{background:var(--accent-soft);color:var(--accent-ink)}
 .st.preparation{background:var(--brand-soft);color:var(--brand-deep)}
 .st.livre{background:var(--brand);color:var(--brand-ink)}
 .st.annule{background:var(--bad-soft);color:var(--bad)}
@@ -222,7 +222,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     <div class="orders" id="orders"></div>
     <div class="list-foot"><span id="count"></span><span class="grow"></span><button type="button" class="btn small" id="btn-export">Exporter en CSV</button></div>
   </section>
-  <footer class="foot"><span>Une commande = une conversation WhatsApp qui a donné un prix, puis un acompte, puis une livraison.</span><a id="site-link-2" href="#" target="_blank" rel="noopener">Ouvrir le site</a></footer>
+  <footer class="foot"><span>Une commande = une conversation WhatsApp : une demande, une confirmation, puis une livraison payée à la livraison ou avant.</span><a id="site-link-2" href="#" target="_blank" rel="noopener">Ouvrir le site</a></footer>
 </main>
 
 <div class="scrim" id="scrim" hidden></div>
@@ -251,7 +251,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
       </div>
       <div class="r2">
         <label class="f">Montant encaissé<input type="number" id="f-recu" min="0" step="500" value="0" inputmode="numeric"></label>
-        <div class="hint" id="f-hint">Acompte conseillé : <b id="f-acompte">0 F</b> <button type="button" class="link" id="f-use-acompte">Utiliser</button></div>
+        <label class="f">Paiement<select id="f-paiement"></select></label>
       </div>
       <label class="f">Note<textarea id="f-note" rows="2" placeholder="Prénom du bébé, couleur, date souhaitée, relance…"></textarea></label>
     </div>
@@ -275,9 +275,10 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
   const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
   const ITEM_BY = {}; ITEMS.forEach(i => { ITEM_BY[i.i] = i; i.q = norm(i.n); });
   const SOURCES = [['tiktok', 'TikTok'], ['facebook', 'Facebook'], ['instagram', 'Instagram'], ['statut', 'Statut WhatsApp'], ['site', 'Le site'], ['bouche', 'Bouche à oreille'], ['autre', 'Autre']];
-  const STATUTS = [['demande', 'Demande'], ['acompte', 'Acompte reçu'], ['preparation', 'En préparation'], ['livre', 'Livré'], ['annule', 'Annulé']];
-  const LBL = {}; SOURCES.concat(STATUTS).forEach(p => { LBL[p[0]] = p[1]; });
-  const SOLD = ['acompte', 'preparation', 'livre'];   // une vente = une commande confirmée par un acompte
+  const STATUTS = [['demande', 'Demande'], ['confirme', 'Confirmée'], ['preparation', 'En préparation'], ['livre', 'Livrée'], ['annule', 'Annulée']];
+  const PAIEMENTS = [['livraison', 'À la livraison'], ['avance', 'Payé avant la livraison (Wave / Mobile Money)']];
+  const LBL = {}; SOURCES.concat(STATUTS).forEach(p => { LBL[p[0]] = p[1]; }); LBL.acompte = 'Confirmée';   // ancien statut « acompte reçu »
+  const SOLD = ['confirme', 'acompte', 'preparation', 'livre'];   // une vente = une commande confirmée sur WhatsApp
   const state = { orders: [], period: '30', filter: 'tous', q: '', editing: null, draft: null, db: null, user: null, uid: null, downloads: null, online: false, canWrite: true, livraisonTouched: false };
 
   // ---------- utilitaires ----------
@@ -291,7 +292,6 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
   function dd(s, opts) { if (!s) return ''; return new Date(s + 'T00:00:00').toLocaleDateString('fr-FR', opts || { day: 'numeric', month: 'short' }); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
   function round500(n) { return Math.round(n / 500) * 500; }
-  function depositFor(total) { const r = total >= DEPOSIT.bigFrom ? DEPOSIT.bigRate : DEPOSIT.rate; return round500(total * r); }
   function waLink(tel) { const d = String(tel || '').replace(/\D/g, ''); if (!d) return ''; return 'https://wa.me/' + (d.length === 10 && d[0] === '0' ? '225' + d.slice(1) : d.length === 8 ? '225' + d : d); }
   function total(o) { return Math.max(0, (o.items || []).reduce((s, l) => s + (l.price || 0) * (l.qty || 0), 0) - (o.remise || 0) + (o.livraison || 0)); }
   function reste(o) { return Math.max(0, (o.total || 0) - (o.recu || 0)); }
@@ -317,7 +317,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     const encaisse = sold.reduce((s, o) => s + (o.recu || 0), 0);
     const resteDu = sold.reduce((s, o) => s + reste(o), 0);
     const demandes = list.filter(o => o.statut === 'demande').length;
-    const aLivrer = list.filter(o => o.statut === 'acompte' || o.statut === 'preparation').length;
+    const aLivrer = list.filter(o => o.statut === 'confirme' || o.statut === 'acompte' || o.statut === 'preparation').length;
     const livrees = list.filter(o => o.statut === 'livre').length;
     const annulees = list.filter(o => o.statut === 'annule').length;
     return { ventes, encaisse, resteDu, n: sold.length, panier: sold.length ? ventes / sold.length : 0, demandes, aLivrer, livrees, annulees, conv: (sold.length + demandes) ? sold.length / (sold.length + demandes) : null };
@@ -341,10 +341,10 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
   function renderTiles(s, ps, r) {
     const tiles = [
       { hero: true, lab: 'Ventes ' + r.name, val: fmt(s.ventes), sub: (s.n ? s.n + (s.n > 1 ? ' commandes' : ' commande') + ' dont ' + s.livrees + (s.livrees > 1 ? ' livrées' : ' livrée') + ' · panier moyen ' + fmt(s.panier) : 'Aucune commande confirmée') + (s.annulees ? ' · ' + s.annulees + (s.annulees > 1 ? ' annulées' : ' annulée') : '') + (ps ? ' ' + delta(s.ventes, ps.ventes) : '') },
-      { lab: 'Encaissé', val: fmt(s.encaisse), sub: 'acomptes et soldes reçus' },
-      { lab: 'Reste à encaisser', val: fmt(s.resteDu), sub: 'soldes dus sur les commandes' },
+      { lab: 'Encaissé', val: fmt(s.encaisse), sub: 'paiements reçus (avant ou à la livraison)' },
+      { lab: 'Reste à encaisser', val: fmt(s.resteDu), sub: 'à encaisser à la livraison' },
       { lab: 'Demandes en attente', val: String(s.demandes), sub: s.conv == null ? 'pas encore de devis' : Math.round(s.conv * 100) + ' % des demandes deviennent des commandes' },
-      { lab: 'À livrer', val: String(s.aLivrer), sub: 'acompte reçu, pas encore livré' }
+      { lab: 'À livrer', val: String(s.aLivrer), sub: 'confirmées, pas encore livrées' }
     ];
     $('#tiles').innerHTML = tiles.map(t => '<div class="tile' + (t.hero ? ' hero' : '') + '"><div class="lab">' + esc(t.lab) + '</div><div class="val">' + esc(t.val) + '</div><div class="sub">' + t.sub + '</div></div>').join('');
   }
@@ -352,8 +352,8 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     const t = today(), out = [];
     state.orders.forEach(o => {
       if (o.statut === 'demande' && diffDays(o.date, t) >= 2) out.push({ o, what: 'Demande sans suite depuis ' + diffDays(o.date, t) + ' jours', act: 'Relancer' });
-      else if ((o.statut === 'acompte' || o.statut === 'preparation') && diffDays(o.date, t) >= 7) out.push({ o, what: 'Acompte reçu il y a ' + diffDays(o.date, t) + ' jours, pas encore livré', act: 'Livrer' });
-      else if ((o.statut === 'acompte' || o.statut === 'preparation') && (o.items || []).some(l => ITEM_BY[l.id] && ITEM_BY[l.id].s)) out.push({ o, what: 'Article sur commande : prévenir du délai conteneur', act: 'Voir' });
+      else if (['confirme', 'acompte', 'preparation'].includes(o.statut) && diffDays(o.date, t) >= 2) out.push({ o, what: 'Confirmée il y a ' + diffDays(o.date, t) + ' jours, pas encore livrée (promesse : moins de 24 h)', act: 'Livrer' });
+      else if (['confirme', 'acompte', 'preparation'].includes(o.statut) && (o.items || []).some(l => ITEM_BY[l.id] && ITEM_BY[l.id].s)) out.push({ o, what: 'Article sur commande : prévenir du délai conteneur', act: 'Voir' });
     });
     out.sort((a, b) => a.o.date < b.o.date ? -1 : 1);
     const el = $('#rappels');
@@ -361,7 +361,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
       (out.length ? '<ul>' + out.slice(0, 8).map(x => '<li><span class="what">' + esc(x.what) + '</span><span class="who">' + esc(x.o.client) + (x.o.tel ? ' · ' + esc(x.o.tel) : '') + '</span><span class="grow"></span>' +
         (x.o.tel && waLink(x.o.tel) ? '<a class="btn small" href="' + waLink(x.o.tel) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
         '<button type="button" class="btn small" data-open="' + esc(x.o.id) + '">' + esc(x.act) + '</button></li>').join('') + '</ul>' + (out.length > 8 ? '<div class="none">et ' + (out.length - 8) + ' de plus dans la liste</div>' : '')
-        : '<div class="none">Rien à relancer aujourd\'hui. Les demandes de plus de 2 jours et les acomptes de plus de 7 jours apparaîtront ici.</div>');
+        : '<div class="none">Rien à relancer aujourd\'hui. Les demandes de plus de 2 jours et les commandes confirmées non livrées après 2 jours apparaîtront ici.</div>');
   }
   function bySource(list) {
     const m = {}; list.filter(o => o.statut !== 'annule').forEach(o => { const k = o.source || 'autre'; m[k] = (m[k] || 0) + 1; });
@@ -406,7 +406,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     const W = Math.max(300, Math.round(el.clientWidth || 600)), H = 230, padL = 46, padR = 10, padT = 22, padB = 28;
     const plotW = W - padL - padR, plotH = H - padT - padB;
     const max = Math.max.apply(null, rows.map(x => x.value).concat([0]));
-    if (!max) { el.innerHTML = '<div class="empty">Aucune vente sur la période. Les commandes avec acompte apparaîtront ici.</div>'; return; }
+    if (!max) { el.innerHTML = '<div class="empty">Aucune vente sur la période. Les commandes confirmées apparaîtront ici.</div>'; return; }
     const top = niceMax(max), slot = plotW / n, bw = Math.min(24, Math.max(3, slot * 0.68)), base = padT + plotH;
     const y = v => padT + plotH - v / top * plotH;
     let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Ventes par ' + (b.unit === 'day' ? 'jour' : b.unit === 'week' ? 'semaine' : 'mois') + '">';
@@ -433,7 +433,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     if (q) rows = rows.filter(o => norm([o.client, o.tel, o.note, o.zone, (o.items || []).map(l => l.name).join(' ')].join(' ')).includes(q));
     rows.sort((a, b) => a.date === b.date ? ((b.updatedAt || '') > (a.updatedAt || '') ? 1 : -1) : (a.date < b.date ? 1 : -1));
     const el = $('#orders');
-    if (!rows.length) { el.innerHTML = '<div class="empty">' + (state.orders.length ? 'Aucune commande ne correspond.' : 'Aucune commande pour l\'instant. Ajoutez la première avec « Nouvelle commande » : une demande de prix sur WhatsApp suffit, vous la ferez avancer ensuite (acompte, préparation, livré).') + '</div>'; }
+    if (!rows.length) { el.innerHTML = '<div class="empty">' + (state.orders.length ? 'Aucune commande ne correspond.' : 'Aucune commande pour l\'instant. Ajoutez la première avec « Nouvelle commande » : une demande de prix sur WhatsApp suffit, vous la ferez avancer ensuite (confirmée, préparation, livrée).') + '</div>'; }
     else el.innerHTML = '<div class="row head" aria-hidden="true"><span>Date</span><span>Client</span><span>Canal</span><span>Articles</span><span class="num">Total</span><span class="num">Reste dû</span><span>Statut</span><span></span></div>' + rows.map(o => {
       const it = (o.items || []).map(l => (l.qty > 1 ? l.qty + ' × ' : '') + l.name).join(', ') || 'Pas encore d\'article';
       const rs = reste(o);
@@ -460,7 +460,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
 
   // ---------- volet commande ----------
   function fillSelect(sel, pairs, blank) { sel.innerHTML = (blank ? '<option value="">' + esc(blank) + '</option>' : '') + pairs.map(p => '<option value="' + esc(p[0]) + '">' + esc(p[1]) + '</option>').join(''); }
-  fillSelect($('#f-statut'), STATUTS); fillSelect($('#f-source'), SOURCES);
+  fillSelect($('#f-statut'), STATUTS); fillSelect($('#f-source'), SOURCES); fillSelect($('#f-paiement'), PAIEMENTS);
   $('#f-zone').innerHTML += ZONES.map(z => '<option value="' + esc(z[0]) + '">' + esc(z[0]) + (z[1] ? ' · ' + fmt(z[1]) : '') + '</option>').join('');
   function openDrawer(o) {
     state.editing = o ? o.id : null;
@@ -468,7 +468,8 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     state.livraisonTouched = !!o;
     $('#d-title').textContent = o ? 'Commande de ' + (o.client || '') : 'Nouvelle commande';
     $('#f-date').value = o ? o.date : today();
-    $('#f-statut').value = o ? o.statut : 'demande';
+    $('#f-statut').value = o ? (o.statut === 'acompte' ? 'confirme' : o.statut) : 'demande';
+    $('#f-paiement').value = o && o.paiement === 'avance' ? 'avance' : 'livraison';
     $('#f-client').value = o ? o.client || '' : '';
     $('#f-tel').value = o ? o.tel || '' : '';
     $('#f-source').value = o ? o.source || 'autre' : 'statut';
@@ -494,7 +495,6 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     if (!state.livraisonTouched) { const z = ZONES.find(z => z[0] === $('#f-zone').value); if (z && z[1] != null) $('#f-livraison').value = sub >= FREE_FROM ? 0 : z[1]; }
     const t = Math.max(0, sub - (+$('#f-remise').value || 0) + (+$('#f-livraison').value || 0));
     $('#f-total').value = fmt(t);
-    $('#f-acompte').textContent = fmt(depositFor(t));
     return t;
   }
   function readForm() {
@@ -502,7 +502,7 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     const o = {
       date: $('#f-date').value || today(), statut: $('#f-statut').value, client: $('#f-client').value.trim(), tel: $('#f-tel').value.trim(), source: $('#f-source').value, zone: $('#f-zone').value,
       items: state.draft.items.map(l => ({ id: l.id, name: l.name, price: +l.price || 0, qty: +l.qty || 1 })),
-      remise: +$('#f-remise').value || 0, livraison: +$('#f-livraison').value || 0, total: t, recu: +$('#f-recu').value || 0, note: $('#f-note').value.trim(), updatedAt: new Date().toISOString()
+      remise: +$('#f-remise').value || 0, livraison: +$('#f-livraison').value || 0, total: t, recu: +$('#f-recu').value || 0, paiement: $('#f-paiement').value, note: $('#f-note').value.trim(), updatedAt: new Date().toISOString()
     };
     return o;
   }
@@ -579,7 +579,6 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
     else if (t.id === 'd-close' || t.id === 'd-cancel') closeDrawer();
     else if (t.id === 'd-delete') { t.hidden = true; $('#d-delete-confirm').hidden = false; }
     else if (t.id === 'd-delete-confirm') remove();
-    else if (t.id === 'f-use-acompte') { $('#f-recu').value = depositFor(compute()); }
     else if (t.id === 'btn-export') exportCsv();
     else if (t.id === 'btn-clear-ex') clearExamples();
     if (!e.target.closest('.picker')) $('#pick-list').hidden = true;
@@ -594,6 +593,9 @@ fieldset.items legend{font-size:.85rem;font-weight:700;color:var(--muted);paddin
   $('#f-lines').addEventListener('input', e => { const i = e.target.dataset.qty != null ? +e.target.dataset.qty : e.target.dataset.price != null ? +e.target.dataset.price : -1; if (i < 0) return; const l = state.draft.items[i]; if (e.target.dataset.qty != null) l.qty = Math.max(1, +e.target.value || 1); else l.price = Math.max(0, +e.target.value || 0); e.target.closest('.line').querySelector('.sub').textContent = fmt(l.price * l.qty); compute(); });
   ['f-remise', 'f-livraison'].forEach(id => $('#' + id).addEventListener('input', () => { if (id === 'f-livraison') state.livraisonTouched = true; compute(); }));
   $('#f-zone').addEventListener('change', () => { state.livraisonTouched = false; compute(); });
+  function paidCheck() { const st = $('#f-statut').value, t = compute(); if ($('#f-paiement').value === 'avance' && ['confirme', 'preparation', 'livre'].includes(st) && (+$('#f-recu').value || 0) < t) { $('#f-recu').value = t; toast('Payé avant la livraison : montant marqué comme encaissé. Corrigez si besoin.'); } }
+  $('#f-paiement').addEventListener('change', paidCheck);
+  $('#f-statut').addEventListener('change', paidCheck);
   $('#f-statut').addEventListener('change', e => { if (e.target.value === 'livre') { const t = compute(); if ((+$('#f-recu').value || 0) < t) { $('#f-recu').value = t; toast('Solde marqué comme encaissé à la livraison. Corrigez si besoin.'); } } });
   // info-bulle du graphique
   const tip = $('#tip');
