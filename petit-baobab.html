@@ -865,76 +865,14 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .free-note{font-size:.84rem;color:var(--muted);margin:6px 0 10px}
 .dl-box{margin-top:14px;padding:12px 14px;border-radius:var(--radius);background:var(--brand-soft);display:grid;gap:8px}
 .dl-line{margin:0;font-size:.9rem;color:var(--ink)}
+/* Images des packs (brand/packs-site.py) */
+.pack-img{display:block;width:calc(100% + 2*var(--sp-4,24px));margin:calc(-1*var(--sp-4,24px)) calc(-1*var(--sp-4,24px)) 14px;padding:0;border:0;background:none;cursor:zoom-in;overflow:hidden;border-radius:var(--radius-lg,20px) var(--radius-lg,20px) 0 0}
+.pack-img img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;transition:transform .5s var(--ease)}
+.pack-img:hover img{transform:scale(1.03)}
 /* pb-police:start */
 .univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong{font-family:var(--font-brand)}
 @media (max-width:620px){.fab-wa,.fab-call{width:52px;height:52px}.fab-wa .icon,.fab-call .icon{width:26px;height:26px}.fabs{gap:9px}}
 /* pb-police:end */
-/* pb-ambiance:start */
-/* Ambiance Petit Baobab : petites choses de bébé qui tombent, bulles qui montent, cigogne qui traverse (brand/ambiance.js) */
-.amb{position:fixed;inset:0;z-index:15;pointer-events:none;overflow:hidden;contain:strict;opacity:0;transition:opacity 2.4s ease;
-  --a-g1:#1F6B4A;--a-g2:#2E8A5E;--a-g3:#9ED4B2;--a-s1:#F2A93B;--a-s2:#F8CC6B;--a-c:#FFF3DC;--a-w:#FFFFFF;--a-ink:#1E2B22;--a-bub:rgba(46,138,94,.62);--a-bubf:rgba(158,212,178,.2)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .amb{--a-g1:#5FB58A;--a-g2:#7FCDA2;--a-g3:#4E8F6B;--a-s1:#F2B24C;--a-s2:#F6CF7A;--a-c:#F1E3C6;--a-ink:#121915;--a-bub:rgba(127,205,162,.6);--a-bubf:rgba(255,255,255,.07)}}
-:root[data-theme="dark"] .amb{--a-g1:#5FB58A;--a-g2:#7FCDA2;--a-g3:#4E8F6B;--a-s1:#F2B24C;--a-s2:#F6CF7A;--a-c:#F1E3C6;--a-ink:#121915;--a-bub:rgba(127,205,162,.6);--a-bubf:rgba(255,255,255,.07)}
-.amb.on{opacity:1}
-.amb-defs{position:absolute;width:0;height:0;overflow:hidden}
-.ab-g1{fill:var(--a-g1)} .ab-g2{fill:var(--a-g2)} .ab-g3{fill:var(--a-g3)} .ab-s1{fill:var(--a-s1)} .ab-s2{fill:var(--a-s2)}
-.ab-c{fill:var(--a-c)} .ab-w{fill:var(--a-w)} .ab-ink{fill:var(--a-ink)} .ab-bub{fill:var(--a-bubf);stroke:var(--a-bub)}
-[class*="abk-"]{stroke-linecap:round;stroke-linejoin:round}
-.abk-g1{stroke:var(--a-g1)} .abk-g2{stroke:var(--a-g2)} .abk-g3{stroke:var(--a-g3)} .abk-s1{stroke:var(--a-s1)} .abk-s2{stroke:var(--a-s2)} .abk-c{stroke:var(--a-c)} .abk-w{stroke:var(--a-w)}
-path[class^="abk-"],circle[class^="abk-"]{fill:none}
-/* les dessins sont des <use> : leurs couleurs viennent des variables posées sur .amb */
-.amb-wind{position:absolute;inset:0;will-change:transform}
-.amb-i{position:absolute;left:var(--x);top:-64px;width:var(--s);height:var(--s);animation:amb-fall var(--d) linear var(--dl) infinite;will-change:transform,opacity}
-.amb-bubble{top:auto;bottom:-64px;animation-name:amb-rise}
-.amb-sw{display:block;width:100%;height:100%;animation:amb-sway var(--sw) ease-in-out var(--dl) infinite alternate}
-.amb-in{display:block;width:100%;height:100%;overflow:visible}
-.amb-item .amb-in{transform-origin:50% 8%;animation:amb-swing var(--fl) ease-in-out var(--dl) infinite alternate}
-.amb-spark .amb-in{animation:amb-twinkle var(--fl) ease-in-out var(--dl) infinite}
-.amb-bubble .amb-in{animation:amb-wobble var(--fl) ease-in-out var(--dl) infinite alternate}
-/* liseré clair « autocollant » : les dessins restent lisibles sur le vert du bandeau comme sur le fond clair */
-.amb-in{filter:drop-shadow(0 0 1.4px rgba(255,251,242,.95))}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .amb-in{filter:drop-shadow(0 0 1.4px rgba(10,16,12,.8))}}
-:root[data-theme="dark"] .amb-in{filter:drop-shadow(0 0 1.4px rgba(10,16,12,.8))}
-@keyframes amb-fall{0%{transform:translate3d(0,0,0);opacity:0}6%{opacity:var(--o)}90%{opacity:var(--o)}100%{transform:translate3d(0,calc(100vh + 128px),0);opacity:0}}
-@keyframes amb-rise{0%{transform:translate3d(0,0,0) scale(.5);opacity:0}7%{transform:translate3d(0,-6vh,0) scale(1);opacity:var(--o)}93%{transform:translate3d(0,calc(var(--ph) * -1),0) scale(1);opacity:var(--o)}97%{transform:translate3d(0,calc(var(--ph) * -1 - 1vh),0) scale(1.55);opacity:0}100%{transform:translate3d(0,calc(var(--ph) * -1 - 1vh),0) scale(1.55);opacity:0}}
-@keyframes amb-sway{from{transform:translateX(calc(var(--amp) * -1))}to{transform:translateX(var(--amp))}}
-@keyframes amb-swing{from{transform:rotate(-17deg)}to{transform:rotate(17deg)}}
-@keyframes amb-twinkle{0%,100%{transform:scale(.82) rotate(0);opacity:.7}50%{transform:scale(1.14) rotate(calc(var(--r) * 28deg));opacity:1}}
-@keyframes amb-wobble{from{transform:scale(1.04,.93)}to{transform:scale(.94,1.05)}}
-/* la cigogne */
-.amb-stork{position:absolute;left:0;top:var(--y,30vh);width:150px;opacity:0;--a-line:rgba(30,43,34,.28)}
-.amb-stork.fly{animation:stork-fly var(--fd,14s) linear forwards}
-.amb-stork.rtl{animation-name:stork-fly-rtl}
-.amb-stork.rtl svg{transform:scaleX(-1)}
-.amb-stork-bob{animation:stork-bob 2.4s ease-in-out infinite alternate}
-.amb-stork svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 3px 4px rgba(30,43,34,.16))}
-.amb-stork .sk-body{fill:#FFFFFF;stroke:var(--a-line);stroke-width:1.1}
-.amb-stork .sk-tip,.amb-stork .sk-tail{fill:#2B3A31}
-.amb-stork .sk-far{fill:#E6EAE5;stroke:var(--a-line);stroke-width:1}
-.amb-stork .sk-beak{fill:#F08A3C}
-.amb-stork .sk-leg{fill:none;stroke:#F08A3C;stroke-width:2.6;stroke-linecap:round}
-.amb-stork .sk-eye,.amb-stork .sk-eyes{fill:#1E2B22}
-.amb-stork .sk-eyes{fill:none;stroke:#3A2418;stroke-width:1.1;stroke-linecap:round}
-.amb-stork .sk-knot{fill:none;stroke:#C98A3A;stroke-width:1.6;stroke-linecap:round}
-.amb-stork .sk-cloth{fill:#BFE3CB;stroke:var(--a-line);stroke-width:1}
-.amb-stork .sk-fold{fill:none;stroke:#8CC7A2;stroke-width:1.6;stroke-linecap:round}
-.amb-stork .sk-dot,.amb-stork .sk-tie{fill:#F2A93B}
-.amb-stork .sk-face{fill:#8A5A3B}
-.amb-stork .sk-wing{transform-box:view-box;transform-origin:58px 36px}
-.amb-stork .sk-near{animation:stork-flap .62s ease-in-out infinite alternate}
-.amb-stork .sk-far{animation:stork-flap-far .62s ease-in-out infinite alternate}
-.amb-stork .sk-bundle{transform-box:view-box;transform-origin:114px 27px;animation:stork-swing 1.24s ease-in-out infinite alternate}
-@keyframes stork-fly{0%{transform:translate3d(-170px,0,0);opacity:0}4%{opacity:1}96%{opacity:1}100%{transform:translate3d(calc(100vw + 20px),0,0);opacity:0}}
-@keyframes stork-fly-rtl{0%{transform:translate3d(calc(100vw + 20px),0,0);opacity:0}4%{opacity:1}96%{opacity:1}100%{transform:translate3d(-170px,0,0);opacity:0}}
-@keyframes stork-bob{from{transform:translateY(-10px) rotate(-2deg)}to{transform:translateY(10px) rotate(2deg)}}
-@keyframes stork-flap{from{transform:rotate(-6deg)}to{transform:scaleY(-.55) rotate(-4deg)}}
-@keyframes stork-flap-far{from{transform:rotate(4deg)}to{transform:scaleY(-.4) rotate(10deg)}}
-@keyframes stork-swing{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
-@media (max-width:620px){.amb-stork{width:112px}}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .amb-stork{--a-line:rgba(0,0,0,.35)}}
-@media (prefers-reduced-motion: reduce){.amb{display:none}}
-@media print{.amb{display:none!important}}
-/* pb-ambiance:end */
 </style>
 
 <!-- Icônes -->
@@ -1740,12 +1678,12 @@ var CATS = [
 ];
 
 var PRODUCTS = [
-  {id:'pack-essentiel', cat:'packs', name:'Pack naissance Essentiel', price:54500, tagline:'Le nécessaire des premières semaines', desc:'Le trousseau de base pour accueillir bébé : premières tenues, toilette et biberons, composés avec les articles de la boutique.', items:[{id:'vtgf204', qty:2}, {id:'r2051', qty:1}, {id:'0212-33', qty:1}, {id:'0212-35', qty:2}, {id:'x-n-6', qty:1}, {id:'9423', qty:1}, {id:'0212-30', qty:1}, {id:'0212-27', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'0212-18', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Set de 3 biberons (7 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Set brosse et peigne (1 300 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Mouche-bébé (1 100 FCFA)'], value:59300, saving:4800},
-  {id:'pack-confort', cat:'packs', name:'Pack naissance Confort', price:156000, badge:'Le plus choisi', featured:true, tagline:'L\'Essentiel, plus le bain, le change et le sommeil', desc:'Tout le pack Essentiel, avec en plus le bain, le change, la moustiquaire et le sac à langer : de quoi équiper la maison pour les premiers mois.', includes:'Tout le pack Essentiel, et en plus :', base:'pack-essentiel', items:[{id:'vtgf205', qty:2}, {id:'vtpt301', qty:1}, {id:'x-14', qty:1}, {id:'70-140cm-1pcs-50-90cm-2pcs-n', qty:1}, {id:'qc9982', qty:1}, {id:'0212-5', qty:1}, {id:'2001', qty:1}, {id:'f-8221', qty:1}], discount:0.1, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Pantalons (lot de 3) (7 500 FCFA)', '1 × Baignoire pliable avec support (22 500 FCFA)', '1 × Set de serviettes de bain (3 pièces) (19 000 FCFA)', '1 × Matelas à langer (17 300 FCFA)', '1 × Coffret biberons (10 500 FCFA)', '1 × Moustiquaire de lit sur pied (16 900 FCFA)', '1 × Sac à langer (12 200 FCFA)'], value:173200, saving:17200},
-  {id:'pack-prestige', cat:'packs', name:'Pack naissance Prestige', price:308000, tagline:'Le trousseau complet, prêt à offrir', desc:'Le pack Confort complété par le lit parapluie, le portage, l\'éveil et le chauffe-biberon. Livré dans un coffret cadeau avec une carte personnalisée.', includes:'Tout le pack Confort, et en plus :', base:'pack-confort', items:[{id:'ys202', qty:1}, {id:'a6607', qty:1}, {id:'668-35', qty:1}, {id:'8763', qty:1}, {id:'1656-6', qty:1}, {id:'x-n-7', qty:1}], discount:0.12, extras:['Coffret cadeau et carte personnalisée offerts'], contents:['1 × Lit parapluie avec moustiquaire (65 700 FCFA)', '1 × Porte-bébé ergonomique avec siège (21 800 FCFA)', '1 × Tapis d\'éveil avec arche (35 700 FCFA)', '1 × Mobile musical pour lit (16 200 FCFA)', '1 × Chauffe-biberon (14 300 FCFA)', '1 × Ensemble vêtements bébé (22 900 FCFA)', 'Coffret cadeau et carte personnalisée offerts'], value:349800, saving:41800},
-  {id:'valise-bebe', cat:'valise', name:'Valise maternité bébé', price:57500, tagline:'Les affaires de bébé pour le séjour', desc:'Ce qu\'il faut pour bébé pendant le séjour à la maternité, composé avec les articles de la boutique, lavé et plié dans un sac.', items:[{id:'vtgf202', qty:2}, {id:'r2052', qty:1}, {id:'0212-33', qty:1}, {id:'0212-36', qty:2}, {id:'0926-2', qty:1}, {id:'x-n-6', qty:1}, {id:'0212-30', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'x-5', qty:1}, {id:'0212-1', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture d\'emmaillotage à capuche (7 500 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Sucette bébé avec boîte (2 300 FCFA)', '1 × Biberon (3 400 FCFA)'], value:62600, saving:5100},
-  {id:'valise-maman', cat:'valise', name:'Valise maternité maman', price:35000, tagline:'Le confort de maman, avant et après', desc:'Les indispensables de maman pour l\'accouchement et les premiers jours, réunis dans un sac.', contents:['3 chemises de nuit ouvertes devant', '2 pagnes', '1 paquet de serviettes de maternité', '6 culottes de maternité jetables', '2 soutiens-gorge d\'allaitement', '1 lot de coussinets d\'allaitement', '1 serviette de toilette', '1 trousse de toilette garnie', '1 paire de claquettes', '1 ceinture post-partum']},
-  {id:'valise-complete', cat:'valise', name:'Valise maternité complète', price:87500, badge:'5 000 FCFA d\'économie', featured:true, tagline:'Maman et bébé, dans un seul sac', desc:'Les deux valises réunies, avec le sac de maternité offert.', includes:'La valise bébé et la valise maman, et en plus :', items:[{id:'valise-bebe', qty:1}, {id:'valise-maman', qty:1}], rebate:5000, extras:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], contents:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], value:92500, saving:5000},
+  {id:'pack-essentiel', cat:'packs', name:'Pack naissance Essentiel', price:54500, tagline:'Le nécessaire des premières semaines', desc:'Le trousseau de base pour accueillir bébé : premières tenues, toilette et biberons, composés avec les articles de la boutique.', items:[{id:'vtgf204', qty:2}, {id:'r2051', qty:1}, {id:'0212-33', qty:1}, {id:'0212-35', qty:2}, {id:'x-n-6', qty:1}, {id:'9423', qty:1}, {id:'0212-30', qty:1}, {id:'0212-27', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'0212-18', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Set de 3 biberons (7 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Set brosse et peigne (1 300 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Mouche-bébé (1 100 FCFA)'], value:59300, saving:4800, image:'images/pack-essentiel.webp'},
+  {id:'pack-confort', cat:'packs', name:'Pack naissance Confort', price:156000, badge:'Le plus choisi', featured:true, tagline:'L\'Essentiel, plus le bain, le change et le sommeil', desc:'Tout le pack Essentiel, avec en plus le bain, le change, la moustiquaire et le sac à langer : de quoi équiper la maison pour les premiers mois.', includes:'Tout le pack Essentiel, et en plus :', base:'pack-essentiel', items:[{id:'vtgf205', qty:2}, {id:'vtpt301', qty:1}, {id:'x-14', qty:1}, {id:'70-140cm-1pcs-50-90cm-2pcs-n', qty:1}, {id:'qc9982', qty:1}, {id:'0212-5', qty:1}, {id:'2001', qty:1}, {id:'f-8221', qty:1}], discount:0.1, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Pantalons (lot de 3) (7 500 FCFA)', '1 × Baignoire pliable avec support (22 500 FCFA)', '1 × Set de serviettes de bain (3 pièces) (19 000 FCFA)', '1 × Matelas à langer (17 300 FCFA)', '1 × Coffret biberons (10 500 FCFA)', '1 × Moustiquaire de lit sur pied (16 900 FCFA)', '1 × Sac à langer (12 200 FCFA)'], value:173200, saving:17200, image:'images/pack-confort.webp'},
+  {id:'pack-prestige', cat:'packs', name:'Pack naissance Prestige', price:308000, tagline:'Le trousseau complet, prêt à offrir', desc:'Le pack Confort complété par le lit parapluie, le portage, l\'éveil et le chauffe-biberon. Livré dans un coffret cadeau avec une carte personnalisée.', includes:'Tout le pack Confort, et en plus :', base:'pack-confort', items:[{id:'ys202', qty:1}, {id:'a6607', qty:1}, {id:'668-35', qty:1}, {id:'8763', qty:1}, {id:'1656-6', qty:1}, {id:'x-n-7', qty:1}], discount:0.12, extras:['Coffret cadeau et carte personnalisée offerts'], contents:['1 × Lit parapluie avec moustiquaire (65 700 FCFA)', '1 × Porte-bébé ergonomique avec siège (21 800 FCFA)', '1 × Tapis d\'éveil avec arche (35 700 FCFA)', '1 × Mobile musical pour lit (16 200 FCFA)', '1 × Chauffe-biberon (14 300 FCFA)', '1 × Ensemble vêtements bébé (22 900 FCFA)', 'Coffret cadeau et carte personnalisée offerts'], value:349800, saving:41800, image:'images/pack-prestige.webp'},
+  {id:'valise-bebe', cat:'valise', name:'Valise maternité bébé', price:57500, tagline:'Les affaires de bébé pour le séjour', desc:'Ce qu\'il faut pour bébé pendant le séjour à la maternité, composé avec les articles de la boutique, lavé et plié dans un sac.', items:[{id:'vtgf202', qty:2}, {id:'r2052', qty:1}, {id:'0212-33', qty:1}, {id:'0212-36', qty:2}, {id:'0926-2', qty:1}, {id:'x-n-6', qty:1}, {id:'0212-30', qty:1}, {id:'46808', qty:1}, {id:'7276-1', qty:1}, {id:'x-5', qty:1}, {id:'0212-1', qty:1}], discount:0.08, contents:['2 × Body + bavoir (8 000 FCFA)', '1 × Combinaison + bonnet (13 200 FCFA)', '1 × Bonnets naissance (lot de 3) (3 700 FCFA)', '2 × Chaussettes bébé (3 600 FCFA)', '1 × Couverture d\'emmaillotage à capuche (7 500 FCFA)', '1 × Couverture bébé (4 500 FCFA)', '1 × Kit de soin bébé 7 pièces (4 700 FCFA)', '1 × Cotons-tiges bébé (1 200 FCFA)', '1 × Lingettes (10 500 FCFA)', '1 × Sucette bébé avec boîte (2 300 FCFA)', '1 × Biberon (3 400 FCFA)'], value:62600, saving:5100, image:'images/valise-bebe.webp'},
+  {id:'valise-maman', cat:'valise', name:'Valise maternité maman', price:35000, tagline:'Le confort de maman, avant et après', desc:'Les indispensables de maman pour l\'accouchement et les premiers jours, réunis dans un sac.', contents:['3 chemises de nuit ouvertes devant', '2 pagnes', '1 paquet de serviettes de maternité', '6 culottes de maternité jetables', '2 soutiens-gorge d\'allaitement', '1 lot de coussinets d\'allaitement', '1 serviette de toilette', '1 trousse de toilette garnie', '1 paire de claquettes', '1 ceinture post-partum'], image:'images/valise-maman.webp'},
+  {id:'valise-complete', cat:'valise', name:'Valise maternité complète', price:87500, badge:'5 000 FCFA d\'économie', featured:true, tagline:'Maman et bébé, dans un seul sac', desc:'Les deux valises réunies, avec le sac de maternité offert.', includes:'La valise bébé et la valise maman, et en plus :', items:[{id:'valise-bebe', qty:1}, {id:'valise-maman', qty:1}], rebate:5000, extras:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], contents:['1 grand sac de maternité offert', '1 liste de contrôle imprimée pour le jour J'], value:92500, saving:5000, image:'images/valise-complete.webp'},
   {id:'qs11-2-1', cat:'lits-bebe', name:'Lit bébé évolutif en bois (grand modèle)', price:300000, ref:'QS11', desc:'Lit en bois qui évolue avec l\'enfant : lit à barreaux pour bébé, puis lit junior en retirant un côté. Un seul achat pour plusieurs années. Grand format, sommier réglable.', age:'De la naissance à 5 ans environ', plus:['Évolutif : lit bébé puis lit enfant', 'Grand format', 'Structure en bois', 'Sommier réglable en hauteur'], specs:[['Âge conseillé', 'De la naissance à 5 ans environ']], image:'images/qs11-2-1.webp'},
   {id:'kdd17-2-1', cat:'lits-bebe', name:'Lit bébé évolutif en bois (grand modèle)', price:300000, ref:'KDD17', desc:'Lit en bois qui évolue avec l\'enfant : lit à barreaux pour bébé, puis lit junior en retirant un côté. Un seul achat pour plusieurs années. Grand format, sommier réglable.', age:'De la naissance à 5 ans environ', plus:['Évolutif : lit bébé puis lit enfant', 'Grand format', 'Structure en bois', 'Sommier réglable en hauteur'], specs:[['Âge conseillé', 'De la naissance à 5 ans environ']], image:'images/kdd17-2-1.webp'},
   {id:'kdd18-2-1', cat:'lits-bebe', name:'Lit bébé en bois (grand modèle)', price:300000, ref:'KDD18', badge:'Nouveau', desc:'Grand lit à barreaux en bois, plus spacieux qu\'un lit bébé standard : il accompagne l\'enfant plus longtemps. Sommier réglable en hauteur, finition soignée.', age:'De la naissance à 4 ans environ', plus:['Grand format', 'Structure en bois', 'Sommier réglable en hauteur'], specs:[['Âge conseillé', 'De la naissance à 4 ans environ']], image:'images/kdd18-2-1.webp'},
@@ -2447,6 +2385,7 @@ function skeletonCards(n){ var out=''; for (var i=0;i<n;i++) out += '<article cl
 function packCard(p, gift, i){
   var items = (p.contents||[]).map(function(x, j){ return '<li style="--j:' + Math.min(j, 10) + '">' + icon('check') + '<span>' + esc(x) + '</span></li>'; }).join('');
   return '<article class="pack' + (p.featured ? ' featured' : '') + '" style="--i:' + (i||0) + '">' +
+    (p.image ? '<button type="button" class="pack-img" data-action="open" data-id="' + p.id + '" aria-label="Voir le détail : ' + esc(p.name) + '"><img src="' + esc(img(p)) + '" alt="' + esc(p.name) + ' : les articles du pack" loading="lazy" width="1000" height="1000"></button>' : '') +
     '<div class="pack-head"><div><h3>' + esc(p.name) + '</h3><div class="tag">' + esc(p.tagline||'') + '</div></div>' + (p.badge ? '<span class="badge">' + esc(p.badge) + '</span>' : '') + '</div>' +
     '<div class="big">' + fmt(p.price) + (gift ? ' <small>+ livraison</small>' : '') + '</div>' +
     (p.saving ? '<div class="pack-value">Valeur des articles achetés séparément : ' + fmt(p.value) + ' · <strong>vous économisez ' + fmt(p.saving) + '</strong></div>' : '') +
@@ -3300,150 +3239,6 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHea
       renderer.render(scene, camera);
     }
     current = { renderer: renderer, raf: requestAnimationFrame(tick), canvas: canvas };
-  }
-})();
-</script>
-<script id="pb-ambiance">
-/* Ambiance Petit Baobab : de petites choses de bébé tombent doucement sur la page, une cigogne traverse avec son baluchon,
-   des bulles de bain montent et éclatent. Dessins maison, couleurs de la marque, jamais d'emoji.
-   - Le jour : tétine, biberon, hochet, chausson, body, petits pieds, étoiles, cœurs, soleil.
-   - Le soir (19 h – 6 h, heure du visiteur) : lunes et étoiles, comme au-dessus d'un berceau.
-   - Quand on fait défiler la page, tout s'envole un peu, comme sous un souffle.
-   Rien pour qui a demandé « moins d'animations », ni en mode économie de données, ni à l'impression. */
-(function(){
-  'use strict';
-  try {
-    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var cn = navigator.connection; if (cn && cn.saveData) return;
-  } catch (e) {}
-  if (document.querySelector('.amb')) return;
-
-  /* ---------- les dessins (même langage que le logo : formes rondes, aplats, vert / soleil / crème) ---------- */
-  var S = {
-    pacifier: '<ellipse class="ab-c abk-s1" stroke-width="1.2" cx="24" cy="38.5" rx="5.6" ry="6.6"/><circle class="abk-g1" stroke-width="3.2" cx="24" cy="12.5" r="6.5"/><path class="ab-s1" d="M7.5 26c0-5.2 7.3-8.4 16.5-8.4s16.5 3.2 16.5 8.4-7.3 8.4-16.5 8.4S7.5 31.2 7.5 26z"/><circle class="ab-c" cx="14.5" cy="26" r="2"/><circle class="ab-c" cx="33.5" cy="26" r="2"/><circle class="ab-g1" cx="24" cy="26" r="4.6"/>',
-    bottle: '<path class="ab-s2" d="M19 13.5c0-4.5 2.2-9 5-9s5 4.5 5 9z"/><rect class="ab-c abk-g3" stroke-width="1.2" x="15.5" y="17" width="17" height="27" rx="5.5"/><path class="ab-w" d="M16.1 30.5h15.8v8a5 5 0 0 1-5 5h-5.8a5 5 0 0 1-5-5z"/><rect class="ab-g2" x="14.5" y="12" width="19" height="6.5" rx="2.4"/><path class="abk-g2" stroke-width="1.5" d="M26.5 23h3.5M26.5 27h3.5M26.5 31h3.5"/>',
-    rattle: '<path class="abk-g2" stroke-width="5" d="M27 27l10.5 12"/><circle class="abk-g1" stroke-width="2.6" cx="39.5" cy="41.5" r="3.6"/><circle class="ab-g1" cx="27.5" cy="27.5" r="3.3"/><circle class="ab-s1" cx="19.5" cy="19.5" r="12.5"/><circle class="ab-c" cx="14" cy="16" r="2.2"/><circle class="ab-c" cx="22" cy="12.5" r="2.2"/><circle class="ab-c" cx="18" cy="24" r="2.2"/><circle class="ab-c" cx="25.5" cy="21" r="2.2"/>',
-    bootie: '<path class="ab-g3" d="M12.5 13.5h15v12.5c0 2.2 1.6 3.4 4.4 4.3l5.2 1.8c3.3 1.1 4.6 3.3 4.6 5.6v.8c0 2.4-2 3.5-4.4 3.5H17.5c-3 0-5-2.1-5-5z"/><path class="abk-g1" stroke-width="1.6" d="M12.8 40.5h28.6"/><rect class="ab-c" x="11" y="7.5" width="18" height="8" rx="3.4"/><path class="abk-c" stroke-width="2" d="M19 28.5q6-3.4 11 1.8"/><circle class="ab-s1" cx="31.5" cy="28" r="3.2"/>',
-    onesie: '<path class="ab-c abk-g3" stroke-width="1.2" d="M17 6q7 6.5 14 0l9.5 5.2-3.3 8.3-4.2-2V36c0 4.2-2.8 6.5-6.5 7.2h-5c-3.7-.7-6.5-3-6.5-7.2V17.5l-4.2 2-3.3-8.3z"/><path class="abk-g2" stroke-width="2" d="M17 6q7 6.5 14 0"/><path class="ab-s1" d="M24 27.5c-3.4-2.3-5-4.2-5-6.2a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1c0 2-1.6 3.9-5 6.2z"/><circle class="ab-g2" cx="21" cy="40" r="1.2"/><circle class="ab-g2" cx="24" cy="40.8" r="1.2"/><circle class="ab-g2" cx="27" cy="40" r="1.2"/>',
-    foot: '<path class="ab-g3" d="M17.5 21.5c4-3.5 12.8-2 14.2 6.8 1.1 7-1.2 13.8-6.7 15.2-4.6 1.2-8.5-1.4-8.5-6.4 0-3.6 2.4-5.3 1.6-9-.4-2.6-3.6-4.4-.6-6.6z"/><circle class="ab-g3" cx="16.5" cy="15.5" r="3.4"/><circle class="ab-g3" cx="22" cy="11.2" r="3"/><circle class="ab-g3" cx="27.3" cy="10.3" r="2.6"/><circle class="ab-g3" cx="31.6" cy="12.4" r="2.3"/><circle class="ab-g3" cx="34.8" cy="16" r="2"/>',
-    star: '<path class="ab-s2 abk-s2" stroke-width="3.4" d="M24 6.5l5.3 10.8 11.9 1.7-8.6 8.4 2 11.8L24 33.6l-10.6 5.6 2-11.8-8.6-8.4 11.9-1.7z"/>',
-    moon: '<path class="ab-c abk-s2" stroke-width="1.6" d="M30.5 6.5A17.5 17.5 0 1 0 42 36.2 14 14 0 1 1 30.5 6.5z"/><path class="abk-g1" stroke-width="1.7" d="M15.5 27.5q3 2.8 6 0"/><circle class="ab-s1" cx="14.6" cy="32.4" r="1.6" opacity=".55"/>',
-    heart: '<path class="ab-s1" d="M24 41C12.2 33.2 6.5 26.2 6.5 18.6a8.8 8.8 0 0 1 17.5-2.4 8.8 8.8 0 0 1 17.5 2.4c0 7.6-5.7 14.6-17.5 22.4z"/><path class="abk-c" stroke-width="2.2" d="M12 17.5a4.5 4.5 0 0 1 4-4" opacity=".8"/>',
-    sun: [0, 45, 90, 135, 180, 225, 270, 315].map(function(a){ return '<path class="abk-s2" stroke-width="2.8" transform="rotate(' + a + ' 24 24)" d="M24 6.5v4.5"/>'; }).join('') + '<circle class="ab-s1" cx="24" cy="24" r="9.5"/>',
-    bubble: '<circle class="ab-bub" stroke-width="1.7" cx="24" cy="24" r="16.5"/><path class="abk-w" stroke-width="2.6" d="M14.5 19.5a11 11 0 0 1 7-7.4"/><circle class="ab-w" cx="31.5" cy="31" r="1.6" opacity=".9"/>'
-  };
-
-  /* ---------- qui tombe, quand ---------- */
-  var h = new Date().getHours(), night = h >= 19 || h < 6;
-  var small = (window.innerWidth || 1024) < 760;
-  var FAM = {
-    item:   { pool: night ? ['moon', 'moon', 'pacifier', 'bottle', 'bootie', 'onesie', 'star'] : ['pacifier', 'bottle', 'rattle', 'bootie', 'onesie', 'foot', 'foot'], sz: [22, 33], d: [23, 35], fl: [2.8, 4.2] },
-    spark:  { pool: night ? ['star', 'star', 'moon', 'heart'] : ['star', 'heart', 'sun', 'heart'], sz: [14, 22], d: [19, 30], fl: [2.4, 4] },
-    bubble: { pool: ['bubble'], sz: [16, 34], d: [13, 21], fl: [1.6, 2.6] }
-  };
-  // 23 oct. : la pluie de petites choses est arrêtée (trop proche de Keraby) ; seule la cigogne passe. Remettre des nombres ici pour la rallumer.
-  var PLAN = {};
-  if (small) { FAM.item.sz = [19, 27]; FAM.spark.sz = [12, 18]; FAM.bubble.sz = [14, 27]; }
-
-  function rnd(a, b){ return a + Math.random() * (b - a); }
-  function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
-
-  var root = document.createElement('div');
-  root.className = 'amb'; root.setAttribute('aria-hidden', 'true');
-  root.innerHTML = '<svg class="amb-defs" width="0" height="0" focusable="false"><defs>' +
-    Object.keys(S).map(function(k){ return '<symbol id="a-' + k + '" viewBox="0 0 48 48">' + S[k] + '</symbol>'; }).join('') + '</defs></svg><div class="amb-wind"></div>';
-  var wind = root.lastChild;
-
-  // positions réparties sur la largeur (pas de paquets), puis mélangées entre familles
-  var slots = [];
-  Object.keys(PLAN).forEach(function(f){ for (var i = 0; i < PLAN[f]; i++) slots.push(f); });
-  var N = slots.length;
-  slots.sort(function(){ return Math.random() - .5; });
-  slots.forEach(function(f, i){
-    var F = FAM[f], d = rnd(F.d[0], F.d[1]);
-    var el = document.createElement('span');
-    el.className = 'amb-i amb-' + f;
-    var st = el.style;
-    st.setProperty('--x', ((i + rnd(.15, .85)) / N * 96 + 1).toFixed(2) + 'vw');
-    st.setProperty('--d', d.toFixed(2) + 's');
-    st.setProperty('--dl', (-rnd(0, d)).toFixed(2) + 's');
-    st.setProperty('--sw', rnd(4.5, 8).toFixed(2) + 's');
-    st.setProperty('--amp', rnd(10, 26).toFixed(0) + 'px');
-    st.setProperty('--fl', rnd(F.fl[0], F.fl[1]).toFixed(2) + 's');
-    st.setProperty('--r', Math.random() < .5 ? '-1' : '1');
-    st.setProperty('--ph', rnd(48, 92).toFixed(0) + 'vh');
-    dress(el, f);
-    el.innerHTML = '<span class="amb-sw"><svg class="amb-in" viewBox="0 0 48 48" focusable="false"><use href="#a-' + el.dataset.k + '"/></svg></span>';
-    // à chaque passage, l'élément revient sous une autre forme, ailleurs
-    el.addEventListener('animationiteration', function(e){
-      if (e.target !== el) return;
-      dress(el, f);
-      el.style.setProperty('--x', rnd(2, 96).toFixed(2) + 'vw');
-      var u = el.querySelector('use'); if (u) u.setAttribute('href', '#a-' + el.dataset.k);
-    });
-    wind.appendChild(el);
-  });
-  function dress(el, f){
-    var F = FAM[f], k = pick(F.pool);
-    el.dataset.k = k;
-    el.style.setProperty('--s', rnd(F.sz[0], F.sz[1]).toFixed(1) + 'px');
-    el.style.setProperty('--o', (k === 'bubble' ? rnd(.75, .95) : rnd(.82, 1)).toFixed(2));
-  }
-
-  /* ---------- la cigogne : elle traverse la page (et le texte) avec un bébé dans son baluchon ---------- */
-  var stork = document.createElement('div');
-  stork.className = 'amb-stork';
-  stork.innerHTML = '<div class="amb-stork-bob"><svg viewBox="0 0 130 92" focusable="false">' +
-    '<path class="sk-leg" d="M44 47 18 58M47 48 22 62"/>' +
-    '<path class="sk-wing sk-far" d="M57 35C50 22 44 12 30 6c10 9 13 19 18 30z"/>' +
-    '<path class="sk-tail" d="M33 37l-11-3 9 8z"/>' +
-    '<ellipse class="sk-body" cx="55" cy="41" rx="24" ry="10.5"/>' +
-    '<path class="sk-body" d="M73 37c6-3 9-8 11-13l6 2c-2 7-6 13-13 17z"/>' +
-    '<circle class="sk-body" cx="89" cy="23" r="6.5"/>' +
-    '<path class="sk-beak" d="M94 21.5 117 26.5 94 26z"/>' +
-    '<circle class="sk-eye" cx="90.5" cy="21.5" r="1.3"/>' +
-    '<g class="sk-wing sk-near"><path class="sk-body" d="M62 36C56 22 46 9 28 2c9 10 12 24 20 36z"/><path class="sk-tip" d="M28 2c9 10 12 24 20 36l-6-1C37 26 33 14 28 2z"/></g>' +
-    '<g class="sk-bundle"><path class="sk-knot" d="M114 27.5 107 44M114 27.5l5 17"/>' +
-    '<path class="sk-cloth" d="M100 46c0-4 6-6 13-6s13 2 13 6c0 12-5 22-13 22s-13-10-13-22z"/>' +
-    '<circle class="sk-face" cx="113" cy="52" r="6.2"/><path class="sk-eyes" d="M109.8 51.6q1.2 1 2.2 0M114 51.6q1.2 1 2.2 0"/>' +
-    '<path class="sk-fold" d="M101 58q12 5 24 0"/><circle class="sk-dot" cx="106" cy="63" r="1.3"/><circle class="sk-dot" cx="120" cy="62" r="1.3"/>' +
-    '<circle class="sk-tie" cx="113" cy="41" r="2.6"/></g>' +
-    '</svg></div>';
-  wind.appendChild(stork);
-  function flyStork(){
-    var ltr = Math.random() < .7;   // le plus souvent de gauche à droite, parfois dans l'autre sens
-    stork.classList.remove('fly', 'rtl'); void stork.offsetWidth;
-    stork.style.setProperty('--y', rnd(18, 62).toFixed(0) + 'vh');
-    stork.style.setProperty('--fd', (small ? rnd(9, 11) : rnd(13, 16)).toFixed(1) + 's');
-    if (!ltr) stork.classList.add('rtl');
-    stork.classList.add('fly');
-  }
-  stork.addEventListener('animationend', function(e){
-    if (e.target !== stork) return;
-    stork.classList.remove('fly');
-    setTimeout(flyStork, rnd(20, 34) * 1000);
-  });
-  setTimeout(flyStork, 5000);
-
-  function mount(){
-    document.body.appendChild(root);
-    setTimeout(function(){ root.classList.add('on'); }, 900);
-  }
-  if (document.body) mount(); else document.addEventListener('DOMContentLoaded', mount);
-
-  /* ---------- un souffle quand on fait défiler ---------- */
-  var lastY = window.scrollY || 0, lastT = 0, lift = 0, target = 0, running = false;
-  window.addEventListener('scroll', function(){
-    var now = performance.now(), y = window.scrollY || 0;
-    if (lastT) { var v = (y - lastY) / Math.max(16, now - lastT); target = Math.max(-70, Math.min(70, target - v * 22)); }
-    lastY = y; lastT = now;
-    if (!running) { running = true; requestAnimationFrame(step); }
-  }, { passive: true });
-  function step(){
-    target *= .9; lift += (target - lift) * .12;
-    wind.style.transform = 'translate3d(' + (lift * -.25).toFixed(1) + 'px,' + lift.toFixed(1) + 'px,0)';
-    if (Math.abs(lift) > .3 || Math.abs(target) > .3) requestAnimationFrame(step);
-    else { running = false; lift = target = 0; wind.style.transform = ''; }
   }
 })();
 </script>

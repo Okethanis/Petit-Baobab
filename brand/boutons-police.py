@@ -104,15 +104,17 @@ rep('.contact-num{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-we
     '.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}\n'
     '.contact-list .copy-btn{padding:5px 7px}.contact-list .copy-btn span{display:none}.contact-list .copy-btn.copied span{display:inline}')
 
-# ---------- 3. ambiance ----------
-css = open(os.path.join(HERE, 'ambiance.css'), encoding='utf-8').read().strip()
+# ---------- 3. ambiance : retirée le 23 oct. (la pluie d'objets faisait trop Keraby, puis la cigogne a été retirée aussi) ----------
+# Les fichiers brand/ambiance.css et brand/ambiance.js restent disponibles ; pour la remettre, réinjecter leur contenu ici.
+AMBIANCE = False
 s = re.sub(r'/\* pb-ambiance:start \*/[\s\S]*?/\* pb-ambiance:end \*/\n?', '', s)
-i = s.index('</style>')
-s = s[:i] + '/* pb-ambiance:start */\n' + css + '\n/* pb-ambiance:end */\n' + s[i:]
-js = open(os.path.join(HERE, 'ambiance.js'), encoding='utf-8').read().strip()
-s = re.sub(r'<script id="pb-ambiance">[\s\S]*?</script>\n?', '', s)
-assert s.rstrip().endswith('</script>')
-s = s.rstrip() + '\n<script id="pb-ambiance">\n' + js + '\n</script>\n'
+s = re.sub(r'\n?<script id="pb-ambiance">[\s\S]*?</script>\n?', '\n', s)
+if AMBIANCE:
+    css = open(os.path.join(HERE, 'ambiance.css'), encoding='utf-8').read().strip()
+    i = s.index('</style>'); s = s[:i] + '/* pb-ambiance:start */\n' + css + '\n/* pb-ambiance:end */\n' + s[i:]
+    js = open(os.path.join(HERE, 'ambiance.js'), encoding='utf-8').read().strip()
+    s = s.rstrip() + '\n<script id="pb-ambiance">\n' + js + '\n</script>\n'
+s = s.rstrip() + '\n'
 
 open(P, 'w', encoding='utf-8').write(s)
 print('police, boutons et ambiance en place')
