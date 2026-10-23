@@ -608,7 +608,8 @@ details p{padding:0 0 14px;color:var(--muted);max-width:65ch}
 /* Pied de page */
 .footer{background:var(--footer-bg);color:var(--footer-ink);margin-top:var(--sp-5);padding-block:var(--sp-5) calc(var(--sp-5) + env(safe-area-inset-bottom,0px));border-top:4px solid var(--accent)}
 .footer-grid{display:grid;gap:var(--sp-4)}
-@media(min-width:760px){.footer-grid{grid-template-columns:1.4fr 1fr 1fr}}
+@media(min-width:620px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.footer-grid{grid-template-columns:1.35fr 1.1fr .9fr .9fr}}
 .footer .logo{color:var(--footer-ink);margin:0}
 .footer .footer-cta{margin-top:12px;border-color:rgba(255,255,255,.35);background:transparent;color:var(--footer-ink)}
 .footer .footer-cta:hover{background:rgba(255,255,255,.1)}
@@ -749,37 +750,7 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
 .contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}
 .contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}
 .contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
-.contact-list .copy-btn{margin-left:auto}
-.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.contact-list li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--footer-ink)}
-.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}
-.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}
-.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
-.contact-list .copy-btn{margin-left:auto}
-.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.contact-list li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--footer-ink)}
-.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}
-.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}
-.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
-.contact-list .copy-btn{margin-left:auto}
-.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.contact-list li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--footer-ink)}
-.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}
-.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}
-.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
-.contact-list .copy-btn{margin-left:auto}
-.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.contact-list li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--footer-ink)}
-.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}
-.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}
-.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
-.contact-list .copy-btn{margin-left:auto}
-.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.contact-list li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--footer-ink)}
-.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}
-.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}
-.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
-.contact-list .copy-btn{margin-left:auto}
+.contact-list .copy-btn{padding:5px 7px}.contact-list .copy-btn span{display:none}.contact-list .copy-btn.copied span{display:inline}
 .phones{display:grid;gap:4px;font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent)}
 .copy-btn{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid var(--footer-muted);color:var(--footer-ink);transition:background .2s,color .2s}
 .copy-btn .icon{width:1em;height:1em}
@@ -840,6 +811,20 @@ html[data-theme="dark"] .footer .stars circle{opacity:.9;animation:lg-twinkle 2.
   .check-col,.panel,.pack,.card,.summary,.stage,.gift-box{border:1px solid #999;box-shadow:none;break-inside:avoid}
   a{text-decoration:none;color:#000}
 }
+/* Contactez-nous */
+.contact-cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:var(--sp-4) 0}
+.contact-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;text-decoration:none;color:var(--ink);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.contact-card strong{display:block;font-size:1.02rem}
+.contact-card strong + span{color:var(--muted);font-variant-numeric:tabular-nums;word-break:break-word}
+.cc-ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+.cc-ico .icon{width:22px;height:22px}
+.cc-ico.cc-wa{background:var(--ok-soft);color:var(--wa)}
+.contact-form{display:grid;gap:12px;max-width:560px}
+.contact-form label{display:grid;gap:6px;font-weight:600}
+.contact-form .btn{justify-self:start}
+.form-err{color:var(--danger);font-weight:600;margin:0}
+.prose ol{padding-left:1.3em;display:grid;gap:6px}
 /* pb-police:start */
 .univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong{font-family:var(--font-brand)}
 @media (max-width:620px){.fab-wa,.fab-call{width:52px;height:52px}.fab-wa .icon,.fab-call .icon{width:26px;height:26px}.fabs{gap:9px}}
@@ -939,7 +924,7 @@ path[class^="abk-"],circle[class^="abk-"]{fill:none}
     <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></symbol>
-    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L4 20z"/><path d="M8 9.5h8M8 12.5h5"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L4 20z"/><path d="M8 9.5h8M8 12.5h5"/></symbol>
     <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3.5h10V8"/><rect x="3.5" y="8" width="17" height="9" rx="2"/><path d="M7 13.5h10V20H7z"/></symbol>
     <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
@@ -1428,6 +1413,41 @@ path[class^="abk-"],circle[class^="abk-"]{fill:none}
   </div>
 </section>
 
+<section class="view" id="v-contact" hidden>
+  <div class="wrap section">
+    <nav class="crumbs" aria-label="Fil d'Ariane" data-crumbs></nav>
+    <h2 class="view-title">Contactez-nous</h2>
+    <p class="lead muted" style="max-width:60ch">Une question sur un article, une taille, une livraison ? On vous répond <span class="hours"></span>.</p>
+    <div class="contact-cards">
+      <a class="contact-card tel-link" href="tel:+2250768211934"><span class="cc-ico"><svg class="icon"><use href="#i-phone"/></svg></span><span><strong>Appeler</strong><span class="wa-num">+225 07 68 21 19 34</span></span></a>
+      <a class="contact-card wa-link" href="#" target="_blank" rel="noopener"><span class="cc-ico cc-wa"><svg class="icon"><use href="#i-wa"/></svg></span><span><strong>WhatsApp</strong><span>Écrire maintenant</span></span></a>
+      <a class="contact-card mail-link-card" href="#" id="contact-mail-card" hidden><span class="cc-ico"><svg class="icon"><use href="#i-mail"/></svg></span><span><strong>E-mail</strong><span class="mail-text"></span></span></a>
+      <div class="contact-card"><span class="cc-ico"><svg class="icon"><use href="#i-clock"/></svg></span><span><strong>Horaires</strong><span class="hours-cap"></span></span></div>
+    </div>
+    <form class="panel contact-form" id="contact-form" novalidate>
+      <h3>Nous écrire</h3>
+      <p class="muted">Votre message s'ouvre dans WhatsApp, prêt à envoyer.</p>
+      <label>Votre prénom<input type="text" id="cf-name" autocomplete="given-name" required></label>
+      <label>Votre message<textarea id="cf-msg" rows="4" required placeholder="Par exemple : la poussette G606 existe-t-elle en gris ?"></textarea></label>
+      <p class="form-err" id="cf-err" hidden>Écrivez votre prénom et votre message.</p>
+      <button type="submit" class="btn btn-primary"><svg class="icon"><use href="#i-wa"/></svg><span>Envoyer sur WhatsApp</span></button>
+    </form>
+  </div>
+</section>
+
+<section class="view" id="v-retours" hidden>
+  <div class="wrap section prose">
+    <nav class="crumbs" aria-label="Fil d'Ariane" data-crumbs></nav>
+    <h2 class="view-title">Retours et échanges</h2>
+    <p class="updated">Dernière mise à jour : <span class="legal-date"></span></p>
+    <h3>Vous vérifiez avant de payer</h3><p>À la livraison, l'article est déballé devant vous. Prenez le temps de le regarder avant de le régler.</p>
+    <h3>Échange sous 48 h</h3><p>Un article abîmé ou qui ne correspond pas à votre commande est échangé sous 48 h après réception, dans son emballage d'origine, sur présentation d'une photo.</p>
+    <h3>Comment faire</h3><ol><li>Écrivez-nous sur WhatsApp au <span class="wa-num"></span> avec la référence de votre commande (elle commence par PB-).</li><li>Joignez une photo de l'article et de son emballage.</li><li>On vous répond pour organiser l'échange.</li></ol>
+    <h3>Modifier ou annuler une commande</h3><p>C'est possible dans les 24 heures qui suivent la commande, sur WhatsApp, avec sa référence. Le détail est dans les <a href="#cgv" class="textlink" data-action="nav" data-view="cgv">Conditions de vente</a>.</p>
+    <div class="cta-row"><a class="btn btn-primary wa-link" href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-wa"/></svg><span>Demander un échange sur WhatsApp</span></a><a href="#contact" class="btn btn-ghost" data-action="nav" data-view="contact">Contactez-nous</a></div>
+  </div>
+</section>
+
 <section class="view" id="v-cgu" hidden>
   <div class="wrap section prose">
     <nav class="crumbs" aria-label="Fil d'Ariane" data-crumbs></nav>
@@ -1478,7 +1498,7 @@ path[class^="abk-"],circle[class^="abk-"]{fill:none}
       <div>
         <h4>Restons en contact</h4>
         <ul class="contact-list">
-          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250768211934"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
+          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250768211934"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num" aria-label="Copier le numéro" title="Copier le numéro"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
           <li><svg class="icon"><use href="#i-wa"/></svg><a class="wa-link" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
           <li id="contact-mail" hidden><svg class="icon"><use href="#i-mail"/></svg><a class="mail-link" href="#"></a></li>
           <li><svg class="icon"><use href="#i-clock"/></svg><span class="hours-cap"></span></li>
@@ -1488,18 +1508,26 @@ path[class^="abk-"],circle[class^="abk-"]{fill:none}
         <div id="social" hidden style="margin-top:14px"><h4>Nous suivre</h4><ul id="social-links"></ul></div>
       </div>
       <div>
-        <h4>Informations</h4>
-        <ul id="footer-links">
+        <h4>Boutique</h4>
+        <ul class="footer-links">
           <li><a href="#packs" data-action="nav" data-view="packs">Packs naissance</a></li>
           <li><a href="#valise" data-action="nav" data-view="valise">Valise de maternité</a></li>
+          <li><a href="#liste" data-action="nav" data-view="liste">Liste de naissance</a></li>
+          <li><a href="#cadeaux" data-action="nav" data-view="cadeaux">Cadeaux de naissance</a></li>
           <li><a href="#guide" data-action="nav" data-view="guide">Que prévoir mois par mois</a></li>
           <li><a href="#conseils" data-action="nav" data-view="conseils">Conseils d'achat</a></li>
-          <li><a href="#liste" data-action="nav" data-view="liste">Liste de naissance</a></li>
           <li><a href="#histoire" data-action="nav" data-view="histoire">Notre histoire</a></li>
-          <li><a href="#livraison" data-action="nav" data-view="livraison">Livraison, paiement et questions fréquentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>À propos</h4>
+        <ul class="footer-links" id="footer-links">
+          <li><a href="#contact" data-action="nav" data-view="contact">Contactez-nous</a></li>
+          <li><a href="#livraison" data-action="nav" data-view="livraison">Livraison, paiement et FAQ</a></li>
+          <li><a href="#retours" data-action="nav" data-view="retours">Retours et échanges</a></li>
           <li><a href="#cgv" data-action="nav" data-view="cgv">Conditions de vente</a></li>
           <li><a href="#cgu" data-action="nav" data-view="cgu">Conditions d'utilisation</a></li>
-          <li><a href="#confidentialite" data-action="nav" data-view="confidentialite">Confidentialité</a></li>
+          <li><a href="#confidentialite" data-action="nav" data-view="confidentialite">Politique de confidentialité</a></li>
           <li><a href="#compte" data-action="account">Mon compte</a></li>
           <li id="cookie-link" hidden><button type="button" class="flink" data-action="consent-open">Gérer les cookies</button></li>
         </ul>
@@ -1586,6 +1614,8 @@ var ROUTES = {
   commande:        { path: '/commande/', nav: 'Commande', title: 'Votre commande · Petit Baobab', description: 'Finalisez votre commande et envoyez-la sur WhatsApp.', noindex: true },
   confidentialite: { path: '/confidentialite/', nav: 'Confidentialité', title: 'Politique de confidentialité · Petit Baobab', description: 'Les données utilisées pour livrer votre commande et vos droits.' },
   cgv:             { path: '/conditions-de-vente/', nav: 'Conditions de vente', title: 'Conditions de vente · Petit Baobab', description: 'Prix, commande, paiement, livraison et échanges.' },
+  contact:         { path: '/contactez-nous/', nav: 'Contactez-nous', title: 'Contactez-nous · Petit Baobab', description: 'Téléphone, WhatsApp, e-mail et horaires de Petit Baobab. Une question sur un article ou une livraison ? On vous répond.' },
+  retours:         { path: '/retours-et-echanges/', nav: 'Retours et échanges', title: 'Retours et échanges · Petit Baobab', description: 'Vérification à la livraison, échange sous 48 h d\'un article abîmé ou non conforme, annulation sous 24 h.' },
   cgu:             { path: '/conditions-d-utilisation/', nav: 'Conditions d\'utilisation', title: 'Conditions d\'utilisation du site · Petit Baobab', description: 'Règles d\'utilisation du site, propriété des contenus, prix indicatifs, responsabilité et droit applicable.' },
   notfound:        { path: '/404.html', nav: 'Page introuvable', title: 'Page introuvable · Petit Baobab', description: 'Cette page n\'existe pas.', noindex: true }
 };
@@ -1599,6 +1629,8 @@ var PAGES_INDEX = [
   { view:'guide', kw:'guide mois par mois prévoir âge nouveau-né éveil marche' },
   { view:'conseils', kw:'conseils guide d\'achat choisir lit siège auto poussette valise maternité chambre biberons bien choisir' },
   { view:'histoire', kw:'histoire marque nom baobab pourquoi valeurs promesse qui sommes-nous à propos' },
+  { view:'contact', kw:'contact contacter appeler téléphone numéro whatsapp email e-mail mail horaires joindre' },
+  { view:'retours', kw:'retour retours échange échanger remboursement défaut abîmé annuler annulation garantie' },
   { view:'livraison', kw:'livraison frais commune délai paiement wave mobile money orange mtn moov espèces acompte retour échange questions' },
   { view:'cgv', kw:'conditions vente cgv prix' },
   { view:'cgu', kw:'conditions utilisation cgu règles site propriété responsabilité' },
@@ -2515,43 +2547,12 @@ function renderStatic(){
   $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });
   $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });
   $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.'); });
-  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }
-  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });
-  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });
-  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.'); });
-  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }
-  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });
-  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });
-  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.'); });
-  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }
-  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });
-  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });
-  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.'); });
-  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }
-  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });
-  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });
-  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.'); });
-  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }
-  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });
-  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });
-  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.'); });
+  if (CONFIG.email){ var mc = $('#contact-mail-card'); if (mc){ mc.hidden = false; mc.href = 'mailto:' + CONFIG.email; mc.querySelector('.mail-text').textContent = CONFIG.email; } }
+  var cf = $('#contact-form'); if (cf) cf.addEventListener('submit', function(e){ e.preventDefault(); var n = $('#cf-name').value.trim(), m = $('#cf-msg').value.trim(); $('#cf-err').hidden = !!(n && m); if (!n || !m) return; window.open(waLink('Bonjour ' + CONFIG.brand + ', c\'est ' + n + '. ' + m), '_blank', 'noopener'); });
   if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }
   if ((CONFIG.phones||[]).length){ $('#phones').hidden = false; $('#phones').innerHTML = CONFIG.phones.map(function(n){ return '<span>' + esc(n) + '</span>'; }).join(''); }
   $('#year').textContent = String(new Date().getFullYear());
   $('#fab-wa').href = waLink('Bonjour ' + CONFIG.brand + ', j\'ai une question.');
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
-  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
   $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;
   $('#wa-news').href = waLink('Bonjour ' + CONFIG.brand + ', je veux recevoir vos arrivages et promos sur WhatsApp.');
   var pay = CONFIG.payments || {};

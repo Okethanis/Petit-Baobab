@@ -11,8 +11,8 @@ s = open(P, encoding='utf-8').read()
 
 def rep(old, new, count=1):
     global s
-    n = s.count(old)
-    if n == 0 and s.count(new) >= 1: return          # déjà fait
+    if new in s: return                                # déjà fait (y compris quand « new » commence par « old »)
+    n = s.count(old)          # déjà fait
     assert n == count, (n, old[:80]); s = s.replace(old, new)
 
 # ---------- 1. polices (réglées par expression régulière : le résultat ne dépend pas de l'état de départ) ----------
@@ -37,7 +37,7 @@ rep('<a class="fab fab-wa" id="fab-wa" href="#" target="_blank" rel="noopener" a
 rep("  $('#fab-wa').href = waLink('Bonjour ' + CONFIG.brand + ', j\\'ai une question.');",
     "  $('#fab-wa').href = waLink('Bonjour ' + CONFIG.brand + ', j\\'ai une question.');\n  $('#fab-call').href = 'tel:+' + CONFIG.whatsapp;")
 # icônes : WhatsApp (pictogramme plein) et téléphone (plein)
-rep('<symbol id="i-chat" viewBox="0 0 24 24">',
+if 'symbol id="i-wa"' not in s: rep('<symbol id="i-chat" viewBox="0 0 24 24">',
     '<symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.6l4.7-1.2A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></symbol>'
     '<symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6.6 3.2c.5-.4 1.2-.3 1.6.2l2.3 3c.4.5.3 1.2-.1 1.6L9 9.3c-.3.3-.4.7-.2 1.1a12.4 12.4 0 0 0 4.8 4.8c.4.2.8.1 1.1-.2l1.3-1.4c.4-.4 1.1-.5 1.6-.1l3 2.3c.5.4.6 1.1.2 1.6l-1.5 2c-.6.8-1.6 1.2-2.6 1A17.6 17.6 0 0 1 3.6 7.3c-.2-1 .2-2 1-2.6z"/></symbol>'
     '<symbol id="i-chat" viewBox="0 0 24 24">')
@@ -76,7 +76,7 @@ rep("""        <div class="contact-num"><span class="wa-num"></span><button type
         <div class="phones" id="phones" style="margin-top:10px" hidden></div>
         <p style="margin-top:8px">Sur WhatsApp, <span class="hours"></span>.</p>""",
 """        <ul class="contact-list">
-          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250768211934"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
+          <li><svg class="icon"><use href="#i-phone"/></svg><a class="tel-link" href="tel:+2250768211934"><span class="wa-num"></span></a><button type="button" class="copy-btn" data-action="copy-num" aria-label="Copier le numéro" title="Copier le numéro"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button></li>
           <li><svg class="icon"><use href="#i-wa"/></svg><a class="wa-link" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
           <li id="contact-mail" hidden><svg class="icon"><use href="#i-mail"/></svg><a class="mail-link" href="#"></a></li>
           <li><svg class="icon"><use href="#i-clock"/></svg><span class="hours-cap"></span></li>
@@ -85,13 +85,13 @@ rep("""        <div class="contact-num"><span class="wa-num"></span><button type
 rep('<div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab. Tous les prix sont en FCFA.</span>',
     '<div class="footer-bottom"><span>© <span id="year"></span> Petit Baobab — Tous droits réservés. Prix en FCFA.</span>')
 rep("  hours: 'tous les jours de 8 h à 21 h',", "  hours: 'tous les jours de 8 h à 18 h',\n  email: 'contact@petit-baobab.example',   // ADRESSE FICTIVE (domaine réservé, n'existe pas) : à remplacer par la vraie adresse avant le lancement")
-rep("  $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });",
+if "hours-cap').forEach" not in s: rep("  $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });",
     "  $$('.hours').forEach(function(el){ el.textContent = CONFIG.hours; });\n"
     "  $$('.hours-cap').forEach(function(el){ el.textContent = CONFIG.hours.charAt(0).toUpperCase() + CONFIG.hours.slice(1); });\n"
     "  $$('.tel-link').forEach(function(a){ a.href = 'tel:+' + CONFIG.whatsapp; });\n"
     "  $$('.wa-link').forEach(function(a){ a.href = waLink('Bonjour ' + CONFIG.brand + ', j\\'ai une question.'); });\n"
     "  if (CONFIG.email){ $('#contact-mail').hidden = false; var ml = $('#contact-mail .mail-link'); ml.href = 'mailto:' + CONFIG.email; ml.textContent = CONFIG.email; }")
-rep('<symbol id="i-chat" viewBox="0 0 24 24">',
+if 'symbol id="i-mail"' not in s: rep('<symbol id="i-chat" viewBox="0 0 24 24">',
     '<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>'
     '<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>'
     '<symbol id="i-chat" viewBox="0 0 24 24">')
@@ -102,7 +102,7 @@ rep('.contact-num{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-we
     '.contact-list li > .icon{width:20px;height:20px;color:var(--accent);flex:none}\n'
     '.contact-list a{color:var(--footer-ink);text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums}\n'
     '.contact-list a:hover{text-decoration:underline;text-underline-offset:3px}\n'
-    '.contact-list .copy-btn{margin-left:auto}')
+    '.contact-list .copy-btn{padding:5px 7px}.contact-list .copy-btn span{display:none}.contact-list .copy-btn.copied span{display:inline}')
 
 # ---------- 3. ambiance ----------
 css = open(os.path.join(HERE, 'ambiance.css'), encoding='utf-8').read().strip()
