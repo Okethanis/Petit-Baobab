@@ -1,6 +1,6 @@
 # Petit Baobab — site de puériculture en ligne (Abidjan)
 
-Boutique en ligne qui présente ~597 articles et conclut les ventes sur **WhatsApp** (pas de paiement en ligne, pas de serveur, pas de base de données). Site statique, en français.
+Boutique en ligne qui présente ~516 articles visibles (597 fiches dont 81 cachées) et conclut les ventes sur **WhatsApp** (pas de paiement en ligne, pas de serveur, pas de base de données). Site statique, en français.
 
 ## Comment c'est construit
 
@@ -44,7 +44,7 @@ cd site && python3 -m http.server 8000   # puis ouvrir http://localhost:8000
 - Recherche par image Alibaba sans téléchargement : dans le navigateur, injecter l'image (`raw.githubusercontent.com/Okethanis/Petit-Baobab/main/images/<id>.webp`, éventuellement recadrée) dans `input[name=image-search-upload]` ; l'adresse HD d'une vignette = adresse sans le suffixe `_NNNxNNN.jpg`. La recherche par texte déclenche un CAPTCHA (ne jamais le résoudre) ; la recherche par image passe avec le compte de Hanis connecté.
 - Suivi : tableau de bord « Photos du catalogue » (artefact claude.ai, jeu de données `progression`).
 - **Aucun texte chinois sur les photos** (demande de Hanis, 23 oct. 2026). Sur l'aperçu, `admin/photos-ocr.py` (RapidOCR, lancé par `netlify.toml` hors production) lit chaque nouvelle photo HD et écrit `/verification-photos/ocr.json` + une étiquette rouge « Texte chinois » sur la page de vérification ; on retire alors l'adresse fautive de `photos/sources.json`. Photos du dépôt sans version HD : recadrées ou retouchées à la main (étiquette effacée), jamais un logo de marque.
-- Doublons (même article sous plusieurs codes ou prix) : Hanis choisit sur l'artefact claude.ai « Doublons du catalogue » (base `choix`, un document par groupe : `fusion` / `separe` / `couleurs` + prix). À appliquer ensuite : `hidden:true` sur les doublons, packs repointés, versions couleur via `brand/couleurs.py`.
+- Doublons (même article sous plusieurs codes ou prix) : **effacés le 23 oct. 2026** sur demande de Hanis (`brand/doublons.py`) : 55 fiches en `hidden:true` (rien de supprimé), prix = le plus haut du groupe, packs repointés ; 11 modèles « autre couleur » regroupés en une fiche avec choix de couleur (`brand/couleurs.py`). 08113 reste à part (prix différent). Anciens codes → fiche gardée dans `brand/alias.json` → `ID_ALIAS` (partagé avec `brand/ids-propres.py`). Ordre : `ids-propres.py` → `doublons.py` → `couleurs.py` → `node admin/packs.js` → `node build.js`. Suivi des groupes : artefact claude.ai « Doublons du catalogue ».
 
 ## À faire (au 23 oct. 2026)
 
