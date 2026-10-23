@@ -1057,5 +1057,45 @@
   "statut": "trouve",
   "fiche": "https://www.alibaba.com/product-detail/Food-Grade-Environmental-Friendly-Material-Cartoon_1600913138532.html",
   "note": "Assiette compartimentée poussin avec couverts (bleu-vert ; jaune en photo 3)"
+ },
+ "x-11": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/Hdf9f1eea9954450d8a9ba8cf9f459b09i.png",
+   "https://s.alicdn.com/@sc04/kf/Ha7a04dd44bb541a185fa3566fa03078a1.jpg"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/Foldable-PP-Baby-Bath-Tub-0_1601718078080.html",
+  "note": "Set de bain pliable gris 5 pièces (baignoire, seau, bassines)"
+ },
+ "103-100-60-40": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H38f6670b7e664aa585f1070da06d96564.jpg",
+   "https://s.alicdn.com/@sc04/kf/H3815964bdd9e4a5fb9fe82a1a9b7e6f9e.jpg",
+   "https://s.alicdn.com/@sc04/kf/H30c5bc5e1ee3494ab5ff3c1dd04ce06d3.jpg",
+   "https://s.alicdn.com/@sc04/kf/Hd70f6bf445bf4dce80d5de62949aa37dC.png"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Wholesale-7-PCS-Baby-Bathtub-Set_1601863877134.html",
+  "note": "Set de bain 7 pièces avec étagère (vert, rose, crème). ATTENTION : notre ancienne photo affiche un prix en yuans ; et le nom « Pot bébé » ne correspond pas : à vérifier"
+ },
+ "2002-14set": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H8067ea0da99d4fb692b5ceb157ab09194.jpg",
+   "https://s.alicdn.com/@sc04/kf/H64e232d856e44de9b57f7403b735e6304.jpg",
+   "https://s.alicdn.com/@sc04/kf/H2f417091d3a74ccba5322bae808cf5393.jpg"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Cross-border-Best-selling-PP-Baby_1601932362679.html",
+  "note": "Kit de soin bébé rose dans trousse grise : même type, nombre d'accessoires à vérifier (14)"
+ },
+ "1688-30-50-20": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H6210d50d7e9046198ab46e9dd0555037F.jpg",
+   "https://s.alicdn.com/@sc04/kf/H41d15dad1fd342b48ddac3d7240a7bc0D.jpg",
+   "https://s.alicdn.com/@sc04/kf/Hc297c7cd29254c79a0bb18404fd25b0fG.jpg"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/Custom-Frog-Themed-Baby-Bath-Tub_1601623728462.html",
+  "note": "Set de bain grenouille beige (baignoire pliable, seaux, bassine)"
  }
 }
