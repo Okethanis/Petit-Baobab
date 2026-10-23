@@ -21,6 +21,7 @@
   --brand:#7FCDA2; --brand-ink:#0F1A14; --brand-soft:#1F3328; --accent:#F2B24C; --accent-soft:#3A2E16;
   --mod:#2F2A1A; --warn:#E07A6C; --warn-soft:#3A2220; --focus:#7FCDA2; --shadow:0 10px 30px rgba(0,0,0,.45); color-scheme:dark }
 *{box-sizing:border-box}
+[hidden]{display:none !important}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.45;padding-block:0 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
@@ -117,11 +118,35 @@ td.vis{text-align:center}
 .switch input:checked+i{background:var(--brand)}
 .switch input:checked+i::after{transform:translateX(18px)}
 .switch input:focus-visible+i{outline:2px solid var(--focus);outline-offset:2px}
+td.edit button{height:32px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:700;font-size:.82rem;white-space:nowrap}
+td.edit button:hover{background:var(--surface-2)}
+td.edit .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:middle}
 td.reset button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);visibility:hidden}
 tr.mod td.reset button{visibility:visible}
 td.sel input{width:18px;height:18px;margin:0}
 .more{display:flex;justify-content:center;padding:14px}
 .empty{padding:40px 16px;text-align:center;color:var(--muted)}
+
+/* Volet « Détails de l'article » */
+.scrim{position:fixed;inset:0;background:rgba(18,25,21,.45);z-index:30}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--surface);z-index:31;display:flex;flex-direction:column;box-shadow:var(--shadow);padding-top:env(safe-area-inset-top,0px)}
+.d-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.d-head img{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#fff}
+.d-head h2{flex:1;font-size:1.15rem;min-width:0}
+.d-head small{display:block;font-family:var(--font-body);font-weight:600;color:var(--muted);font-size:.82rem}
+.icon{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:1.2rem;line-height:1;display:grid;place-items:center;flex:none}
+.d-body{overflow:auto;padding:16px 18px;display:grid;gap:14px;flex:1}
+.d-body label.f{display:grid;gap:5px;font-size:.82rem;font-weight:700;color:var(--muted);min-width:0}
+.d-body label.f input,.d-body label.f textarea{font:inherit;font-size:.98rem;font-weight:400;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%;min-width:0}
+.d-body label.f textarea{resize:vertical;line-height:1.45}
+.d-body label.f .pub{font-weight:600;color:var(--muted);font-size:.78rem}
+.d-body label.f .pub b{font-weight:700;color:var(--ink)}
+.d-body .hint{font-size:.8rem;color:var(--muted);font-weight:600;margin-top:-2px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:460px){.r2{grid-template-columns:1fr}}
+.d-foot{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 18px;border-top:1px solid var(--line);padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}
+.d-foot .grow{flex:1}
+@media (max-width:760px){ td.edit{grid-column:2;grid-row:6;padding-top:6px} }
 
 /* Pied de page */
 .foot{margin-top:18px;padding:14px;border-radius:var(--radius);background:var(--brand-soft);color:var(--ink);font-size:.92rem;display:grid;gap:6px}
@@ -151,6 +176,7 @@ td.sel input{width:18px;height:18px;margin:0}
   td.badge{grid-column:2;grid-row:5;padding-top:4px}
   td.vis{grid-column:3;grid-row:5;justify-self:end;padding:4px 8px 0 0}
   td.reset{grid-column:1;grid-row:5;padding:4px 0 0 8px}
+  td.edit{grid-column:2;grid-row:6;padding-top:6px}
 }
 </style>
 
@@ -198,7 +224,7 @@ td.sel input{width:18px;height:18px;margin:0}
     <table id="table">
       <thead><tr>
         <th class="sel"><input type="checkbox" id="check-all" aria-label="Tout cocher"></th>
-        <th>Photo</th><th>Article</th><th>Réf.</th><th>Catégorie</th><th style="text-align:right">Prix publié</th><th>Nouveau prix</th><th>Badge</th><th style="text-align:center">Visible</th><th><span class="sr">Annuler</span></th>
+        <th>Photo</th><th>Article</th><th>Réf.</th><th>Catégorie</th><th style="text-align:right">Prix publié</th><th>Nouveau prix</th><th>Badge</th><th style="text-align:center">Visible</th><th><span class="sr">Détails</span></th><th><span class="sr">Annuler</span></th>
       </tr></thead>
       <tbody id="rows"></tbody>
     </table>
@@ -209,9 +235,31 @@ td.sel input{width:18px;height:18px;margin:0}
   <div class="foot">
     <span><b>Comment ça marche.</b> Chaque changement est enregistré tout seul (voyant en haut à droite). Les lignes surlignées sont modifiées mais pas encore sur le site.</span>
     <span><b>Pour mettre le site à jour :</b> dis à Claude « publie le catalogue ». Il reprend tes modifications, reconstruit le site et te renvoie le zip pour Netlify.</span>
-    <span>Appuie sur Entrée dans un prix pour passer au suivant. Un article masqué reste ici mais disparaît du site.</span>
+    <span>Appuie sur Entrée dans un prix pour passer au suivant. Un article masqué reste ici mais disparaît du site. Le bouton <b>Détails</b> ouvre la fiche complète : référence, description, âge conseillé, points forts, caractéristiques.</span>
   </div>
 </main>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Détails de l'article">
+  <div class="d-head"><img id="d-img" alt="" hidden><h2 id="d-title">Article<small id="d-sub"></small></h2><button type="button" class="icon" id="d-close" aria-label="Fermer">×</button></div>
+  <div class="d-body">
+    <label class="f">Nom<input id="d-name" type="text"><span class="pub" id="d-name-pub"></span></label>
+    <div class="r2">
+      <label class="f">Référence<input id="d-ref" type="text" placeholder="ex. QS11"><span class="pub" id="d-ref-pub"></span></label>
+      <label class="f">Prix (FCFA)<input id="d-price" type="number" min="0" step="100" inputmode="numeric"><span class="pub" id="d-price-pub"></span></label>
+    </div>
+    <label class="f">Description<textarea id="d-desc" rows="5"></textarea><span class="pub" id="d-desc-pub"></span></label>
+    <label class="f">Âge conseillé<input id="d-age" type="text" placeholder="ex. De la naissance à 3 ans"><span class="pub" id="d-age-pub"></span></label>
+    <label class="f">Points forts<textarea id="d-plus" rows="4" placeholder="Un point fort par ligne"></textarea><span class="hint">Un point fort par ligne. Ils s'affichent en liste sur la fiche produit.</span></label>
+    <label class="f">Caractéristiques<textarea id="d-specs" rows="4" placeholder="Dimensions : 120 × 60 cm&#10;Matière : bois massif"></textarea><span class="hint">Une caractéristique par ligne, sous la forme « Nom : valeur ».</span></label>
+  </div>
+  <div class="d-foot">
+    <button type="button" class="btn danger" id="d-reset">Revenir au publié</button>
+    <span class="grow"></span>
+    <button type="button" class="btn" id="d-cancel">Annuler</button>
+    <button type="button" class="btn primary" id="d-save">Enregistrer</button>
+  </div>
+</aside>
 
 <script>
 /*__DATA__*/
@@ -223,8 +271,10 @@ var BADGES = ['', 'Nouveau', 'Le plus choisi', 'Promo'];
 var catById = {}; CATS.forEach(function(c){ catById[c.id] = c; });
 var univById = {}; UNIV.forEach(function(u){ univById[u.id] = u; });
 var base = {}; BASE.forEach(function(p){ base[p.id] = p; });
-var state = {};  // id -> {price, name, badge, hidden}
-BASE.forEach(function(p){ state[p.id] = { price: p.price, name: p.name, badge: p.badge || '', hidden: !!p.hidden }; });
+var state = {};  // id -> {price, name, badge, hidden, ref, desc, age, plus, specs}
+function fromBase(b){ return { price: b.price, name: b.name, badge: b.badge || '', hidden: !!b.hidden, ref: b.ref || '', desc: b.desc || '', age: b.age || '', plus: (b.plus || []).slice(), specs: (b.specs || []).map(function(x){ return x.slice(); }) }; }
+BASE.forEach(function(p){ state[p.id] = fromBase(p); });
+var editing = null;
 var checked = {}, pending = {}, timers = {}, chains = {};
 var db = null, canWrite = null, readOnly = false;
 var filtered = [], shown = 0, PAGE = 80;
@@ -237,20 +287,31 @@ function diff(id){
   if (s.name !== b.name) o.name = s.name;
   if (s.badge !== (b.badge || '')) o.badge = s.badge;
   if (s.hidden !== !!b.hidden) o.hidden = s.hidden;
+  if (s.ref !== (b.ref || '')) o.ref = s.ref;
+  if (s.desc !== (b.desc || '')) o.desc = s.desc;
+  if (s.age !== (b.age || '')) o.age = s.age;
+  if (JSON.stringify(s.plus) !== JSON.stringify(b.plus || [])) o.plus = s.plus;
+  if (JSON.stringify(s.specs) !== JSON.stringify(b.specs || [])) o.specs = s.specs;
   return Object.keys(o).length ? o : null;
 }
+function detailsMod(id){ var d = diff(id); return !!(d && (d.ref !== undefined || d.desc !== undefined || d.age !== undefined || d.plus !== undefined || d.specs !== undefined)); }
 function isMod(id){ return !!diff(id); }
 function applyDoc(id, d){
   if (!base[id]) return;
   var b = base[id];
-  state[id] = {
-    price: typeof d.price === 'number' ? d.price : b.price,
-    name: typeof d.name === 'string' && d.name.trim() ? d.name : b.name,
-    badge: typeof d.badge === 'string' ? d.badge : (b.badge || ''),
-    hidden: typeof d.hidden === 'boolean' ? d.hidden : !!b.hidden
-  };
+  var s = fromBase(b);
+  if (typeof d.price === 'number') s.price = d.price;
+  if (typeof d.name === 'string' && d.name.trim()) s.name = d.name;
+  if (typeof d.badge === 'string') s.badge = d.badge;
+  if (typeof d.hidden === 'boolean') s.hidden = d.hidden;
+  if (typeof d.ref === 'string') s.ref = d.ref;
+  if (typeof d.desc === 'string') s.desc = d.desc;
+  if (typeof d.age === 'string') s.age = d.age;
+  if (Array.isArray(d.plus)) s.plus = d.plus.filter(function(x){ return typeof x === 'string'; });
+  if (Array.isArray(d.specs)) s.specs = d.specs.filter(function(x){ return Array.isArray(x) && x.length === 2; }).map(function(x){ return [String(x[0]), String(x[1])]; });
+  state[id] = s;
 }
-function resetLocal(id){ var b = base[id]; state[id] = { price: b.price, name: b.name, badge: b.badge || '', hidden: !!b.hidden }; }
+function resetLocal(id){ state[id] = fromBase(base[id]); }
 function univOf(p){ var c = catById[p.cat]; return c ? c.univers : (p.cat === 'packs' || p.cat === 'valise' ? 'packs' : ''); }
 function catLabel(p){ var c = catById[p.cat]; return c ? c.label : (p.cat === 'packs' ? 'Packs naissance' : p.cat === 'valise' ? 'Valise de maternité' : p.cat); }
 
@@ -294,6 +355,7 @@ function setReadOnly(){
   setStatus('', 'Lecture seule');
   banner('Tu peux consulter le catalogue mais pas le modifier avec ce compte.');
   document.querySelectorAll('#rows input, #rows select, .bulk input, .bulk select, .bulk button').forEach(function(el){ el.disabled = true; });
+  document.querySelectorAll('#rows button[data-f="edit"]').forEach(function(el){ el.disabled = false; });
 }
 
 /* ---------- filtres et rendu ---------- */
@@ -306,7 +368,7 @@ function compute(){
     if (c && p.cat !== c) return false;
     if (onlyMod && !isMod(p.id)) return false;
     if (onlyHidden && !s.hidden) return false;
-    if (q){ var hay = norm(s.name) + ' ' + norm(p.name) + ' ' + norm(p.ref) + ' ' + norm(p.id); if (q.split(/\s+/).some(function(w){ return hay.indexOf(w) < 0; })) return false; }
+    if (q){ var hay = norm(s.name) + ' ' + norm(p.name) + ' ' + norm(p.ref) + ' ' + norm(s.ref) + ' ' + norm(p.id); if (q.split(/\s+/).some(function(w){ return hay.indexOf(w) < 0; })) return false; }
     return true;
   });
   shown = Math.min(PAGE, filtered.length);
@@ -322,12 +384,13 @@ function rowHtml(p){
     '<td class="sel"><input type="checkbox" id="c-' + p.id + '" data-f="check"' + (checked[p.id] ? ' checked' : '') + ' aria-label="Cocher"></td>' +
     '<td class="photo">' + th + '</td>' +
     '<td class="name"><input type="text" id="n-' + p.id + '" data-f="name" value="' + esc(s.name) + '" aria-label="Nom">' + (s.name !== b.name ? '<small>Nom publié : ' + esc(b.name) + '</small>' : '') + '</td>' +
-    '<td class="ref">' + esc(p.ref) + '</td>' +
+    '<td class="ref">' + esc(s.ref || '—') + '</td>' +
     '<td class="cat">' + esc(catLabel(p)) + '</td>' +
     '<td class="base num">' + fmt(b.price) + '</td>' +
     '<td class="price">' + (b.computed ? '<span class="num computed">' + fmt(s.price) + '</span><span class="delta muted">calculé d\'après les articles</span>' : '<input type="number" id="p-' + p.id + '" data-f="price" value="' + s.price + '" min="0" step="100" inputmode="numeric" aria-label="Nouveau prix" class="num">' + delta) + '</td>' +
     '<td class="badge"><select id="b-' + p.id + '" data-f="badge" aria-label="Badge">' + opts + '</select></td>' +
     '<td class="vis"><label class="switch"><input type="checkbox" id="v-' + p.id + '" data-f="visible"' + (s.hidden ? '' : ' checked') + ' aria-label="Visible sur le site"><i></i></label></td>' +
+    '<td class="edit"><button type="button" data-f="edit">Détails' + (detailsMod(p.id) ? '<span class="dot" title="Détails modifiés"></span>' : '') + '</button></td>' +
     '<td class="reset"><button type="button" data-f="reset" title="Revenir au prix publié" aria-label="Annuler les modifications">↺</button></td></tr>';
 }
 function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
@@ -368,9 +431,46 @@ $('#rows').addEventListener('change', function(e){
   if (f === 'price' || f === 'name'){ updateRow(id); }
 });
 $('#rows').addEventListener('click', function(e){
+  var ed = e.target.closest('button[data-f="edit"]'); if (ed){ openDrawer(ed.closest('tr').dataset.id); return; }
   var btn = e.target.closest('button[data-f="reset"]'); if (!btn) return;
   var id = btn.closest('tr').dataset.id; resetLocal(id); queueWrite(id); updateRow(id); renderCounts();
 });
+
+/* ---------- volet Détails ---------- */
+function pub(elId, cur, b){ var el = $('#' + elId); el.innerHTML = (cur !== b && b) ? 'Publié : <b>' + esc(b) + '</b>' : ''; }
+function openDrawer(id){
+  var s = state[id], b = base[id]; editing = id;
+  $('#d-title').firstChild.textContent = s.name; $('#d-sub').textContent = catLabel(b) + (b.computed ? ' · prix calculé d\'après les articles' : '');
+  var img = $('#d-img'); if (THUMBS[b.img]){ img.src = THUMBS[b.img]; img.hidden = false; } else img.hidden = true;
+  $('#d-name').value = s.name; $('#d-ref').value = s.ref; $('#d-price').value = s.price; $('#d-price').disabled = !!b.computed;
+  $('#d-desc').value = s.desc; $('#d-age').value = s.age; $('#d-plus').value = s.plus.join('\n'); $('#d-specs').value = s.specs.map(function(x){ return x[0] + ' : ' + x[1]; }).join('\n');
+  pub('d-name-pub', s.name, b.name); pub('d-ref-pub', s.ref, b.ref || ''); pub('d-price-pub', s.price, b.price ? fmt(b.price) + ' FCFA' : ''); pub('d-desc-pub', s.desc, b.desc || ''); pub('d-age-pub', s.age, b.age || '');
+  if (s.price === b.price) $('#d-price-pub').innerHTML = '';
+  var ro = readOnly; ['d-name', 'd-ref', 'd-desc', 'd-age', 'd-plus', 'd-specs', 'd-save', 'd-reset'].forEach(function(x){ $('#' + x).disabled = ro; }); if (ro) $('#d-price').disabled = true;
+  $('#scrim').hidden = false; $('#drawer').hidden = false; $('#d-name').focus();
+}
+function closeDrawer(){ $('#scrim').hidden = true; $('#drawer').hidden = true; editing = null; }
+function parseSpecs(text){
+  return text.split('\n').map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){
+    var m = l.match(/^(.*?)\s*[:：]\s*(.+)$/); return m ? [m[1].trim(), m[2].trim()] : [l, ''];
+  }).filter(function(x){ return x[0]; }).map(function(x){ return x[1] ? x : [x[0], '']; });
+}
+function saveDrawer(){
+  var id = editing; if (!id) return; var s = state[id], b = base[id];
+  var name = $('#d-name').value.trim(); if (!name){ $('#d-name').focus(); return; }
+  s.name = name; s.ref = $('#d-ref').value.trim();
+  if (!b.computed){ var v = parseInt($('#d-price').value, 10); if (!isNaN(v) && v >= 0) s.price = v; }
+  s.desc = $('#d-desc').value.trim(); s.age = $('#d-age').value.trim();
+  s.plus = $('#d-plus').value.split('\n').map(function(l){ return l.trim().replace(/^[-•·]\s*/, ''); }).filter(Boolean);
+  s.specs = parseSpecs($('#d-specs').value).filter(function(x){ return x[1]; });
+  queueWrite(id); updateRow(id); renderCounts(); closeDrawer();
+}
+$('#d-save').addEventListener('click', saveDrawer);
+$('#d-cancel').addEventListener('click', closeDrawer);
+$('#d-close').addEventListener('click', closeDrawer);
+$('#scrim').addEventListener('click', closeDrawer);
+$('#d-reset').addEventListener('click', function(){ if (!editing) return; var id = editing; resetLocal(id); queueWrite(id); updateRow(id); renderCounts(); openDrawer(id); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !$('#drawer').hidden) closeDrawer(); if (e.key === 'Enter' && (e.metaKey || e.ctrlKey) && !$('#drawer').hidden) saveDrawer(); });
 $('#rows').addEventListener('keydown', function(e){
   if (e.key !== 'Enter' || e.target.dataset.f !== 'price') return;
   e.preventDefault();
@@ -462,7 +562,7 @@ compute();
       var touched = [];
       snap.docChanges().forEach(function(ch){
         var id = ch.doc.id; if (!base[id]) return;
-        if (pending[id] || timers[id]) return;                       // édition locale en cours : on garde la main
+        if (pending[id] || timers[id] || editing === id) return;      // édition locale en cours : on garde la main
         var active = document.activeElement; if (active && active.closest && active.closest('tr') && active.closest('tr').dataset.id === id) return;
         if (ch.type === 'removed') resetLocal(id); else applyDoc(id, ch.doc.data() || {});
         touched.push(id);
