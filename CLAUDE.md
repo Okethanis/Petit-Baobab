@@ -49,4 +49,5 @@ cd site && python3 -m http.server 8000   # puis ouvrir http://localhost:8000
 - Remplacer les **tarifs de livraison** par commune (dans `CONFIG.zones`) par les vrais tarifs.
 - Remplacer l'**adresse e-mail** fictive (`CONFIG.email`) par la vraie.
 - Fiches dont la photo ne correspond pas au nom (à corriger avec Hanis) : 6005 (photo = support de baignoire), 7686 (photo = armoire à fleurs), hk305 (photo = couffin), x300 (photo = trotteur), d900 (photo = poussette), 9172 (photo = boîtes doseuses ALGO), 2314 (photo = étagère poussin), 7276-1 (photo = coffret biberons EVANI), zy-360 (photo = brosse à biberon), x-10 (photo = bassin de toilette), MS-4, HT681, x-n-2 (réf. « 袜子 »). **103-100-60-40 : l'ancienne photo affiche un prix en yuans** (à remplacer en priorité).
+- **30 articles affichent une référence en chinois** (champ `ref`), parfois avec des quantités par coloris issues des packing lists (ex. « 米30 灰50 兰20 ») ; certains `id` en contiennent aussi (1688-30-50-20, 9-80-20-50, hh727-…, 5100-…). À remplacer par des références propres (proposé à Hanis le 23 oct. 2026). Contrôle : chercher `[　-鿿]` dans `PRODUCTS`.
 - Nom de domaine souhaité : `petit-baobab.com`.
