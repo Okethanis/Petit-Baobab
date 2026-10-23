@@ -152,9 +152,6 @@ fs.mkdirSync(path.join(OUT, 'images'), { recursive: true });
 // Photos des produits (dossier images/ à côté de ce script)
 const IMG_SRC = path.join(__dirname, 'images');
 if (fs.existsSync(IMG_SRC)) for (const f of fs.readdirSync(IMG_SRC)) fs.copyFileSync(path.join(IMG_SRC, f), path.join(OUT, 'images', f));
-// Bibliothèques servies par le site lui-même (three.js pour la carte Myris) : dossier vendor/
-const VENDOR = path.join(__dirname, 'vendor');
-if (fs.existsSync(VENDOR)) { fs.mkdirSync(path.join(OUT, 'vendor'), { recursive: true }); for (const f of fs.readdirSync(VENDOR)) fs.copyFileSync(path.join(VENDOR, f), path.join(OUT, 'vendor', f)); }
 // Sur les aperçus Netlify seulement (jamais en ligne) : un sélecteur pour comparer des polices de titres.
 const PREVIEW_TOOLS = process.env.CONTEXT === 'deploy-preview' ? `<div id="pv-fonts" style="position:fixed;left:12px;bottom:12px;z-index:60;background:#fff;color:#1E2B22;border:1px solid #D9E1D8;border-radius:14px;box-shadow:0 10px 30px rgba(30,43,34,.18);padding:10px 12px;font:600 13px/1.3 system-ui,sans-serif;max-width:calc(100vw - 100px)">
 <div style="margin-bottom:6px">Aperçu · police des titres</div><div id="pv-btns" style="display:flex;flex-wrap:wrap;gap:6px"></div></div>
@@ -223,8 +220,6 @@ fs.writeFileSync(path.join(OUT, '_headers'), `/*
 /images/*
   Cache-Control: public, max-age=31536000, immutable
 
-/vendor/*
-  Cache-Control: public, max-age=31536000, immutable
 
 /*.png
   Cache-Control: public, max-age=604800
@@ -272,7 +267,7 @@ async function renderImages() {
 }
 
 (async () => {
-  const STATIC = path.join(__dirname, 'static');   // fichiers publiés tels quels à la racine : PNG déjà rendus (favicons, image de partage), souvenirs/ de la carte Myris
+  const STATIC = path.join(__dirname, 'static');   // fichiers publiés tels quels à la racine : PNG déjà rendus (favicons, image de partage)
   if (fs.existsSync(STATIC)) fs.cpSync(STATIC, OUT, { recursive: true });
   await renderImages();
   try { fs.rmSync(path.join(__dirname, 'petit-baobab-site.zip'), { force: true }); execSync('zip -qr ../petit-baobab-site.zip .', { cwd: OUT }); } catch (e) { console.log('zip non créé :', e.message); }
