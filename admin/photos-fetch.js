@@ -115,7 +115,7 @@ async function prepare(buf) {
   const rows = ids.filter(id => result[id]).map(id => {
     n++; const p = nameOf(id), s = SOURCES[id], l = LBL[s.statut] || LBL.doute, files = result[id];
     const avant = fs.existsSync(path.join(OUT, 'images', '_avant', id + '.webp')) ? '/images/_avant/' + id + '.webp' : '';
-    return `<article class="row" data-n="${n}"><div class="head"><label><input type="checkbox" checked data-n="${n}" data-id="${esc(id)}"> <b>${n}.</b> ${esc(p.name)} <span class="ref">réf. ${esc(p.ref)}</span></label><span class="tag" style="background:${l[1]}">${l[0]}</span></div>
+    return `<article class="row" data-n="${n}"><div class="head"><label><input type="checkbox" checked data-n="${n}" data-id="${esc(id)}"> <b>${n}.</b> ${esc(p.name)}${p.ref ? ' <span class="ref">réf. ' + esc(p.ref) + '</span>' : ''}</label><span class="tag" style="background:${l[1]}">${l[0]}</span></div>
 <div class="imgs"><figure class="avant">${avant ? `<img src="${avant}" alt="" loading="lazy">` : ''}<figcaption>Avant</figcaption></figure>${files.map((f, k) => `<figure><img src="/images/${f}" alt="" loading="lazy"><figcaption>${k ? 'Photo ' + (k + 1) : 'Après'}</figcaption></figure>`).join('')}</div>${s.note ? `<p class="note">${esc(s.note)}</p>` : ''}</article>`;
   }).join('\n');
   fs.mkdirSync(path.join(OUT, 'verification-photos'), { recursive: true });
