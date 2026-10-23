@@ -94,13 +94,25 @@ COLORS = {
     '271':    [['Blanc', 'images/271.webp'], ['Gris', 'images/271-gris.webp']],
     'p3501':  [['Vert', 'images/p3501.webp'], ['Camel', 'images/p3501-camel.webp']],
     '2261':   [['Rayures bleues', 'images/2261.webp'], ['Rayures beiges', 'images/2261-beige.webp']],
+    # doublons « même modèle, autre couleur » regroupés (brand/doublons.py, 23 oct. 2026)
+    'p270': [['Blanc', 'images/p270.webp'], ['Bois naturel', 'images/270.webp']],
+    'bjj-008p': [['Kaki', 'images/bjj-008p.webp'], ['Blanc', 'images/bjj008p.webp']],
+    '08303': [['Gris', 'images/08303.webp'], ['Mauve', 'images/08305.webp']],
+    '8207': [['Lamas', 'images/8207.webp'], ['Pingouins', 'images/8208.webp'], ['Gris rayé', 'images/8209.webp']],
+    '8104': [['Gris clair', 'images/8104.webp'], ['Gris foncé', 'images/8105.webp'], ['Mauve', 'images/8106.webp']],
+    '08112': [['Gris foncé', 'images/08112.webp'], ['Gris clair', 'images/08114.webp']],
+    '8085': [['Gris', 'images/8085.webp'], ['Gris foncé', 'images/8087.webp'], ['Beige', 'images/08081.webp']],
+    'f7025': [['Bleu', 'images/f7025.webp'], ['Rose', 'images/g7025.webp']],
+    '668-34': [['Multicolore', 'images/668-34.webp'], ['Rose', 'images/668-35.webp']],
+    '6037': [['Vert', 'images/6037.webp'], ['Rose', 'images/6033.webp']],
+    'np-002': [['Bleu', 'images/np-002.webp'], ['Blanc', 'images/np-003.webp']],
 }
 def js(v):
     return '[' + ', '.join('[' + ', '.join("'" + x.replace("\\", "\\\\").replace("'", "\\'") + "'" for x in c) + ']' for c in v) + ']'
 i0 = s.index('var PRODUCTS'); i1 = s.index('\n];', i0)
 block = s[i0:i1]
 for pid, cols in COLORS.items():
-    m = re.search(r"\{id:'" + re.escape(pid) + r"',[^\n]*?\}(?=,?\n)", block)
+    m = re.search(r"^  \{id:'" + re.escape(pid) + r"',[^\n]*?\}(?=,?\n)", block, re.M)   # début de ligne : pas un {id:…, qty:…} de pack
     assert m, pid
     row = m.group(0)
     new = re.sub(r", colors:\[\[.*?\]\]", '', row)             # remplace une ancienne valeur

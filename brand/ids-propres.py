@@ -53,8 +53,17 @@ for old, new in IDS:
     s = s.replace('images/' + old + '.webp', 'images/' + new + '.webp')
     ids_now.discard(old); ids_now.add(new); done.append((old, new))
 
-# conversion des anciens codes chez les clients (panier, liste, favoris)
-ALIAS = 'var ID_ALIAS = ' + json.dumps({o: n for o, n in IDS}, separators=(',', ':')) + ';'
+# conversion des anciens codes chez les clients (panier, liste, favoris) : brand/alias.json, partagé avec brand/doublons.py
+AP = os.path.join(ROOT, 'brand', 'alias.json')
+AL = json.load(open(AP, encoding='utf-8')) if os.path.exists(AP) else {}
+AL.update({o: n for o, n in IDS})
+json.dump(AL, open(AP, 'w', encoding='utf-8'), ensure_ascii=False, indent=1, sort_keys=True)
+def resolve(k):
+    seen = set()
+    while k.split('~')[0] in AL and k not in seen:
+        seen.add(k); b, _, c = k.partition('~'); k = AL[b] + ('~' + c if c and '~' not in AL[b] else '')
+    return k
+ALIAS = 'var ID_ALIAS = ' + json.dumps({o: resolve(o) for o in sorted(AL)}, ensure_ascii=False, separators=(',', ':')) + ';'
 if 'var ID_ALIAS' in s:
     s = re.sub(r'var ID_ALIAS = \{[^\n]*\};', lambda m: ALIAS, s, count=1)
 else:
