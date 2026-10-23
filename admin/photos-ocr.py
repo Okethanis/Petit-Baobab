@@ -12,7 +12,7 @@ IMG = os.path.join(ROOT, 'site', 'images')
 VERIF = os.path.join(ROOT, 'site', 'verification-photos')
 CACHE = os.path.join(ROOT, '.photos-cache', 'ocr.json')
 CJK = re.compile(r'[　-〿㐀-鿿＀-￯]')
-MONEY = re.compile(r'[¥￥]|RMB|元')
+MONEY = re.compile(r'[¥￥]|RMB')
 
 def flagged(lines):
     out = []
