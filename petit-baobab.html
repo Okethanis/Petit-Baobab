@@ -825,6 +825,32 @@ a.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .contact-form .btn{justify-self:start}
 .form-err{color:var(--danger);font-weight:600;margin:0}
 .prose ol{padding-left:1.3em;display:grid;gap:6px}
+/* Commande et fiche article (brand/commande.py) */
+.co-title{font-size:1.25rem;margin:0 0 4px}
+.co-pay{margin-top:6px}
+.opt{font-weight:400;color:var(--muted);font-size:.82em}
+.co-privacy{font-size:.86rem;color:var(--muted);margin:14px 0 8px}
+.co-accept{margin:0 0 12px}
+.co-accept .toggle{align-items:flex-start;gap:10px;font-weight:600}
+.co-accept input{margin-top:3px;width:18px;height:18px;accent-color:var(--brand);flex:none}
+.co-accept .req{color:var(--danger)}
+.co-accept.invalid .toggle{color:var(--danger)}
+#sum-lines .co-line{display:grid;grid-template-columns:auto 52px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+#sum-lines .co-line:last-child{border-bottom:0}
+.co-x{width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0}
+.co-x:hover{background:var(--surface-2);color:var(--danger)}
+.co-x .icon{width:16px;height:16px}
+.co-thumb{width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--surface-2);display:block}
+.co-info{display:grid;gap:6px;min-width:0}
+.co-name{font-weight:600;font-size:.92rem;line-height:1.3}
+.qty-sm{justify-self:start;transform-origin:left center;transform:scale(.86)}
+.help-box{margin-top:14px;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:grid;gap:14px;background:var(--surface)}
+.hb-row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.hb-row strong{display:block;margin-bottom:2px}
+.hb-row p{margin:0;color:var(--muted);font-size:.92rem}
+.hb-ico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.hb-ico .icon{width:20px;height:20px}
+.hb-ico.hb-wa{background:var(--ok-soft);color:var(--wa)}
 /* pb-police:start */
 .univ-card .num,.univ-hero .bignum,.pack .big,.stage-age strong,.pro .n,.tstep .num,.notfound .big,.list-total strong{font-family:var(--font-brand)}
 @media (max-width:620px){.fab-wa,.fab-call{width:52px;height:52px}.fab-wa .icon,.fab-call .icon{width:26px;height:26px}.fabs{gap:9px}}
@@ -1331,16 +1357,18 @@ path[class^="abk-"],circle[class^="abk-"]{fill:none}
     <div id="checkout-empty" class="empty" hidden>Votre panier est vide. <a href="#boutique" class="textlink" data-action="nav" data-view="boutique">Voir la boutique</a></div>
     <div class="checkout" id="checkout">
       <form class="form" id="form" novalidate>
+        <h3 class="co-title">Informations de livraison</h3>
         <div class="row2">
           <div class="field"><label for="f-name">Votre nom</label><input type="text" id="f-name" autocomplete="name" placeholder="Prénom et nom" required><span class="err"></span></div>
           <div class="field"><label for="f-phone">Votre numéro</label><input type="tel" id="f-phone" autocomplete="tel" placeholder="07 00 00 00 00" required><span class="hint">Pour vous appeler avant la livraison.</span><span class="err"></span></div>
         </div>
+        <div class="field"><label for="f-phone2">Autre numéro <small class="opt">(facultatif)</small></label><input type="tel" id="f-phone2" autocomplete="tel" placeholder="Un proche joignable si vous ne répondez pas"><span class="err"></span></div>
         <div class="row2">
           <div class="field"><label for="f-zone">Commune de livraison</label><select id="f-zone" required><option value="">Choisir…</option></select><span class="err"></span></div>
           <div class="field"><label for="f-address">Quartier et repère</label><input type="text" id="f-address" placeholder="Ex. : Riviera 3, près de la pharmacie…"></div>
         </div>
         <div class="field">
-          <span class="legend">Paiement</span>
+          <h3 class="co-title co-pay">Méthode de paiement</h3>
           <div class="choices">
             <label class="choice"><input type="radio" name="pay" id="pay-cod" value="livraison" checked><span><strong>À la livraison</strong><small>En espèces, par Wave ou Mobile Money, au livreur.</small></span></label>
             <label class="choice"><input type="radio" name="pay" id="pay-wave" value="wave"><span><strong>Par Wave ou Mobile Money, avant la livraison</strong><small>On vous envoie le montant exact et le numéro à payer sur WhatsApp.</small></span></label>
@@ -1359,10 +1387,12 @@ path[class^="abk-"],circle[class^="abk-"]{fill:none}
         <div class="alert err" id="form-alert" hidden role="alert"><strong>Il manque quelques informations.</strong><span>Complétez les champs signalés en rouge, puis réessayez.</span></div>
       </form>
       <aside class="summary">
-        <h3>Récapitulatif</h3>
+        <h3>Votre commande</h3>
         <p class="muted" style="font-size:.86rem">Référence : <strong id="sum-ref" style="font-variant-numeric:tabular-nums"></strong>. Gardez-la pour suivre ou modifier votre commande sur WhatsApp.</p>
         <div class="lines" id="sum-lines"></div>
         <div class="totals" id="sum-totals"></div>
+        <p class="co-privacy">Vos coordonnées servent uniquement à préparer et livrer votre commande, comme expliqué dans notre <a href="#confidentialite" class="textlink" data-action="nav" data-view="confidentialite">politique de confidentialité</a>.</p>
+        <div class="field co-accept"><label class="toggle"><input type="checkbox" id="f-cgv"> <span>J'ai lu et j'accepte les <a href="#cgv" class="textlink" data-action="nav" data-view="cgv">conditions de vente</a> <span class="req" aria-hidden="true">*</span></span></label><span class="err" id="cgv-err"></span></div>
         <a class="btn btn-primary btn-block" id="wa-send" href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-chat"/></svg><span>Envoyer la commande sur WhatsApp</span></a>
         <p class="wa-note" id="wa-hint">WhatsApp s'ouvre avec le récapitulatif prêt à envoyer. On vous répond pour confirmer.</p>
         <div class="alert ok" id="order-done" hidden role="status"><strong>WhatsApp s'est ouvert avec votre commande.</strong><span>Votre référence : <strong class="ref-echo"></strong>. Elle est dans le message, gardez-la.</span><span>Appuyez sur « Envoyer » dans WhatsApp pour nous la transmettre. On répond en général en moins d'une heure.</span><span>WhatsApp ne s'est pas ouvert ? Copiez le message ci-dessous et envoyez-le au <span class="wa-num"></span>.</span></div>
@@ -2425,11 +2455,13 @@ function complements(p, n){
   return out.slice(0, n);
 }
 function stockLine(p){ var st = CONFIG.stock || {}; return p.stock==='commande' ? (st.commande||'') : (st.defaut||''); }
-function reassure(){
+function reassure(p){
   return '<ul class="reassure"><li>' + icon('check') + '<span>Livraison dans toutes les communes d\'Abidjan, offerte dès ' + fmt(CONFIG.freeDeliveryFrom) + '</span></li>' +
     '<li>' + icon('check') + '<span>Vous vérifiez l\'article à la livraison avant de payer</span></li>' +
     '<li>' + icon('check') + '<span>Échange sous 48 h en cas de défaut</span></li>' +
-    '<li>' + icon('check') + '<span>Espèces, Wave ou Mobile Money à la livraison, ou acompte et solde à la réception</span></li></ul>';
+    '<li>' + icon('check') + '<span>Espèces, Wave ou Mobile Money à la livraison, ou acompte et solde à la réception</span></li></ul>' +
+    '<div class="help-box"><div class="hb-row"><span class="hb-ico">' + icon('truck') + '</span><div><strong>Livraison à domicile</strong><p>On vous livre chez vous, en moins de 24 h à Abidjan. Ajoutez l\'article au panier, puis envoyez la commande sur WhatsApp : on vous rappelle pour confirmer.</p></div></div>' +
+    '<div class="hb-row"><span class="hb-ico hb-wa">' + icon('wa') + '</span><div><strong>Besoin d\'aide ?</strong><p>Un doute sur le modèle, la couleur ou la taille ? <a class="textlink" href="' + esc(waLink(p ? 'Bonjour, une question sur « ' + p.name + ' »' + (p.ref ? ' (réf. ' + p.ref + ')' : '') + '.' : 'Bonjour ' + CONFIG.brand + ', j\'ai une question.')) + '" target="_blank" rel="noopener">Écrivez-nous sur WhatsApp</a> ou appelez le <a class="textlink" href="tel:+' + CONFIG.whatsapp + '">' + esc(CONFIG.whatsappDisplay) + '</a>.</p></div></div></div>';
 }
 function bandById(id){ return AGE_BANDS.filter(function(b){ return b.id===id; })[0]; }
 function priceBandById(id){ return PRICE_BANDS.filter(function(b){ return b.id===id; })[0]; }
@@ -2672,6 +2704,7 @@ function buildMessage(){
   L.push('');
   L.push('Nom : ' + (val('f-name') || '…'));
   L.push('Téléphone : ' + (val('f-phone') || '…'));
+  if (val('f-phone2')) L.push('Autre numéro : ' + val('f-phone2'));
   L.push('Livraison : ' + ([zone, val('f-address')].filter(Boolean).join(', ') || '…'));
   L.push('Paiement : ' + pay);
   if (gift){ L.push(''); L.push('🎁 Cadeau pour : ' + (val('g-name') || '…') + (val('g-phone') ? ' (' + val('g-phone') + ')' : '')); if (val('g-msg')) L.push('Message pour la carte : « ' + val('g-msg') + ' »'); }
@@ -2697,6 +2730,7 @@ function orderRules(){
     {id:'f-name', ok:function(){ return !!val('f-name'); }, msg:'Indiquez votre nom.'},
     {id:'f-phone', ok:function(){ return val('f-phone').replace(/\D/g,'').length >= 8; }, msg:'Indiquez un numéro valide (au moins 8 chiffres).'},
     {id:'f-zone', ok:function(){ return !!val('f-zone'); }, msg:'Choisissez votre commune.'},
+    {id:'f-phone2', ok:function(){ var d = val('f-phone2').replace(/\D/g,''); return !d || d.length >= 8; }, msg:'Ce numéro paraît incomplet (au moins 8 chiffres), ou laissez la case vide.'},
     {id:'g-name', ok:function(){ return !$('#f-gift').checked || !!val('g-name'); }, msg:'Indiquez le nom de la maman.'}
   ];
 }
@@ -2709,7 +2743,10 @@ function updateCheckout(){
   var sub = subtotal(), zone = val('f-zone'), fee = zoneFee(zone, sub);
   if (!state.ref) state.ref = orderRef();
   $('#sum-ref').textContent = state.ref;
-  $('#sum-lines').innerHTML = items.map(function(i){ return '<div><span>' + esc(i.p.name) + ' × ' + i.qty + '</span><span class="price">' + fmt(i.p.price*i.qty) + '</span></div>'; }).join('');
+  $('#sum-lines').innerHTML = items.map(function(i){ return '<div class="co-line"><button type="button" class="co-x" data-action="remove" data-id="' + i.p.id + '" aria-label="Retirer ' + esc(i.p.name) + '">' + icon('x') + '</button>' +
+    (i.p.image ? '<img class="co-thumb" src="' + esc(img(i.p)) + '" alt="" loading="lazy">' : '<span class="co-thumb"></span>') +
+    '<span class="co-info"><span class="co-name">' + esc(i.p.name) + '</span><span class="qty qty-sm"><button type="button" data-action="qty-minus" data-id="' + i.p.id + '" aria-label="Moins">' + icon('minus') + '</button><output>' + i.qty + '</output><button type="button" data-action="qty-plus" data-id="' + i.p.id + '" aria-label="Plus">' + icon('plus') + '</button></span></span>' +
+    '<span class="price">' + fmt(i.p.price*i.qty) + '</span></div>'; }).join('');
   $('#sum-totals').innerHTML = '<div><span>Sous-total</span><span class="price">' + fmt(sub) + '</span></div>' +
     '<div><span>Livraison' + (zone ? ' · ' + esc(zone) : '') + '</span><span>' + esc(fee.label) + '</span></div>' +
     '<div class="grand"><span>Total</span><span class="price"><span id="grand"></span>' + (fee.known ? '' : ' <span class="muted" style="font-weight:400;font-size:.85rem">+ livraison</span>') + '</span></div>';
@@ -2725,6 +2762,8 @@ function updateCheckout(){
 function sendOrder(e, a){
   var errs = validateFields(orderRules());
   if (Object.keys(errs).length){ e.preventDefault(); showErrors('#form', '#form-alert', errs); return; }
+  if (!$('#f-cgv').checked){ e.preventDefault(); var ce = $('#cgv-err'); ce.textContent = 'Cochez la case pour accepter les conditions de vente.'; ce.closest('.field').classList.add('invalid'); try { $('#f-cgv').focus(); } catch(x){} return; }
+  $('#cgv-err').textContent = ''; $('#cgv-err').closest('.field').classList.remove('invalid');
   showErrors('#form', '#form-alert', {});
   a.classList.add('busy'); $('span', a).textContent = 'Ouverture de WhatsApp…';
   setTimeout(function(){ a.classList.remove('busy'); $('span', a).textContent = 'Envoyer la commande sur WhatsApp'; $('.ref-echo').textContent = state.ref; $('#order-done').hidden = false; $('#wa-hint').hidden = true; }, 1200);
@@ -2749,8 +2788,7 @@ function openProduct(id){
     '<button type="button" class="btn btn-ghost btn-sm fav-text' + (state.favs[p.id] ? ' on' : '') + '" data-action="fav" data-id="' + p.id + '" aria-pressed="' + (state.favs[p.id] ? 'true' : 'false') + '">' + icon('heart') + '<span>Favori</span></button>' +
     '<button type="button" class="btn btn-ghost btn-sm" data-action="list-add" data-id="' + p.id + '">' + icon('list') + '<span>' + (state.list.items[p.id] ? 'Dans ma liste de naissance' : 'Ajouter à ma liste de naissance') + '</span></button></div>' +
     '<p class="stock' + (p.stock==='commande' ? ' order' : '') + '"><i></i>' + esc(stockLine(p)) + '</p>' +
-    reassure() +
-    '<p class="wa-note" style="margin-top:12px">Une question sur cet article ? <a class="textlink" href="' + waLink('Bonjour, une question sur « ' + p.name + ' »' + (p.ref ? ' (réf. ' + p.ref + ')' : '') + '.') + '" target="_blank" rel="noopener">Demandez-nous sur WhatsApp</a>.</p>' +
+    reassure(p) +
     (function(){ var cs = (p.cat==='packs' || p.cat==='valise') ? [] : complements(p, 4); return cs.length ? '<div class="complete"><h4>Complétez avec</h4><div class="mini-grid">' + cs.map(function(x){ return '<button type="button" class="mini" data-action="open" data-id="' + x.id + '"><img src="' + esc(img(x)) + '" alt="" loading="lazy"><span class="mini-name">' + esc(x.name) + '</span><span class="price">' + fmt(x.price) + '</span></button>'; }).join('') + '</div></div>' : ''; })() +
     '</div></div>');
   try { $('#sheet').scrollTop = 0; } catch(e){}
@@ -2936,6 +2974,7 @@ $('#form').addEventListener('input', updateCheckout);
 $('#form').addEventListener('change', updateCheckout);
 $('#form').addEventListener('submit', function(e){ e.preventDefault(); });
 $('#wa-send').addEventListener('click', function(e){ sendOrder(e, this); });
+$('#f-cgv').addEventListener('change', function(){ if (this.checked){ $('#cgv-err').textContent = ''; $('#cgv-err').closest('.field').classList.remove('invalid'); } });
 window.addEventListener('hashchange', function(){ if (ROUTING!=='hash') return; var v = (location.hash||'').replace('#',''); if (ROUTES[v] && v!==state.view) navigate(v, {fromHistory:true}); });
 window.addEventListener('popstate', function(){ if (ROUTING!=='path') return; navigate(viewFromLocation(), {fromHistory:true}); });
 window.addEventListener('scroll', onScroll, {passive:true});
