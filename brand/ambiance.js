@@ -1,6 +1,6 @@
 /* Ambiance Petit Baobab : de petites choses de bébé tombent doucement sur la page, une cigogne traverse avec son baluchon,
    des bulles de bain montent et éclatent. Dessins maison, couleurs de la marque, jamais d'emoji.
-   - Le jour : tétine, biberon, hochet, chausson, body, canard de bain, petits pieds, étoiles, cœurs, soleil.
+   - Le jour : tétine, biberon, hochet, chausson, body, petits pieds, étoiles, cœurs, soleil.
    - Le soir (19 h – 6 h, heure du visiteur) : lunes et étoiles, comme au-dessus d'un berceau.
    - Quand on fait défiler la page, tout s'envole un peu, comme sous un souffle.
    Rien pour qui a demandé « moins d'animations », ni en mode économie de données, ni à l'impression. */
@@ -19,7 +19,6 @@
     rattle: '<path class="abk-g2" stroke-width="5" d="M27 27l10.5 12"/><circle class="abk-g1" stroke-width="2.6" cx="39.5" cy="41.5" r="3.6"/><circle class="ab-g1" cx="27.5" cy="27.5" r="3.3"/><circle class="ab-s1" cx="19.5" cy="19.5" r="12.5"/><circle class="ab-c" cx="14" cy="16" r="2.2"/><circle class="ab-c" cx="22" cy="12.5" r="2.2"/><circle class="ab-c" cx="18" cy="24" r="2.2"/><circle class="ab-c" cx="25.5" cy="21" r="2.2"/>',
     bootie: '<path class="ab-g3" d="M12.5 13.5h15v12.5c0 2.2 1.6 3.4 4.4 4.3l5.2 1.8c3.3 1.1 4.6 3.3 4.6 5.6v.8c0 2.4-2 3.5-4.4 3.5H17.5c-3 0-5-2.1-5-5z"/><path class="abk-g1" stroke-width="1.6" d="M12.8 40.5h28.6"/><rect class="ab-c" x="11" y="7.5" width="18" height="8" rx="3.4"/><path class="abk-c" stroke-width="2" d="M19 28.5q6-3.4 11 1.8"/><circle class="ab-s1" cx="31.5" cy="28" r="3.2"/>',
     onesie: '<path class="ab-c abk-g3" stroke-width="1.2" d="M17 6q7 6.5 14 0l9.5 5.2-3.3 8.3-4.2-2V36c0 4.2-2.8 6.5-6.5 7.2h-5c-3.7-.7-6.5-3-6.5-7.2V17.5l-4.2 2-3.3-8.3z"/><path class="abk-g2" stroke-width="2" d="M17 6q7 6.5 14 0"/><path class="ab-s1" d="M24 27.5c-3.4-2.3-5-4.2-5-6.2a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1c0 2-1.6 3.9-5 6.2z"/><circle class="ab-g2" cx="21" cy="40" r="1.2"/><circle class="ab-g2" cx="24" cy="40.8" r="1.2"/><circle class="ab-g2" cx="27" cy="40" r="1.2"/>',
-    duck: '<path class="ab-s2" d="M7.5 29.5Q5.5 23 11 24.8 15 22 22 23l8.5 1.2Q38.5 26 38.5 32.5 38.5 41.5 24 41.5 9.5 41.5 7.5 29.5z"/><circle class="ab-s2" cx="31" cy="16.5" r="8.2"/><path class="ab-s1" d="M38.3 16.5q6.2-.4 7.2 2.2-3.2 3.2-8.3 1.8z"/><circle class="ab-ink" cx="33" cy="14.6" r="1.6"/><circle class="ab-w" cx="33.6" cy="14" r=".5"/><path class="abk-s1" stroke-width="2" d="M15.5 31.5q6.5 5.2 13 0"/>',
     foot: '<path class="ab-g3" d="M17.5 21.5c4-3.5 12.8-2 14.2 6.8 1.1 7-1.2 13.8-6.7 15.2-4.6 1.2-8.5-1.4-8.5-6.4 0-3.6 2.4-5.3 1.6-9-.4-2.6-3.6-4.4-.6-6.6z"/><circle class="ab-g3" cx="16.5" cy="15.5" r="3.4"/><circle class="ab-g3" cx="22" cy="11.2" r="3"/><circle class="ab-g3" cx="27.3" cy="10.3" r="2.6"/><circle class="ab-g3" cx="31.6" cy="12.4" r="2.3"/><circle class="ab-g3" cx="34.8" cy="16" r="2"/>',
     star: '<path class="ab-s2 abk-s2" stroke-width="3.4" d="M24 6.5l5.3 10.8 11.9 1.7-8.6 8.4 2 11.8L24 33.6l-10.6 5.6 2-11.8-8.6-8.4 11.9-1.7z"/>',
     moon: '<path class="ab-c abk-s2" stroke-width="1.6" d="M30.5 6.5A17.5 17.5 0 1 0 42 36.2 14 14 0 1 1 30.5 6.5z"/><path class="abk-g1" stroke-width="1.7" d="M15.5 27.5q3 2.8 6 0"/><circle class="ab-s1" cx="14.6" cy="32.4" r="1.6" opacity=".55"/>',
@@ -32,7 +31,7 @@
   var h = new Date().getHours(), night = h >= 19 || h < 6;
   var small = (window.innerWidth || 1024) < 760;
   var FAM = {
-    item:   { pool: night ? ['moon', 'moon', 'pacifier', 'bottle', 'bootie', 'onesie', 'star', 'duck'] : ['pacifier', 'bottle', 'rattle', 'bootie', 'onesie', 'duck', 'foot', 'foot'], sz: [22, 33], d: [23, 35], fl: [2.8, 4.2] },
+    item:   { pool: night ? ['moon', 'moon', 'pacifier', 'bottle', 'bootie', 'onesie', 'star'] : ['pacifier', 'bottle', 'rattle', 'bootie', 'onesie', 'foot', 'foot'], sz: [22, 33], d: [23, 35], fl: [2.8, 4.2] },
     spark:  { pool: night ? ['star', 'star', 'moon', 'heart'] : ['star', 'heart', 'sun', 'heart'], sz: [14, 22], d: [19, 30], fl: [2.4, 4] },
     bubble: { pool: ['bubble'], sz: [16, 34], d: [13, 21], fl: [1.6, 2.6] }
   };
