@@ -11,7 +11,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 IMG = os.path.join(ROOT, 'site', 'images')
 VERIF = os.path.join(ROOT, 'site', 'verification-photos')
 CACHE = os.path.join(ROOT, '.photos-cache', 'ocr.json')
-CJK = re.compile(r'[　-〿㐀-鿿＀-￯]')
+CJK = re.compile('[\u3400-\u9fff\uf900-\ufaff]')   # idéogrammes seulement (« HaPPy。 » n'est pas du chinois)
 MONEY = re.compile(r'[¥￥]|RMB')
 
 def flagged(lines):
