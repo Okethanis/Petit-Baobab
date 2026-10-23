@@ -59,6 +59,29 @@ button{cursor:pointer}
 .banner{margin:14px 0 0;padding:12px 14px;border-radius:var(--radius);background:var(--accent-soft);color:var(--ink);font-size:.92rem}
 .banner.bad{background:var(--warn-soft)}
 
+/* Univers, comme sur le site */
+:root{--u-dort:#2F4E8C;--u-balade:#1F6B4A;--u-voiture:#B5483A;--u-eveil:#C9711C;--u-mange:#8A5A2B;--u-soigne:#1F8A9C;--u-habille:#9A3B6E;--u-maison:#4B6355;--u-packs:#174F38;--u-all:#55615A}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--u-dort:#7F9BD6;--u-balade:#7FCDA2;--u-voiture:#E58A7C;--u-eveil:#F0A75C;--u-mange:#D2A27A;--u-soigne:#6CC6D4;--u-habille:#D886B4;--u-maison:#A3BCAE;--u-packs:#7FCDA2;--u-all:#AAB7AD} }
+:root[data-theme="dark"]{--u-dort:#7F9BD6;--u-balade:#7FCDA2;--u-voiture:#E58A7C;--u-eveil:#F0A75C;--u-mange:#D2A27A;--u-soigne:#6CC6D4;--u-habille:#D886B4;--u-maison:#A3BCAE;--u-packs:#7FCDA2;--u-all:#AAB7AD}
+.univs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:14px 0 4px}
+.ucard{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;min-width:0;--uc:var(--u-all)}
+.ucard:hover{border-color:var(--uc)}
+.ucard .n{width:32px;height:32px;border-radius:50%;background:var(--uc);color:#fff;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:.95rem}
+.ucard b{display:block;font-family:var(--font-display);font-weight:600;color:var(--uc);font-size:1rem;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ucard small{color:var(--muted);font-size:.8rem}
+.ucard small i{font-style:normal;color:var(--accent);font-weight:700}
+.ucard[aria-pressed=true]{background:var(--uc);border-color:var(--uc)}
+.ucard[aria-pressed=true] b,.ucard[aria-pressed=true] small{color:#fff}
+.ucard[aria-pressed=true] .n{background:#fff;color:var(--uc)}
+.cats{display:flex;gap:8px;flex-wrap:wrap;padding:6px 0 0}
+.cats .chip[aria-pressed=true]{background:var(--uc,var(--brand));border-color:var(--uc,var(--brand));color:#fff}
+.uhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:12px 0 0}
+.uhead h2{color:var(--uc);font-size:1.4rem}
+.uhead p{margin:0;color:var(--muted);font-size:.92rem}
+tbody tr td.photo{box-shadow:inset 4px 0 0 var(--uc,transparent)}
+@media (max-width:980px){.univs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.univs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 /* Barre de filtres */
 .bar{display:grid;grid-template-columns:minmax(200px,1.4fr) repeat(2,minmax(150px,1fr)) auto;gap:10px;align-items:center;padding:14px 0 10px}
 .bar input[type=search],.bar select,.bulk input:not([type=radio]),.bulk select{width:100%;height:40px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
@@ -196,6 +219,9 @@ td.sel input{width:18px;height:18px;margin:0}
 </div></header>
 
 <main class="wrap">
+  <nav class="univs" id="univs" aria-label="Univers"></nav>
+  <div class="uhead" id="uhead" hidden><h2 id="uh-title"></h2><p id="uh-tag"></p></div>
+  <div class="cats" id="cats" hidden></div>
   <div class="bar">
     <input class="search" type="search" id="q" placeholder="Rechercher un nom ou une référence (ex. QS11, berceau)" aria-label="Rechercher">
     <select id="f-univ" aria-label="Univers"><option value="">Tous les univers</option></select>
@@ -319,7 +345,7 @@ function applyDoc(id, d){
   state[id] = s;
 }
 function resetLocal(id){ state[id] = fromBase(base[id]); }
-function univOf(p){ var c = catById[p.cat]; return c ? c.univers : (p.cat === 'packs' || p.cat === 'valise' ? 'packs' : ''); }
+function univOf(p){ if (p.cat === 'packs' || p.cat === 'valise') return 'packs'; var c = catById[p.cat]; return c ? c.univers : ''; }
 function catLabel(p){ var c = catById[p.cat]; return c ? c.label : (p.cat === 'packs' ? 'Packs naissance' : p.cat === 'valise' ? 'Valise de maternité' : p.cat); }
 
 /* ---------- état d'enregistrement ---------- */
@@ -379,7 +405,7 @@ function compute(){
     return true;
   });
   shown = Math.min(PAGE, filtered.length);
-  renderRows(); renderCounts();
+  renderRows(); renderCounts(); renderUnivs();
 }
 function rowHtml(p){
   var s = state[p.id], mod = isMod(p.id), b = base[p.id];
@@ -387,7 +413,7 @@ function rowHtml(p){
   var delta = s.price !== b.price ? (s.price > b.price ? '<span class="delta up">+' : '<span class="delta down">') + (Math.round((s.price - b.price) / b.price * 1000) / 10).toLocaleString('fr-FR') + ' %</span>' : '';
   var badges = BADGES.slice(); if (b.badge && badges.indexOf(b.badge) < 0) badges.push(b.badge); if (s.badge && badges.indexOf(s.badge) < 0) badges.push(s.badge);
   var opts = badges.map(function(x){ return '<option value="' + esc(x) + '"' + (x === s.badge ? ' selected' : '') + '>' + (x ? esc(x) : 'Aucun') + '</option>'; }).join('');
-  return '<tr data-id="' + p.id + '" class="' + (mod ? 'mod ' : '') + (s.hidden ? 'off' : '') + '">' +
+  return '<tr data-id="' + p.id + '" style="--uc:var(--u-' + (univOf(p) || 'packs') + ')" class="' + (mod ? 'mod ' : '') + (s.hidden ? 'off' : '') + '">' +
     '<td class="sel"><input type="checkbox" id="c-' + p.id + '" data-f="check"' + (checked[p.id] ? ' checked' : '') + ' aria-label="Cocher"></td>' +
     '<td class="photo">' + th + '</td>' +
     '<td class="name"><input type="text" id="n-' + p.id + '" data-f="name" value="' + esc(s.name) + '" aria-label="Nom">' + (s.name !== b.name ? '<small>Nom publié : ' + esc(b.name) + '</small>' : '') + '</td>' +
@@ -420,6 +446,7 @@ function renderCounts(){
   var nChecked = Object.keys(checked).filter(function(k){ return checked[k]; }).length;
   $('#count').textContent = filtered.length + ' article' + (filtered.length > 1 ? 's' : '') + ' affiché' + (filtered.length > 1 ? 's' : '') + (nChecked ? ' · ' + nChecked + ' coché' + (nChecked > 1 ? 's' : '') : '');
   $('#n-checked').textContent = nChecked; $('#n-filtered').textContent = filtered.length;
+  if ($('#univs').children.length) renderUnivs();
   $('#check-all').checked = filtered.length > 0 && filtered.every(function(p){ return checked[p.id]; });
   bulkPreview();
 }
@@ -490,6 +517,28 @@ $('#rows').addEventListener('keydown', function(e){
 });
 $('#check-all').addEventListener('change', function(e){ filtered.forEach(function(p){ checked[p.id] = e.target.checked; }); renderRows(); renderCounts(); });
 $('#more-btn').addEventListener('click', function(){ shown = Math.min(shown + PAGE, filtered.length); renderRows(); });
+
+/* ---------- univers ---------- */
+var UNIV_ALL = UNIV.concat([{ id: 'packs', n: '★', title: 'Packs et valises' }]);
+function renderUnivs(){
+  var u = $('#f-univ').value, c = $('#f-cat').value;
+  var cnt = {}, mods = {}; BASE.forEach(function(p){ var k = univOf(p) || 'packs'; cnt[k] = (cnt[k] || 0) + 1; if (isMod(p.id)) mods[k] = (mods[k] || 0) + 1; });
+  var allMods = Object.keys(mods).reduce(function(a, k){ return a + mods[k]; }, 0);
+  $('#univs').innerHTML = '<button type="button" class="ucard" data-u="" style="--uc:var(--u-all)" aria-pressed="' + (!u) + '"><span class="n">' + BASE.length + '</span><span><b>Tout le catalogue</b><small>' + (allMods ? '<i>' + allMods + ' modifié' + (allMods > 1 ? 's' : '') + '</i>' : 'tous les univers') + '</small></span></button>' +
+    UNIV_ALL.map(function(x){ return '<button type="button" class="ucard" data-u="' + x.id + '" style="--uc:var(--u-' + x.id + ')" aria-pressed="' + (u === x.id) + '"><span class="n">' + x.n + '</span><span><b>' + esc(x.title) + '</b><small>' + (cnt[x.id] || 0) + ' articles' + (mods[x.id] ? ' · <i>' + mods[x.id] + ' modifié' + (mods[x.id] > 1 ? 's' : '') + '</i>' : '') + '</small></span></button>'; }).join('');
+  var cur = UNIV_ALL.filter(function(x){ return x.id === u; })[0];
+  $('#uhead').hidden = !cur; $('#cats').hidden = !cur || u === 'packs';
+  if (cur){
+    var full = cur;
+    document.querySelector('main').style.setProperty('--uc', 'var(--u-' + u + ')');
+    $('#uh-title').textContent = cur.title; $('#uh-tag').textContent = full.tagline || '';
+    var cats = CATS.filter(function(k){ return k.univers === u && k.id !== 'packs' && k.id !== 'valise'; });
+    var ccount = {}; BASE.forEach(function(p){ ccount[p.cat] = (ccount[p.cat] || 0) + 1; });
+    $('#cats').innerHTML = '<button type="button" class="chip" data-c="" aria-pressed="' + (!c) + '">Toutes</button>' + cats.map(function(k){ return '<button type="button" class="chip" data-c="' + k.id + '" aria-pressed="' + (c === k.id) + '">' + esc(k.label) + ' <span class="muted">' + (ccount[k.id] || 0) + '</span></button>'; }).join('');
+  } else document.querySelector('main').style.removeProperty('--uc');
+}
+$('#univs').addEventListener('click', function(e){ var b = e.target.closest('.ucard'); if (!b) return; $('#f-univ').value = b.dataset.u; fillCats(); $('#f-cat').value = ''; compute(); });
+$('#cats').addEventListener('click', function(e){ var b = e.target.closest('.chip'); if (!b) return; $('#f-cat').value = b.dataset.c; compute(); });
 
 /* ---------- filtres ---------- */
 var qTimer; $('#q').addEventListener('input', function(){ clearTimeout(qTimer); qTimer = setTimeout(compute, 150); });

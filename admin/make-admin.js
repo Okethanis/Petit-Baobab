@@ -16,7 +16,7 @@ const base = PRODUCTS.map(p => ({ id: p.id, ref: p.ref || '', name: p.name, cat:
   desc: p.desc || '', age: p.age || '', plus: Array.isArray(p.plus) ? p.plus : [], specs: Array.isArray(p.specs) ? p.specs : [] }));
 const used = {}; base.forEach(p => { if (p.img && thumbs[p.img]) used[p.img] = thumbs[p.img]; });
 const data = 'var BASE = ' + JSON.stringify(base) + ';\nvar CATS = ' + JSON.stringify(CATS.map(c => ({ id: c.id, label: c.label, univers: c.univers }))) +
-  ';\nvar UNIV = ' + JSON.stringify(UNIVERS.map(u => ({ id: u.id, n: u.n, title: u.title }))) + ';\nvar THUMBS = ' + JSON.stringify(used) + ';\nvar SHEETS = ' + JSON.stringify(sheets) + ';';
+  ';\nvar UNIV = ' + JSON.stringify(UNIVERS.map(u => ({ id: u.id, n: u.n, title: u.title, tagline: u.tagline }))) + ';\nvar THUMBS = ' + JSON.stringify(used) + ';\nvar SHEETS = ' + JSON.stringify(sheets) + ';';
 const tpl = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf8');
 const out = tpl.replace('/*__DATA__*/', data);
 fs.writeFileSync(path.join(__dirname, 'catalogue-admin.html'), out);
