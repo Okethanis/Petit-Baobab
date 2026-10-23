@@ -32,6 +32,13 @@ cd site && python3 -m http.server 8000   # puis ouvrir http://localhost:8000
 - Aucune donnée sensible publiée : pas de prix d'achat, pas de packing list, pas d'adresse.
 - Vérifier après chaque modif du script : `node -e "..."` pour contrôler que les `<script>` sont valides, et `node build.js` sans erreur.
 
+## Remplacer une photo floue
+
+- `python3 -I admin/photo.py <source> <id> --propose <dossier>` : prépare une proposition (carré 1000 px, fond blanc, marges rognées, filigrane) sans toucher au site ; sans `--propose`, remplace `images/<id>.webp`.
+- Trouver la source : recherche par image sur Alibaba (la plus efficace pour nos fournisseurs) ou Google Lens. Ne garder qu'une photo du **même modèle et de la même couleur** ; ne jamais effacer le logo ou le filigrane d'un autre.
+- Beaucoup de nos lits viennent d'**Anhui Cool Baby (酷豆丁 = « KDD »)**, boutique `ahcoolbaby.en.alibaba.com`, modèles nommés « B271 », « B2261 », « B4401 », « F3501 »… Leurs photos portent le logo Cool Baby (accepté par Hanis le 23 oct. 2026).
+- Photos des articles à refaire : 234 font moins de 600 px (148 moins de 400 px). Lot 1 (lits) fait le 23 oct. 2026 : 271, P271, P3501, 2261, 4401 ; non trouvés : KDD185, YSJ560, YSJ570, C316A, 608, 2201, 4402, 2151, 265B, TM799, 9655B, 5704.
+
 ## À faire (au 23 oct. 2026)
 
 - Remplacer les **tarifs de livraison** par commune (dans `CONFIG.zones`) par les vrais tarifs.
