@@ -7,3 +7,5 @@ images-sans-filigrane/
 node_modules/
 petit-baobab-site.zip
 site/
+
+__pycache__/
