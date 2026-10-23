@@ -1,1 +1,21 @@
-{}
+{
+ "787d": {
+  "urls": [
+   "https://sc04.alicdn.com/kf/H0e3bfa66c6494f28b6a94bfeb79bbec09.jpg",
+   "https://sc04.alicdn.com/kf/H3039e5c0b82044fda99a84bf9ae49651m.jpg",
+   "https://sc04.alicdn.com/kf/H683b8927bd164b65b68f46ea081ac732M.jpg",
+   "https://sc04.alicdn.com/kf/Hf33cf8a6a82b428ebcb4c1c0e1930e52A.jpg"
+  ],
+  "statut": "trouve",
+  "fiche": "https://www.alibaba.com/product-detail/787D-CoolBaby-4-in-1-Electric_1601853303949.html",
+  "note": "Fiche « 787D CoolBaby » : même référence"
+ },
+ "x-n-2": {
+  "urls": [
+   "https://s.alicdn.com/@sc04/kf/H58abcfe96a0f49158e15aadec7a083a8m.jpg"
+  ],
+  "statut": "doute",
+  "fiche": "https://www.alibaba.com/product-detail/Modern-40-Polyester-28-Cotton-17_1601676891011.html",
+  "note": "Boîte de chaussettes à fenêtres proche ; votre photo fait 91 px, modèle exact impossible à confirmer"
+ }
+}
