@@ -1,6 +1,6 @@
 /* Récupère et prépare les photos HD des articles pendant la construction Netlify (après build.js).
    Source : photos/sources.json  →  { "<id>": { "urls": ["https://…jpg", …], "statut": "trouve|couleur|doute", "note": "…", "fiche": "…" }, … }
-   Pour chaque article : 1re photo → site/images/<id>.webp (remplace l'ancienne), suivantes → site/images/<id>-2.webp, -3, -4 (galerie).
+   Pour chaque article : 1re photo → site/images/<id>.webp (remplace l'ancienne), suivantes → site/images/<id>-2.webp … -8 (galerie, 8 photos au plus).
    Traitement (comme admin/photo.py) : marges blanches rognées, carré 1000 × 1000 sur fond blanc, filigrane Petit Baobab, WebP.
    Cache : .photos-cache/ (gardé d'une construction à l'autre par netlify/plugins/photos-cache) ; si une photo n'est plus
    disponible chez le fournisseur, on garde la version déjà préparée, sinon l'ancienne photo reste en place.
@@ -84,7 +84,7 @@ async function prepare(buf) {
   fs.mkdirSync(path.join(OUT, 'images', '_avant'), { recursive: true });
   // téléchargements en parallèle limité (6 à la fois)
   const jobs = [];
-  for (const id of ids) (SOURCES[id].urls || []).slice(0, 4).forEach((url, k) => jobs.push({ id, url, k }));
+  for (const id of ids) (SOURCES[id].urls || []).slice(0, 8).forEach((url, k) => jobs.push({ id, url, k }));
   let next = 0, reportees = 0;
   // Limite de temps (Netlify coupe une construction à 18 min, avec la lecture des photos ensuite) :
   // au-delà, les photos pas encore en cache restent celles du dépôt et seront préparées à la construction suivante.

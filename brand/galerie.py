@@ -1,5 +1,5 @@
-"""23 oct. 2026 — galerie de 2 à 4 photos sur la fiche article.
-   Les photos supplémentaires sont préparées par Netlify (admin/photos-fetch.js) : images/<id>-2.webp, -3, -4,
+"""23 oct. 2026 — galerie de photos sur la fiche article (jusqu'à 8 depuis le 24 oct.).
+   Les photos supplémentaires sont préparées par Netlify (admin/photos-fetch.js) : images/<id>-2.webp … -8,
    et listées dans images/galerie.json ({ "<id>": ["<id>.webp", "<id>-2.webp", …] }), lu par la page au chargement.
    Sous la grande photo : des vignettes ; un clic change la grande photo. Compatible avec les couleurs (brand/couleurs.py).
    Idempotent."""
