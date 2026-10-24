@@ -141,7 +141,7 @@ async function prepare(buf) {
   const rank = f => { const m = f.match(/-(\d)\.webp$/); return m && !/^\d+$/.test(f.replace(/\.webp$/, '')) ? +m[1] : 1; };
   for (const id of Object.keys(result)) if (!id.includes(':')) result[id].sort((a, b) => (a === id + '.webp' ? 0 : rank(a)) - (b === id + '.webp' ? 0 : rank(b)));
   // Même photo sous deux adresses dans la galerie d'un article (fréquent chez les fournisseurs) : on ne garde que la première.
-  // Comparaison en couleur (vignette 16 × 16) : deux coloris du même modèle restent, eux, tous les deux.
+  // Comparaison en couleur (vignette 16 × 16) : deux coloris du même modèle restent, eux, tous les deux (vérifié sur l'aperçu n° 4 : 665205, 7532-2).
   let doublons = 0;
   for (const id of Object.keys(result)) {
     if (id.includes(':')) continue;
@@ -149,7 +149,12 @@ async function prepare(buf) {
     for (const f of result[id]) {
       let t = null;
       try { t = await sharp(path.join(OUT, 'images', f)).resize(16, 16, { fit: 'fill' }).removeAlpha().raw().toBuffer(); } catch (e) {}
-      const dup = t && f !== id + '.webp' && seen.some(o => { let d = 0; for (let i = 0; i < t.length; i++) d += Math.abs(t[i] - o[i]); return d / t.length < 4; });
+      // doublon = écart moyen faible ET presque aucun point vraiment différent (un autre coloris change nettement 10 % des points ou plus)
+      const dup = t && f !== id + '.webp' && seen.some(o => {
+        let d = 0, n = 0;
+        for (let i = 0; i < t.length; i += 3) { let mx = 0; for (let j = 0; j < 3; j++) { const e = Math.abs(t[i + j] - o[i + j]); d += e; if (e > mx) mx = e; } if (mx > 16) n++; }
+        return d / t.length < 4 && n / (t.length / 3) < 0.07;
+      });
       if (dup) { doublons++; continue; }
       kept.push(f); if (t) seen.push(t);
     }
