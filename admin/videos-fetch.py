@@ -5,9 +5,9 @@
    Source : photos/sources.json → "video": "https://…mp4" (vidéo du fournisseur ; même statut que les photos).
 
    Aperçus (tout sauf la production) :
-     - télécharge la vidéo, lit le texte d'une image par seconde (RapidOCR) ;
+     - télécharge la vidéo, lit le texte de 2 images par seconde (RapidOCR) ;
      - efface chaque texte chinois (idéogrammes) : filtre ffmpeg « delogo » sur sa zone (avec marge), pendant tout le
-       temps où il apparaît (± 1 s) ; une 2e lecture vérifie qu'il n'en reste pas (signalé sinon) ;
+       temps où il apparaît (± 1 s) ; la vidéo préparée est relue : s'il en reste, on élargit et on recommence (3 fois au plus) ;
      - sans le son, 960 px au plus (grand côté), 45 s au plus, H.264 « faststart » (lecture immédiate) ;
      - site/videos/<id>.mp4 + <id>.jpg (affiche) + site/videos/videos.json {id: {w, h, d}} ;
      - page /verification-videos/ : vidéo du fournisseur et vidéo préparée côte à côte, textes effacés.
@@ -25,6 +25,7 @@ CACHE = os.path.join(ROOT, '.photos-cache', 'videos')
 PROD = os.environ.get('CONTEXT') == 'production'
 FROM = os.environ.get('PHOTOS_FROM') or ('https://deploy-preview-4--petit-baobab.netlify.app' if PROD else '')   # aperçu validé (PR n° 4)
 VERSION = 'v1'
+ALGO = 2   # 2 : lecture à 2 images/s, marges plus larges, nouvelle passe tant qu'il reste du chinois
 MAXSIDE, MAXD = 960, 45   # grand côté 960 px au plus (540 × 960 en portrait) : léger sur un téléphone
 CJK = re.compile('[㐀-鿿豈-﫿]')
 START = float(os.environ.get('PB_BUILD_START') or time.time())
@@ -79,17 +80,19 @@ def ocr_frames(ff, eng, src, W, H, dur, fps, tmp):
             found.append((t, min(xs), min(ys), max(xs), max(ys), text))
     return found
 
-def regions(found, W, H, fps):
-    """Regroupe les détections proches (même zone, temps qui se suivent) → zones à effacer avec leur période."""
-    span = 1.0 / fps + 0.5
+def regions(found, W, H, fps, grow=1.0):
+    """Regroupe les détections proches (même ligne de texte, temps qui se suivent) → zones à effacer avec leur période.
+       Marges larges : les sous-titres des fournisseurs apparaissent souvent en glissant ou lettre par lettre."""
+    span = 1.0 / fps + 0.75 * grow
     regs = []
     for t, x0, y0, x1, y1, text in sorted(found):
-        pad = max(6, 0.25 * (y1 - y0))
-        x0, y0, x1, y1 = x0 - pad, y0 - pad, x1 + pad, y1 + pad
+        h = y1 - y0
+        px, py = max(10, 0.6 * h) * grow, max(8, 0.35 * h) * grow
+        x0, y0, x1, y1 = x0 - px, y0 - py, x1 + px, y1 + py
         for g in regs:
             ix = min(x1, g['x1']) - max(x0, g['x0']); iy = min(y1, g['y1']) - max(y0, g['y0'])
-            if ix > 0 and iy > 0 and t - span <= g['t1'] + 0.6:
-                g.update(x0=min(x0, g['x0']), y0=min(y0, g['y0']), x1=max(x1, g['x1']), y1=max(y1, g['y1']), t1=t + span)
+            if ix > -h and iy > 0.3 * min(y1 - y0, g['y1'] - g['y0']) and t - span <= g['t1'] + 1.0:
+                g.update(x0=min(x0, g['x0']), y0=min(y0, g['y0']), x1=max(x1, g['x1']), y1=max(y1, g['y1']), t1=max(g['t1'], t + span))
                 g['txt'].add(text); break
         else:
             regs.append(dict(x0=x0, y0=y0, x1=x1, y1=y1, t0=max(0, t - span), t1=t + span, txt={text}))
@@ -101,7 +104,7 @@ def regions(found, W, H, fps):
 
 def encode(ff, src, dst, W, H, dur, regs):
     vf = ['scale=%d:%d' % (W, H)]
-    for r in regs[:60]:
+    for r in regs[:90]:
         vf.append("delogo=x=%d:y=%d:w=%d:h=%d:enable='between(t,%s,%s)'" % (r['x'], r['y'], r['w'], r['h'], r['t0'], r['t1']))
     vf.append('format=yuv420p')
     run([ff, '-hide_banner', '-loglevel', 'error', '-y', '-i', src, '-t', str(min(dur, MAXD)), '-an', '-vf', ','.join(vf),
@@ -111,7 +114,9 @@ def prepare(ff, eng, vid, url):
     key = hashlib.sha1((url + '|' + VERSION).encode()).hexdigest()
     base = os.path.join(CACHE, key)
     if os.path.exists(base + '.json') and os.path.exists(base + '.mp4'):
-        return base, json.load(open(base + '.json', encoding='utf-8'))
+        info = json.load(open(base + '.json', encoding='utf-8'))
+        # vidéo déjà préparée ; on ne refait que celles qui avaient du chinois avec l'ancienne méthode (algo 1)
+        if info.get('algo', 1) >= ALGO or not (info.get('efface') or info.get('reste')): return base, info
     if time.time() > STOP - 90: return None, None
     tmp = tempfile.mkdtemp(prefix='pbv-')
     try:
@@ -121,13 +126,18 @@ def prepare(ff, eng, vid, url):
         w, h, dur = probe(ff, src)
         if not w or not dur: raise RuntimeError('vidéo illisible')
         W, H = out_size(w, h)
-        found = ocr_frames(ff, eng, src, W, H, dur, 1, tmp)
-        regs = regions(found, W, H, 1)
-        encode(ff, src, base + '.mp4', W, H, dur, regs)
-        # 2e lecture de la vidéo préparée (une image toutes les 2 s) : reste-t-il du chinois ?
-        reste = sorted({round(f[0], 1) for f in ocr_frames(ff, eng, base + '.mp4', W, H, dur, 0.5, tmp)})
+        found = ocr_frames(ff, eng, src, W, H, dur, 2, tmp)
+        regs = regions(found, W, H, 2)
+        # on efface, puis on relit la vidéo préparée (1 image par seconde) ; s'il reste du chinois, on élargit et on recommence
+        for tour in range(3):
+            encode(ff, src, base + '.mp4', W, H, dur, regs)
+            if not regs and tour == 0 and not found: reste = []; break
+            left = ocr_frames(ff, eng, base + '.mp4', W, H, dur, 1, tmp)
+            reste = sorted({round(f[0], 1) for f in left})
+            if not left or time.time() > STOP - 60: break
+            regs = regs + regions(left, W, H, 1, grow=1.6 + tour)
         run([ff, '-hide_banner', '-loglevel', 'error', '-y', '-ss', '1', '-i', base + '.mp4', '-frames:v', '1', '-q:v', '4', base + '.jpg'])
-        info = dict(id=vid, url=url, w=W, h=H, d=round(min(dur, MAXD), 1), efface=regs, reste=reste,
+        info = dict(id=vid, url=url, algo=ALGO, w=W, h=H, d=round(min(dur, MAXD), 1), efface=regs, reste=reste,
                     ko=os.path.getsize(base + '.mp4') // 1024)
         json.dump(info, open(base + '.json', 'w', encoding='utf-8'), ensure_ascii=False)
         return base, info
