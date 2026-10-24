@@ -89,12 +89,20 @@ async function prepare(buf) {
   // Limite de temps (Netlify coupe une construction à 18 min, avec la lecture des photos ensuite) :
   // au-delà, les photos pas encore en cache restent celles du dépôt et seront préparées à la construction suivante.
   const DEADLINE = Date.now() + (+process.env.PHOTOS_MAX_S || (process.env.CONTEXT === 'production' ? 840 : 480)) * 1000;   // en ligne, pas de lecture des photos ensuite
-  // En ligne : on reprend d'abord les photos déjà préparées et validées sur l'aperçu (même traitement, même filigrane),
-  // bien plus rapide que de tout retélécharger chez les fournisseurs ; à défaut, téléchargement normal.
-  const FROM = process.env.PHOTOS_FROM || (process.env.CONTEXT === 'production' ? 'https://deploy-preview-2--petit-baobab.netlify.app' : '');
-  let reprises = 0;
-  async function fromPreview(name) {
+  // On reprend d'abord les photos déjà préparées (même traitement, même filigrane), bien plus rapide que de tout
+  // retélécharger chez les fournisseurs ; à défaut, téléchargement normal.
+  //  - en ligne : depuis l'aperçu validé (PR n° 4, branche photos-lits) ;
+  //  - sur un nouvel aperçu : depuis l'aperçu précédent (n° 2), seules les nouvelles photos sont téléchargées.
+  // images/photos-map.json (nom de fichier → adresse d'origine) garantit qu'on reprend la bonne photo.
+  const REVIEW = process.env.REVIEW_ID || '';
+  const FROM = process.env.PHOTOS_FROM || (process.env.CONTEXT === 'production' ? 'https://deploy-preview-4--petit-baobab.netlify.app'
+    : (process.env.CONTEXT === 'deploy-preview' && REVIEW && REVIEW !== '2' ? 'https://deploy-preview-2--petit-baobab.netlify.app' : ''));
+  let reprises = 0, MAP = null;
+  if (FROM) { try { const r = await fetch(FROM.replace(/\/$/, '') + '/images/photos-map.json'); if (r.ok) MAP = await r.json(); } catch (e) {} }
+  const photosMap = {};
+  async function fromPreview(name, url) {
     if (!FROM) return null;
+    if (MAP && MAP[name] !== url) return null;   // l'aperçu a une autre photo sous ce nom
     try {
       const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 20000);
       const r = await fetch(FROM.replace(/\/$/, '') + '/images/' + name, { signal: ctl.signal });
@@ -116,12 +124,12 @@ async function prepare(buf) {
         let out;
         if (fs.existsSync(cached)) out = fs.readFileSync(cached);
         else if (Date.now() > DEADLINE) { reportees++; continue; }
-        else if ((out = await fromPreview(name))) { reprises++; fs.writeFileSync(cached, out); }
+        else if ((out = await fromPreview(name, j.url))) { reprises++; fs.writeFileSync(cached, out); }
         else { out = await prepare(await download(j.url)); fs.writeFileSync(cached, out); }
         const dest = path.join(OUT, 'images', name);
         if (j.k === 0 && fs.existsSync(dest) && !fs.existsSync(path.join(OUT, 'images', '_avant', name))) fs.copyFileSync(dest, path.join(OUT, 'images', '_avant', name));
         fs.writeFileSync(dest, out);
-        (result[j.id] = result[j.id] || []).push(name); ok++;
+        (result[j.id] = result[j.id] || []).push(name); photosMap[name] = j.url; ok++;
       } catch (e) {
         ko++; console.log('photos-fetch : échec ' + j.id + ' #' + (j.k + 1) + ' (' + e.message + ') ' + j.url);
         (result[j.id + ':echecs'] = result[j.id + ':echecs'] || []).push(j.k + 1);
@@ -132,6 +140,7 @@ async function prepare(buf) {
   const rank = f => { const m = f.match(/-(\d)\.webp$/); return m && !/^\d+$/.test(f.replace(/\.webp$/, '')) ? +m[1] : 1; };
   for (const id of Object.keys(result)) if (!id.includes(':')) result[id].sort((a, b) => (a === id + '.webp' ? 0 : rank(a)) - (b === id + '.webp' ? 0 : rank(b)));
   fs.writeFileSync(path.join(OUT, 'images', 'galerie.json'), JSON.stringify(result));
+  fs.writeFileSync(path.join(OUT, 'images', 'photos-map.json'), JSON.stringify(photosMap));
   console.log('photos-fetch : ' + ok + ' photos prêtes, ' + ko + ' échecs, ' + ids.length + ' articles' + (reportees ? ', ' + reportees + ' reportées à la prochaine construction (limite de temps)' : '') + (reprises ? ', ' + reprises + ' reprises de l\'aperçu' : ''));
 
   if (!PREVIEW) return;

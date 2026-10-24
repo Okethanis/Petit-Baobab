@@ -12,7 +12,7 @@
      - site/videos/<id>.mp4 + <id>.jpg (affiche) + site/videos/videos.json {id: {w, h, d}} ;
      - page /verification-videos/ : vidéo du fournisseur et vidéo préparée côte à côte, textes effacés.
      Cache : .photos-cache/videos/ (gardé d'une construction à l'autre), une vidéo n'est préparée qu'une fois.
-   En ligne (production) : reprend les vidéos déjà préparées sur l'aperçu n° 2 (PHOTOS_FROM), sans les « à vérifier ».
+   En ligne (production) : reprend les vidéos déjà préparées sur l'aperçu n° 4 (PHOTOS_FROM), sans les « à vérifier ».
    Limite de temps : PB_BUILD_START (heure de début écrite par netlify.toml) ; on s'arrête à 15 min de construction,
    la suite est préparée à la construction suivante.
    Ne casse jamais la construction. Usage local : python3 admin/videos-fetch.py (ffmpeg et rapidocr nécessaires)."""
@@ -23,7 +23,7 @@ OUT = os.path.join(ROOT, 'site', 'videos')
 SRC = os.environ.get('VIDEOS_SRC') or os.path.join(ROOT, 'photos', 'sources.json')   # VIDEOS_SRC : essais
 CACHE = os.path.join(ROOT, '.photos-cache', 'videos')
 PROD = os.environ.get('CONTEXT') == 'production'
-FROM = os.environ.get('PHOTOS_FROM') or ('https://deploy-preview-2--petit-baobab.netlify.app' if PROD else '')
+FROM = os.environ.get('PHOTOS_FROM') or ('https://deploy-preview-4--petit-baobab.netlify.app' if PROD else '')   # aperçu validé (PR n° 4)
 VERSION = 'v1'
 MAXSIDE, MAXD = 960, 45   # grand côté 960 px au plus (540 × 960 en portrait) : léger sur un téléphone
 CJK = re.compile('[㐀-鿿豈-﫿]')
