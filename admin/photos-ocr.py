@@ -21,6 +21,8 @@ def flagged(lines):
         n = len(CJK.findall(t))
         # « 中Petit Baobab » : notre filigrane lu de travers, pas du chinois
         if 'etit' in t and n <= 1: continue
+        # un seul idéogramme au milieu de lettres latines (« CLAF.BEB日 ») : logo lu de travers, pas du chinois
+        if n <= 1 and len(re.findall('[A-Za-z]', t)) >= 4: continue
         if n or MONEY.search(t): out.append(t)
     return out
 

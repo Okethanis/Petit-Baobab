@@ -1,8 +1,8 @@
 # Netlify construit le site à chaque modification poussée sur GitHub.
 [build]
-  command = "node build.js && node admin/photos-fetch.js && if [ \"$CONTEXT\" != production ]; then (pip install -q rapidocr_onnxruntime && python3 admin/photos-ocr.py) || echo photos-ocr ignore; fi"
+  command = "export PB_BUILD_START=$(date +%s) && node build.js && node admin/photos-fetch.js && { if [ \"$CONTEXT\" != production ]; then (pip install -q rapidocr_onnxruntime imageio-ffmpeg && python3 admin/photos-ocr.py) || echo photos-ocr ignore; fi; } && python3 admin/videos-fetch.py"
   publish = "site"
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- petit-baobab.html build.js images static vendor amenageur photos admin/photos-fetch.js admin/photos-ocr.py package.json netlify"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- petit-baobab.html build.js images static vendor amenageur photos admin/photos-fetch.js admin/photos-ocr.py admin/videos-fetch.py package.json netlify"
 
 [[plugins]]
   package = "./netlify/plugins/photos-cache"
