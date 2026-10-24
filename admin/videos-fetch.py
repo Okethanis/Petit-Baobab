@@ -76,6 +76,7 @@ def ocr_frames(ff, eng, src, W, H, dur, fps, tmp):
         r, _ = eng(os.path.join(d, name))
         for box, text, score in (r or []):
             if float(score) < 0.5 or not CJK.search(text): continue
+            if len(CJK.findall(text)) <= 1 and len(re.findall('[A-Za-z]', text)) >= 4: continue   # logo latin lu de travers
             xs = [p[0] / k for p in box]; ys = [p[1] / k for p in box]
             found.append((t, min(xs), min(ys), max(xs), max(ys), text))
     return found
