@@ -92,6 +92,16 @@ button,input,select{font:inherit;color:inherit}
 .sub{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
 .sub h3{font-size:.95rem;font-family:var(--font-body);font-weight:700}
 
+/* Pièces : chambre de bébé / chambre des parents ; dimensions repliées */
+.rooms{display:flex;gap:6px;padding-top:14px}
+.rooms button{flex:1 1 0;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 10px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);line-height:1.2}
+.rooms button[aria-selected="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.rooms .n{font-weight:600;opacity:.85}
+.room-sum{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:10px}
+.room-sum p{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.bed-size{margin-top:10px;max-width:260px}
+#sum-other{margin:10px 0 0}
+
 /* Catalogue */
 .filters{display:flex;gap:6px;overflow-x:auto;margin:12px -4px 10px;padding:2px 4px 4px;scrollbar-width:thin}
 .filters .pill{white-space:nowrap}
@@ -232,9 +242,17 @@ button,input,select{font:inherit;color:inherit}
   </details>
 </section>
 
+<div class="wrap"><div class="rooms" role="tablist" aria-label="Pièce à aménager">
+  <button type="button" role="tab" id="room-bebe" aria-selected="true">Chambre de bébé <span class="n" id="room-n-bebe"></span></button>
+  <button type="button" role="tab" id="room-parents" aria-selected="false">Chambre des parents <span class="n" id="room-n-parents"></span></button>
+</div></div>
 <main class="wrap layout">
   <section class="panel" id="room-panel" aria-labelledby="room-title">
-    <h2 id="room-title"><span class="step">Étape 1</span> La chambre</h2>
+    <h2 id="room-title"><span class="step">Étape 1</span> <span id="room-name">La chambre de bébé</span></h2>
+    <p class="hint" id="room-hint"></p>
+    <div class="room-sum"><p id="room-sum-txt"></p><button type="button" class="btn btn-line" id="btn-dims" aria-expanded="false" aria-controls="room-more">Personnaliser les dimensions</button></div>
+    <div class="field bed-size" id="bed-size" hidden><label for="f-bed">Votre lit (déjà chez vous)</label><select id="f-bed"><option value="">Pas de lit sur le plan</option><option value="140">Lit 140 × 190 cm</option><option value="160">Lit 160 × 200 cm</option><option value="180">Lit 180 × 200 cm</option></select></div>
+    <div id="room-more" hidden>
     <p class="hint">Mesurez au sol, d'un mur à l'autre. La longueur est le mur du haut du plan.</p>
     <div class="presets" role="group" aria-label="Tailles courantes">
       <button type="button" class="pill" data-preset="300,300">3 × 3 m</button>
@@ -263,6 +281,7 @@ button,input,select{font:inherit;color:inherit}
         <div class="field"><label for="f-ws">Bas de fenêtre</label><div class="unit"><input id="f-ws" type="number" inputmode="numeric" min="0" max="200" step="5"></div></div>
       </div>
       <p class="hint">« Bas de fenêtre » : hauteur entre le sol et le bas de la fenêtre. Un meuble plus haut placé devant la cache en partie.</p>
+    </div>
     </div>
   </section>
 
@@ -306,6 +325,7 @@ button,input,select{font:inherit;color:inherit}
     <div class="sum-meta" id="sum-meta"></div>
     <ul class="rows" id="rows"></ul>
     <div id="sum-empty" class="empty-room" hidden>Aucun meuble pour l'instant. Ajoutez-en depuis la liste « Les meubles ».</div>
+    <p class="hint" id="sum-other" hidden></p>
     <div class="total"><span class="lbl">Total des meubles</span><span class="val" id="total"></span></div>
     <div class="free" id="free"></div>
     <ul class="alerts" id="alerts" aria-live="polite"></ul>
@@ -324,7 +344,7 @@ button,input,select{font:inherit;color:inherit}
       </div>
       <div>
         <label for="code-in">Ouvrir un plan reçu</label>
-        <div class="line"><input id="code-in" placeholder="Collez ici un code qui commence par PB1-"><button type="button" class="btn btn-ghost" id="btn-open">Ouvrir</button></div>
+        <div class="line"><input id="code-in" placeholder="Collez ici un code qui commence par PB1- ou PB2-"><button type="button" class="btn btn-ghost" id="btn-open">Ouvrir</button></div>
         <div class="msg" id="code-msg" aria-live="polite"></div>
       </div>
     </div>
@@ -339,12 +359,24 @@ button,input,select{font:inherit;color:inherit}
 'use strict';
 var CATALOG = /*CATALOG*/;
 var BY_ID = {}; CATALOG.forEach(function(c, i){ c.idx = i; BY_ID[c.id] = c; });
+/* Lit des parents : déjà chez le client, pas vendu, pas compté. Index 900+ dans les codes de plan (le catalogue peut grandir). */
+var BED_IMG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#F3EEE4"/><rect x="10" y="14" width="44" height="10" rx="3" fill="#B98B5E"/><rect x="10" y="22" width="44" height="28" rx="3" fill="#F4F1EA" stroke="#B98B5E" stroke-width="2"/><rect x="14" y="26" width="16" height="7" rx="3" fill="#fff"/><rect x="34" y="26" width="16" height="7" rx="3" fill="#fff"/><rect x="10" y="36" width="44" height="14" rx="3" fill="#DCE6EE"/></svg>');
+var BEDS = [['140', 150, 205, '140 × 190'], ['160', 170, 215, '160 × 200'], ['180', 190, 215, '180 × 200']].map(function(b, i){
+  var c = { id: 'lit-parents-' + b[0], own: true, size: b[0], ref: '—', name: 'Votre lit ' + b[3] + ' cm (déjà chez vous)', short: 'Votre lit', tag: 'Lit', group: 'own', model: 'adultbed',
+    w: b[1], d: b[2], h: 95, approx: false, tint: '#ECE3D3', c: { frame: '#B98B5E', mat: '#F4F1EA', duvet: '#DCE6EE' }, price: 0, img: BED_IMG, idx: 900 + i };
+  BY_ID[c.id] = c; return c;
+});
+function byIdx(n){ return n >= 900 ? BEDS[n - 900] : CATALOG[n]; }
 var WA = '/*WA*/';
 var WALLS = [['haut','Haut'],['bas','Bas'],['gauche','Gauche'],['droite','Droite']];
 var WALL_KEYS = WALLS.map(function(w){ return w[0]; });
 var GROUPS = [['all','Tous'],['couchage','Couchage'],['rangement','Rangement'],['eveil','Éveil et repas']];
 var EXAMPLE = { room:{L:400,W:350,H:270, door:{wall:'bas',pos:290,width:80}, win:{wall:'haut',pos:150,width:120,sill:90,height:120}},
   items:[ {id:'qs11',x:0,y:40,rot:270}, {id:'15506',x:85,y:0,rot:0}, {id:'f7025',x:300,y:0,rot:0}, {id:'8104',x:215,y:120,rot:0}, {id:'668-34',x:110,y:225,rot:0} ] };
+var EXAMPLE_PARENTS = { room:{L:400,W:380,H:270, door:{wall:'bas',pos:300,width:80}, win:{wall:'droite',pos:140,width:120,sill:90,height:120}},
+  items:[ {id:'lit-parents-160',x:115,y:0,rot:0}, {id:'kjc-1b',x:57,y:15,rot:90} ] };
+var ROOMS = [['bebe', 'Chambre de bébé', 'La chambre de bébé'], ['parents', 'Chambre des parents', 'La chambre des parents']];
+var ROOM_HINT = { bebe: 'Entrez les mesures de la chambre, puis ajoutez les meubles.', parents: 'Bébé dort dans votre chambre les premiers mois ? Placez votre lit, puis un berceau cododo à côté.' };
 var STORE_KEY = 'pb-amenageur-v1';
 var uidSeq = 1;
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
@@ -365,14 +397,20 @@ function fromData(d, example){
   d.items.forEach(function(it){ if (BY_ID[it.id]) s.items.push({uid: uidSeq++, id: it.id, x: +it.x || 0, y: +it.y || 0, rot: ((+it.rot || 0) % 360 + 360) % 360}); });
   return s;
 }
-function load(){
-  try { var raw = localStorage.getItem(STORE_KEY); if (raw){ var d = JSON.parse(raw); if (d && d.room && d.items) return fromData(d, false); } } catch(e){}
+function roomStore(k){ return k === 'bebe' ? STORE_KEY : STORE_KEY + '-' + k; }
+function load(k){
+  try { var raw = localStorage.getItem(roomStore(k)); if (raw){ var d = JSON.parse(raw); if (d && d.room && d.items) return fromData(d, false); } } catch(e){}
   return null;
 }
-function save(){
-  try { if (!state.example) localStorage.setItem(STORE_KEY, JSON.stringify({room: state.room, items: state.items.map(function(i){ return {id:i.id,x:i.x,y:i.y,rot:i.rot}; })})); } catch(e){}
+var rooms = { bebe: load('bebe') || fromData(EXAMPLE, true), parents: load('parents') || fromData(EXAMPLE_PARENTS, true) }, cur = 'bebe';
+try { if (localStorage.getItem(STORE_KEY + '-room') === 'parents') cur = 'parents'; } catch(e){}
+function save(k){
+  k = k || cur; var s = rooms[k];
+  try { if (!s.example) localStorage.setItem(roomStore(k), JSON.stringify({room: s.room, items: s.items.map(function(i){ return {id:i.id,x:i.x,y:i.y,rot:i.rot}; })})); } catch(e){}
 }
-state = load() || fromData(EXAMPLE, true);
+state = rooms[cur];
+function shopTotal(s){ var t = 0, n = 0; s.items.forEach(function(it){ var c = BY_ID[it.id]; if (!c.own){ t += c.price; n++; } }); return { t: t, n: n }; }
+function usedRooms(){ return ROOMS.map(function(r){ return r[0]; }).filter(function(k){ return k === cur || (!rooms[k].example && shopTotal(rooms[k]).n > 0); }); }
 
 function fp(it){ var c = BY_ID[it.id], r = it.rot % 180 !== 0; return { w: r ? c.d : c.w, d: r ? c.w : c.d, h: c.h }; }
 function rectOf(it){ var f = fp(it); return { x: it.x, y: it.y, w: f.w, d: f.d }; }
@@ -589,7 +627,34 @@ function syncForm(){
   $('f-ww').value = R.win.wall; $('f-wp').value = R.win.pos; $('f-wl').value = R.win.width; $('f-ws').value = R.win.sill;
   ['f-wp','f-wl','f-ws'].forEach(function(id){ $(id).disabled = R.win.wall === 'aucune'; });
   document.querySelectorAll('[data-preset]').forEach(function(b){ var p = b.getAttribute('data-preset').split(','); b.setAttribute('aria-pressed', String(+p[0] === R.L && +p[1] === R.W)); });
+  var wl = function(w){ return ({ haut: 'du haut', bas: 'du bas', gauche: 'de gauche', droite: 'de droite' })[w] || w; };
+  $('room-sum-txt').textContent = num(R.L / 100) + ' × ' + num(R.W / 100) + ' m · hauteur ' + num(R.H / 100) + ' m · porte : mur ' + wl(R.door.wall) + (R.win.wall === 'aucune' ? ' · sans fenêtre' : ' · fenêtre : mur ' + wl(R.win.wall));
+  var meta = ROOMS.filter(function(r){ return r[0] === cur; })[0];
+  $('room-name').textContent = meta[2]; $('room-hint').textContent = ROOM_HINT[cur];
+  $('bed-size').hidden = cur !== 'parents';
+  var bed = state.items.filter(function(i){ return BY_ID[i.id].own; })[0]; $('f-bed').value = bed ? BY_ID[bed.id].size : '';
+  ROOMS.forEach(function(r){ $('room-' + r[0]).setAttribute('aria-selected', String(r[0] === cur)); var n = shopTotal(rooms[r[0]]).n; $('room-n-' + r[0]).textContent = rooms[r[0]].example || !n ? '' : '(' + n + ')'; });
 }
+$('btn-dims').addEventListener('click', function(){
+  var more = $('room-more'), open = more.hidden; more.hidden = !open;
+  this.setAttribute('aria-expanded', String(open)); this.textContent = open ? 'Masquer les dimensions' : 'Personnaliser les dimensions';
+  if (open){ var f = $('f-L'); if (f) f.focus({ preventScroll: true }); }
+});
+$('f-bed').addEventListener('change', function(){
+  state.items = state.items.filter(function(i){ return !BY_ID[i.id].own; });
+  if (this.value){
+    var id = 'lit-parents-' + this.value, c = BY_ID[id], it = { uid: uidSeq++, id: id, x: Math.round((state.room.L - c.w) / 2), y: 0, rot: 0 };
+    clampItem(it); if (state.items.some(function(o){ return overlap(rectOf(it), rectOf(o), 1); }) || overlap(rectOf(it), doorZone(), 1)) findSpot(it);
+    state.items.push(it); ui.sel = it.uid;
+  }
+  markEdited(); save(); syncForm(); update();
+});
+function switchRoom(k){
+  if (k === cur) return; cur = k; state = rooms[k]; ui.sel = null;
+  try { localStorage.setItem(STORE_KEY + '-room', k); } catch(e){}
+  clampOpenings(); state.items.forEach(clampItem); syncForm(); update();
+}
+ROOMS.forEach(function(r){ $('room-' + r[0]).addEventListener('click', function(){ switchRoom(r[0]); }); });
 function readForm(){
   var R = state.room;
   function v(id, min, max, dflt){ var n = parseFloat($(id).value); if (!isFinite(n)) return dflt; return Math.min(max, Math.max(min, n)); }
@@ -603,7 +668,7 @@ function readForm(){
 document.querySelectorAll('[data-preset]').forEach(function(b){
   b.addEventListener('click', function(){ var p = b.getAttribute('data-preset').split(','); state.room.L = +p[0]; state.room.W = +p[1]; clampOpenings(); state.items.forEach(clampItem); markEdited(); save(); syncForm(); update(); });
 });
-$('btn-clear').addEventListener('click', function(){ state.items = []; ui.sel = null; state.example = false; save(); update(); toast('Chambre vidée'); });
+$('btn-clear').addEventListener('click', function(){ state.items = state.items.filter(function(i){ return BY_ID[i.id].own; }); ui.sel = null; state.example = false; save(); syncForm(); update(); toast('Chambre vidée'); });
 
 /* ---------- Catalogue ---------- */
 function renderFilters(){
@@ -636,7 +701,7 @@ function renderSel(an){
   var c = BY_ID[it.id], mine = an.list.filter(function(a){ return a.u.indexOf(it.uid) !== -1; });
   el.innerHTML = '<div class="selcard"><img src="' + c.img + '" alt="">' +
     '<div style="min-width:0"><div class="nm">' + esc(c.name) + '</div>' +
-    '<div class="meta">Réf. ' + esc(c.ref) + ' · ' + esc(dimsText(c)) + ' · <strong style="color:var(--ink)">' + fmt(c.price) + '</strong></div>' +
+    '<div class="meta">' + (c.own ? 'Pas vendu, pas compté dans le total' : 'Réf. ' + esc(c.ref)) + ' · ' + esc(dimsText(c)) + (c.own ? '' : ' · <strong style="color:var(--ink)">' + fmt(c.price) + '</strong>') + '</div>' +
     (mine.length ? '<ul>' + mine.map(function(a){ return '<li class="' + a.lv + '">' + esc(a.t) + '</li>'; }).join('') + '</ul>' : '') +
     '<div class="acts"><button type="button" class="btn btn-line" data-act="rot">' + ICON_ROT + 'Pivoter</button>' +
     '<button type="button" class="btn btn-ghost" data-act="del">' + ICON_DEL + 'Retirer</button>' +
@@ -648,44 +713,61 @@ $('sel').addEventListener('click', function(e){
 });
 
 /* ---------- Récapitulatif, WhatsApp, code du plan ---------- */
-function encodePlan(){
-  var R = state.room, wi = R.win.wall === 'aucune' ? -1 : WALL_KEYS.indexOf(R.win.wall);
-  var arr = [1, R.L, R.W, R.H, WALL_KEYS.indexOf(R.door.wall), R.door.pos, R.door.width, wi, R.win.pos, R.win.width, R.win.sill,
-    state.items.map(function(i){ return [BY_ID[i.id].idx, Math.round(i.x), Math.round(i.y), i.rot / 90]; })];
-  var b = btoa(unescape(encodeURIComponent(JSON.stringify(arr))));
-  return 'PB1-' + b.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+function roomArr(s){
+  var R = s.room, wi = R.win.wall === 'aucune' ? -1 : WALL_KEYS.indexOf(R.win.wall);
+  return [R.L, R.W, R.H, WALL_KEYS.indexOf(R.door.wall), R.door.pos, R.door.width, wi, R.win.pos, R.win.width, R.win.sill,
+    s.items.map(function(i){ return [BY_ID[i.id].idx, Math.round(i.x), Math.round(i.y), i.rot / 90]; })];
 }
-function decodePlan(code){
-  var s = String(code || '').trim(); var m = s.match(/PB1-([A-Za-z0-9_-]+)/); if (!m) throw new Error('format');
-  var b = m[1].replace(/-/g, '+').replace(/_/g, '/'); while (b.length % 4) b += '=';
-  var a = JSON.parse(decodeURIComponent(escape(atob(b))));
-  if (!Array.isArray(a) || a[0] !== 1 || !Array.isArray(a[11])) throw new Error('format');
-  var room = { L:+a[1], W:+a[2], H:+a[3], door:{ wall:WALL_KEYS[a[4]] || 'bas', pos:+a[5], width:+a[6] },
-    win:{ wall: a[7] < 0 ? 'aucune' : (WALL_KEYS[a[7]] || 'haut'), pos:+a[8], width:+a[9], sill:+a[10], height:120 } };
+function encodePlan(){
+  var used = usedRooms(), arr, tag;
+  if (used.length === 1 && used[0] === 'bebe'){ arr = [1].concat(roomArr(rooms.bebe)); tag = 'PB1-'; }
+  else { arr = [2, used.indexOf('bebe') >= 0 ? roomArr(rooms.bebe) : 0, used.indexOf('parents') >= 0 ? roomArr(rooms.parents) : 0]; tag = 'PB2-'; }
+  var b = btoa(unescape(encodeURIComponent(JSON.stringify(arr))));
+  return tag + b.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function roomFrom(a){
+  if (!Array.isArray(a) || !Array.isArray(a[10])) throw new Error('format');
+  var room = { L:+a[0], W:+a[1], H:+a[2], door:{ wall:WALL_KEYS[a[3]] || 'bas', pos:+a[4], width:+a[5] },
+    win:{ wall: a[6] < 0 ? 'aucune' : (WALL_KEYS[a[6]] || 'haut'), pos:+a[7], width:+a[8], sill:+a[9], height:120 } };
   if (!(room.L >= 150 && room.W >= 150 && room.H >= 200)) throw new Error('format');
-  var items = a[11].filter(function(t){ return CATALOG[t[0]]; }).map(function(t){ return { id: CATALOG[t[0]].id, x:t[1], y:t[2], rot:(t[3] % 4) * 90 }; });
+  var items = a[10].filter(function(t){ return byIdx(t[0]); }).map(function(t){ return { id: byIdx(t[0]).id, x:t[1], y:t[2], rot:(t[3] % 4) * 90 }; });
   return { room: room, items: items };
 }
+function decodePlan(code){
+  var s = String(code || '').trim(); var m = s.match(/PB([12])-([A-Za-z0-9_-]+)/); if (!m) throw new Error('format');
+  var b = m[2].replace(/-/g, '+').replace(/_/g, '/'); while (b.length % 4) b += '=';
+  var a = JSON.parse(decodeURIComponent(escape(atob(b))));
+  if (!Array.isArray(a)) throw new Error('format');
+  if (a[0] === 1) return { bebe: roomFrom(a.slice(1)) };
+  if (a[0] === 2){ var o = {}; if (a[1]) o.bebe = roomFrom(a[1]); if (a[2]) o.parents = roomFrom(a[2]); if (!o.bebe && !o.parents) throw new Error('format'); return o; }
+  throw new Error('format');
+}
 function message(kind){
-  var R = state.room, total = 0, lines = [];
-  state.items.forEach(function(it){ var c = BY_ID[it.id]; total += c.price; lines.push('- ' + c.name + ' · réf. ' + c.ref + ' · ' + fmt(c.price)); });
-  var head = kind === 'order' ? 'Bonjour Petit Baobab, je voudrais commander cette chambre.' : 'Regarde la chambre que je prépare pour bébé, avec les meubles de Petit Baobab :';
-  return [head, 'Pièce : ' + num(R.L) + ' × ' + num(R.W) + ' cm, hauteur ' + num(R.H) + ' cm'].concat(lines.length ? lines : ['(aucun meuble pour l\'instant)'])
-    .concat(['Total des meubles : ' + fmt(total), 'Code du plan : ' + encodePlan()]).join('\n');
+  var used = usedRooms(), total = 0, out = [];
+  out.push(kind === 'order' ? 'Bonjour Petit Baobab, je voudrais commander ' + (used.length > 1 ? 'ces meubles pour deux pièces.' : 'cette chambre.') : 'Regarde la chambre que je prépare pour bébé, avec les meubles de Petit Baobab :');
+  used.forEach(function(k){
+    var s = rooms[k], R = s.room, own = s.items.some(function(i){ return BY_ID[i.id].own; }), lines = [];
+    s.items.forEach(function(it){ var c = BY_ID[it.id]; if (!c.own){ total += c.price; lines.push('- ' + c.name + ' · réf. ' + c.ref + ' · ' + fmt(c.price)); } });
+    out.push(ROOMS.filter(function(r){ return r[0] === k; })[0][1] + ' : ' + num(R.L) + ' × ' + num(R.W) + ' cm, hauteur ' + num(R.H) + ' cm' + (own ? ' (avec notre lit)' : ''));
+    out = out.concat(lines.length ? lines : ['(aucun meuble pour l\'instant)']);
+  });
+  return out.concat(['Total des meubles : ' + fmt(total), 'Code du plan : ' + encodePlan()]).join('\n');
 }
 function renderSummary(an){
-  var R = state.room, total = 0;
-  state.items.forEach(function(it){ total += BY_ID[it.id].price; });
-  $('sum-meta').textContent = 'Pièce de ' + num(R.L) + ' × ' + num(R.W) + ' cm, hauteur ' + num(R.H) + ' cm · ' + state.items.length + (state.items.length > 1 ? ' meubles' : ' meuble');
+  var R = state.room, mine = shopTotal(state), total = 0, others = [];
+  usedRooms().forEach(function(k){ var t = shopTotal(rooms[k]); total += t.t; if (k !== cur && t.n) others.push(ROOMS.filter(function(r){ return r[0] === k; })[0][1] + ' : ' + t.n + (t.n > 1 ? ' meubles, ' : ' meuble, ') + fmt(t.t)); });
+  $('sum-meta').textContent = 'Pièce de ' + num(R.L) + ' × ' + num(R.W) + ' cm, hauteur ' + num(R.H) + ' cm · ' + mine.n + (mine.n > 1 ? ' meubles' : ' meuble') + (state.items.length > mine.n ? ' + votre lit' : '');
+  $('sum-other').hidden = !others.length; $('sum-other').textContent = others.length ? 'Aussi dans la commande : ' + others.join(' ; ') + '.' : '';
   var rsig = state.items.map(function(i){ return i.uid + ':' + i.id; }).join(',') + '|' + ui.sel;
   if (rsig !== renderSummary.sig){ renderSummary.sig = rsig;
   $('rows').innerHTML = state.items.map(function(it){
     var c = BY_ID[it.id];
     return '<li class="row' + (ui.sel === it.uid ? ' sel' : '') + '"><img src="' + c.img + '" alt="">' +
-      '<div style="min-width:0"><div class="nm">' + esc(c.name) + approxBadge(c) + '</div><div class="meta">Réf. ' + esc(c.ref) + ' · ' + esc(dimsText(c)) + '</div></div>' +
-      '<span class="pr">' + fmt(c.price) + '</span><button type="button" data-del="' + it.uid + '" aria-label="Retirer ' + esc(c.name) + '">' + ICON_DEL + '</button></li>';
+      '<div style="min-width:0"><div class="nm">' + esc(c.name) + approxBadge(c) + '</div><div class="meta">' + (c.own ? '' : 'Réf. ' + esc(c.ref) + ' · ') + esc(dimsText(c)) + '</div></div>' +
+      '<span class="pr">' + (c.own ? 'Déjà chez vous' : fmt(c.price)) + '</span><button type="button" data-del="' + it.uid + '" aria-label="Retirer ' + esc(c.name) + '">' + ICON_DEL + '</button></li>';
   }).join(''); }
   $('sum-empty').hidden = state.items.length > 0;
+  ROOMS.forEach(function(r){ var n = shopTotal(rooms[r[0]]).n; $('room-n-' + r[0]).textContent = rooms[r[0]].example || !n ? '' : '(' + n + ')'; });
   $('total').textContent = fmt(total);
   $('free').textContent = 'Sol libre : ' + Math.round(an.free * 100) + ' % de la pièce (' + num(Math.round(an.free * R.L * R.W / 1000) / 10) + ' m²).';
   var errs = an.list.filter(function(a){ return a.lv === 'e'; }).length;
@@ -704,8 +786,13 @@ $('btn-copy').addEventListener('click', function(){
   catch(e){ inp.select(); }
 });
 $('btn-open').addEventListener('click', function(){
-  try { var d = decodePlan($('code-in').value); state = fromData(d, false); ui.sel = null; clampOpenings(); state.items.forEach(clampItem); save(); syncForm(); update(); $('code-msg').className = 'msg ok'; $('code-msg').textContent = 'Plan ouvert : ' + state.items.length + ' meuble(s).'; }
-  catch(e){ $('code-msg').className = 'msg bad'; $('code-msg').textContent = 'Ce code n\'est pas valide. Vérifiez qu\'il a été copié en entier, depuis « PB1- ».'; }
+  try {
+    var d = decodePlan($('code-in').value), n = 0;
+    ['bebe', 'parents'].forEach(function(k){ if (d[k]){ rooms[k] = fromData(d[k], false); var keep = state; state = rooms[k]; clampOpenings(); state.items.forEach(clampItem); state = keep; save(k); n += shopTotal(rooms[k]).n; } });
+    cur = d.bebe ? 'bebe' : 'parents'; state = rooms[cur]; ui.sel = null; syncForm(); update();
+    $('code-msg').className = 'msg ok'; $('code-msg').textContent = 'Plan ouvert : ' + n + ' meuble(s)' + (d.bebe && d.parents ? ', deux pièces.' : '.');
+  }
+  catch(e){ $('code-msg').className = 'msg bad'; $('code-msg').textContent = 'Ce code n\'est pas valide. Vérifiez qu\'il a été copié en entier, depuis « PB1- » ou « PB2- ».'; }
 });
 
 /* ---------- Onglets (téléphone et tablette) ---------- */
@@ -767,6 +854,15 @@ function init3D(){
     });
   }
   var MODELS = {
+    adultbed: function(c){
+      var g = new T.Group(), w = c.w, d = c.d, k = c.c, md = d - 14;
+      box(g, w, 28, d, 0, 14, 0, k.frame);
+      box(g, w - 8, 22, md, 0, 39, 4, k.mat);
+      box(g, w - 6, 6, md * 0.62, 0, 52, 4 + md * 0.19, k.duvet);
+      box(g, w, 95, 6, 0, 47.5, -d / 2 + 3, shade(k.frame, 0.06));
+      [-1, 1].forEach(function(sd){ box(g, w / 2 - 14, 9, 34, sd * (w / 4), 54, -d / 2 + 30, '#FFFFFF'); });
+      return g;
+    },
     crib: function(c){
       var g = new T.Group(), w = c.w, d = c.d, h = c.h, k = c.c, cab = k.cabinet || 0, cw = w - cab, x0 = -w / 2 + cw / 2, ps = 5;
       var feet = 4, base = k.drawers ? 24 : 0, yb = feet + base, ph = k.roof ? h - 18 : h;
@@ -1086,6 +1182,7 @@ new ResizeObserver(function(){ renderPlan(analyse()); }).observe(svg);
 
 clampOpenings(); state.items.forEach(clampItem);
 syncForm(); renderFilters();
+ROOMS.forEach(function(r){ var n = shopTotal(rooms[r[0]]).n; $('room-n-' + r[0]).textContent = rooms[r[0]].example || !n ? '' : '(' + n + ')'; });
 var savedTab = null; try { savedTab = localStorage.getItem(STORE_KEY + '-tab'); } catch(e){}
 init3D();
 setTab(savedTab === '3d' ? '3d' : 'plan');

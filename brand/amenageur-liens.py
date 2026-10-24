@@ -32,6 +32,17 @@ rep("""    (p.specs && p.specs.length ? '<dl class="specs">' + p.specs.map(funct
     (['lits-bebe', 'berceaux', 'lits-parapluie', 'parc-eveil', 'tables-langer', 'mobilier'].indexOf(p.cat) >= 0 ? '<a class="planner-link" href="/amenageur/">Vérifier la place dans la chambre avec l\\'aménageur 3D</a>' : '') +
 """, 'class="planner-link"')
 
+# 4) Onglet « Chambre 3D » dans le menu (ordinateur et téléphone), après « Cadeaux »
+rep("var NAV = ['accueil','boutique','packs','liste','cadeaux','conseils','livraison'];",
+    "var NAV = ['accueil','boutique','packs','liste','cadeaux','amenageur','conseils','livraison'];   // amenageur = page à part (/amenageur/)",
+    "'cadeaux','amenageur'")
+rep("""  $('#nav').innerHTML = NAV.map(function(v){ return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '">' + esc(ROUTES[v].nav) + '</a>'; }).join('');""",
+    """  $('#nav').innerHTML = NAV.map(function(v){ if (v === 'amenageur') return '<a href="/amenageur/">Chambre 3D</a>'; return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '">' + esc(ROUTES[v].nav) + '</a>'; }).join('');""",
+    "if (v === 'amenageur') return '<a href=\"/amenageur/\">Chambre 3D</a>';")
+rep("""  var links = NAV.map(function(v){ return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '"' + (state.view===v ? ' class="active"' : '') + '>' + esc(ROUTES[v].nav) + icon('chev') + '</a>'; }).join('');""",
+    """  var links = NAV.map(function(v){ if (v === 'amenageur') return '<a href="/amenageur/">Chambre 3D' + icon('chev') + '</a>'; return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '"' + (state.view===v ? ' class="active"' : '') + '>' + esc(ROUTES[v].nav) + icon('chev') + '</a>'; }).join('');""",
+    "if (v === 'amenageur') return '<a href=\"/amenageur/\">Chambre 3D' + icon('chev')")
+
 # 3) Styles
 CSS = """
 /* Aménageur 3D (brand/amenageur-liens.py) */

@@ -1640,7 +1640,7 @@ var ROUTES = {
   cgu:             { path: '/conditions-d-utilisation/', nav: 'Conditions d\'utilisation', title: 'Conditions d\'utilisation du site · Petit Baobab', description: 'Règles d\'utilisation du site, propriété des contenus, prix indicatifs, responsabilité et droit applicable.' },
   notfound:        { path: '/404.html', nav: 'Page introuvable', title: 'Page introuvable · Petit Baobab', description: 'Cette page n\'existe pas.', noindex: true }
 };
-var NAV = ['accueil','boutique','packs','liste','cadeaux','conseils','livraison'];
+var NAV = ['accueil','boutique','packs','liste','cadeaux','amenageur','conseils','livraison'];   // amenageur = page à part (/amenageur/)
 var PAGES_INDEX = [
   { view:'packs', kw:'pack naissance trousseau budget essentiel confort prestige' },
   { view:'valise', kw:'valise maternité liste maternité jour j sac' },
@@ -2518,7 +2518,7 @@ function renderFilters(){
 function catsOfUniv(uid){ return CATS.filter(function(c){ return c.univers===uid && countIn(function(p){ return p.cat===c.id; })>0; }); }
 
 function renderNav(){
-  $('#nav').innerHTML = NAV.map(function(v){ return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '">' + esc(ROUTES[v].nav) + '</a>'; }).join('');
+  $('#nav').innerHTML = NAV.map(function(v){ if (v === 'amenageur') return '<a href="/amenageur/">Chambre 3D</a>'; return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '">' + esc(ROUTES[v].nav) + '</a>'; }).join('');
 }
 function renderHome(){
   $('#univ-grid').innerHTML = UNIVERS.map(function(u){
@@ -2863,7 +2863,7 @@ function openAccount(){
   openSheet('<div class="account"><h3>Mon compte</h3>' + (favCount() ? '<p><button type="button" class="btn btn-ghost btn-sm" data-action="favs">' + icon('heart') + 'Mes favoris (' + favCount() + ')</button></p>' : '') + '<p class="muted">Les comptes clients arrivent bientôt : vous pourrez retrouver vos commandes et suivre vos livraisons avec votre numéro, votre e-mail et un mot de passe.</p><p class="muted">En attendant, chaque commande est suivie sur WhatsApp au ' + esc(CONFIG.whatsappDisplay) + ' grâce à sa référence.</p><button type="button" class="btn btn-brand" data-action="close">Compris</button></div>');
 }
 function openMenu(){
-  var links = NAV.map(function(v){ return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '"' + (state.view===v ? ' class="active"' : '') + '>' + esc(ROUTES[v].nav) + icon('chev') + '</a>'; }).join('');
+  var links = NAV.map(function(v){ if (v === 'amenageur') return '<a href="/amenageur/">Chambre 3D' + icon('chev') + '</a>'; return '<a href="' + href(v) + '" data-action="nav" data-view="' + v + '"' + (state.view===v ? ' class="active"' : '') + '>' + esc(ROUTES[v].nav) + icon('chev') + '</a>'; }).join('');
   var univ = UNIVERS.map(function(u){ return '<a href="' + href(u.id) + '" data-action="nav" data-view="' + u.id + '" style="padding:9px 12px;font-size:.95rem;color:var(--u-' + u.id + ')">' + pad(u.n) + ' · ' + esc(u.title) + icon('chev') + '</a>'; }).join('');
   openSheet('<nav class="menu" aria-label="Menu"><h3>Menu</h3>' + links + '<div class="menu-foot"><span class="kicker" style="padding:6px 12px">Les 8 univers</span>' + univ + '</div>' +
     '<div class="menu-foot"><a href="' + href('histoire') + '" data-action="nav" data-view="histoire"' + (state.view==='histoire' ? ' class="active"' : '') + '>' + esc(ROUTES.histoire.nav) + icon('chev') + '</a></div>' +

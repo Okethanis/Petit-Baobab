@@ -49,11 +49,15 @@ cd site && python3 -m http.server 8000   # puis ouvrir http://localhost:8000
 
 ## Aménageur de chambre 3D (page /amenageur/)
 
-- Le client entre les mesures de la chambre, place des meubles de la boutique sur un plan et en 3D (alertes porte, chevauchement, fenêtre, hauteur), puis commande toute la chambre sur WhatsApp (code de plan « PB1-… » qui rouvre le même plan).
-- Sources : `amenageur/page.html` (l'outil, repères `/*CATALOG*/`, `/*WA*/`, `/*WA_DISPLAY*/`) et `amenageur/meubles.json` (14 meubles : code du site, couleur montrée, dimensions en cm, `approx` = dimensions non vérifiées, modèle 3D). **L'ordre de `meubles.json` ne doit jamais changer** (les codes PB1 enregistrent la position) : ajouter à la fin.
+- Le client entre les mesures de la chambre, place des meubles de la boutique sur un plan et en 3D (alertes porte, chevauchement, fenêtre, hauteur), puis commande toute la chambre sur WhatsApp (code de plan qui rouvre le même plan).
+- Deux pièces (24 oct. 2026, demande de Hanis) : onglets « Chambre de bébé » et « Chambre des parents » (si bébé dort chez les parents). Dans la chambre des parents, le lit des parents (140, 160 ou 180 cm, « Déjà chez vous », jamais compté dans le total) est posé d'office ; on y ajoute berceau, lit cododo, table à langer… Chaque pièce garde son plan (`localStorage` `pb-amenageur-v1` et `pb-amenageur-v1-parents`) ; le message WhatsApp liste les pièces utilisées.
+- Les mesures de la pièce sont repliées : une ligne de résumé (« 4 × 3,5 m · porte : mur du bas… ») et le bouton « Personnaliser les dimensions » qui ouvre le formulaire (demande de Hanis : la zone prenait trop de place sur l'écran).
+- Codes de plan : « PB1-… » = chambre de bébé seule (anciens codes, toujours acceptés) ; « PB2-… » = les deux pièces. Le lit des parents est codé 900 + taille (hors catalogue).
+- Sources : `amenageur/page.html` (l'outil, repères `/*CATALOG*/`, `/*WA*/`, `/*WA_DISPLAY*/`) et `amenageur/meubles.json` (14 meubles : code du site, couleur montrée, dimensions en cm, `approx` = dimensions non vérifiées, modèle 3D). **L'ordre de `meubles.json` ne doit jamais changer** (les codes PB1/PB2 enregistrent la position) : ajouter à la fin.
 - `build.js` écrit `site/amenageur/index.html` : nom, référence, prix et photo viennent de `PRODUCTS` (toujours ceux du site), numéro WhatsApp de `CONFIG`. Un article absent ou masqué fait échouer le build (message clair).
 - `static/amenageur/` : `three.min.js` (r128, hébergé chez nous : la politique de sécurité du site bloque les CDN), film du bloc « Voir comment ça marche » (`demo-amenageur.mp4`/`.webm`, `preload="none"`) et son affiche.
-- Liens : encart sur l'accueil et lien sur les fiches lits, berceaux, lits parapluie, parcs, tables à langer et mobilier (`brand/amenageur-liens.py`), sans deuxième bouton orange.
+- Liens : onglet « Chambre 3D » dans le menu (ordinateur et téléphone), encart sur l'accueil, pastille « Chambre en 3D » du haut d'accueil et lien sur les fiches lits, berceaux, lits parapluie, parcs, tables à langer et mobilier (`brand/amenageur-liens.py`), sans deuxième bouton orange.
+- Sur le Mac de Hanis (`~/Documents/Petit-Baobab`), `build.js` copie `static/` fichier par fichier (`copyTree`) : `fs.cpSync` échoue (EACCES) sur ce dossier.
 - Film de présentation (50 s, 1080 × 1920) : sources dans l'artefact claude.ai de l'aménageur (`sources/film/`), refait le 23 oct. 2026 avec les photos HD ; copie sur le Mac de Hanis : `~/Documents/Film-amenageur-Petit-Baobab/`.
 
 ## Mises en ligne

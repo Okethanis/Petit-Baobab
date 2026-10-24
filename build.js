@@ -327,7 +327,9 @@ async function renderImages() {
 
 (async () => {
   const STATIC = path.join(__dirname, 'static');   // fichiers publiés tels quels à la racine : PNG déjà rendus (favicons, image de partage)
-  if (fs.existsSync(STATIC)) fs.cpSync(STATIC, OUT, { recursive: true });
+  // copie simple, fichier par fichier (fs.cpSync échoue sur certains dossiers partagés, ex. le Mac de Hanis vu depuis Claude)
+  const copyTree = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (const e of fs.readdirSync(from, { withFileTypes: true })) { const a = path.join(from, e.name), b = path.join(to, e.name); if (e.isDirectory()) copyTree(a, b); else fs.writeFileSync(b, fs.readFileSync(a)); } };
+  if (fs.existsSync(STATIC)) copyTree(STATIC, OUT);
   await renderImages();
   try { fs.rmSync(path.join(__dirname, 'petit-baobab-site.zip'), { force: true }); execSync('zip -qr ../petit-baobab-site.zip .', { cwd: OUT }); } catch (e) { console.log('zip non créé :', e.message); }
   console.log('Pages : ' + written.join(', '));
