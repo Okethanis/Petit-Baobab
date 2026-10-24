@@ -140,9 +140,24 @@ async function prepare(buf) {
   await Promise.all(Array.from({ length: 6 }, worker));
   const rank = f => { const m = f.match(/-(\d)\.webp$/); return m && !/^\d+$/.test(f.replace(/\.webp$/, '')) ? +m[1] : 1; };
   for (const id of Object.keys(result)) if (!id.includes(':')) result[id].sort((a, b) => (a === id + '.webp' ? 0 : rank(a)) - (b === id + '.webp' ? 0 : rank(b)));
+  // Même photo sous deux adresses dans la galerie d'un article (fréquent chez les fournisseurs) : on ne garde que la première.
+  // Comparaison en couleur (vignette 16 × 16) : deux coloris du même modèle restent, eux, tous les deux.
+  let doublons = 0;
+  for (const id of Object.keys(result)) {
+    if (id.includes(':')) continue;
+    const kept = [], seen = [];
+    for (const f of result[id]) {
+      let t = null;
+      try { t = await sharp(path.join(OUT, 'images', f)).resize(16, 16, { fit: 'fill' }).removeAlpha().raw().toBuffer(); } catch (e) {}
+      const dup = t && f !== id + '.webp' && seen.some(o => { let d = 0; for (let i = 0; i < t.length; i++) d += Math.abs(t[i] - o[i]); return d / t.length < 4; });
+      if (dup) { doublons++; continue; }
+      kept.push(f); if (t) seen.push(t);
+    }
+    result[id] = kept;
+  }
   fs.writeFileSync(path.join(OUT, 'images', 'galerie.json'), JSON.stringify(result));
   fs.writeFileSync(path.join(OUT, 'images', 'photos-map.json'), JSON.stringify(photosMap));
-  console.log('photos-fetch : ' + ok + ' photos prêtes, ' + ko + ' échecs, ' + ids.length + ' articles' + (reportees ? ', ' + reportees + ' reportées à la prochaine construction (limite de temps)' : '') + (reprises ? ', ' + reprises + ' reprises de l\'aperçu' : ''));
+  console.log('photos-fetch : ' + ok + ' photos prêtes, ' + ko + ' échecs, ' + ids.length + ' articles' + (reportees ? ', ' + reportees + ' reportées à la prochaine construction (limite de temps)' : '') + (reprises ? ', ' + reprises + ' reprises de l\'aperçu' : '') + (doublons ? ', ' + doublons + ' doublons écartés de la galerie' : ''));
 
   if (!PREVIEW) return;
   /* ---- Page de vérification (aperçus seulement, jamais en ligne) ---- */

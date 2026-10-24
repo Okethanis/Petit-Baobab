@@ -56,11 +56,18 @@ def main():
             done += 1
         bad = flagged(cache[h])
         if bad: res[f] = bad
+    # Galerie de la fiche : une photo avec du chinois n'est pas montrée (la photo principale reste, signalée, à remplacer à la main)
+    cachees = 0
+    for k in list(gal):
+        if ':' in k: continue
+        garde = [f for f in gal[k] if f not in res or f == k + '.webp']
+        cachees += len(gal[k]) - len(garde); gal[k] = garde
+    if cachees: json.dump(gal, open(os.path.join(IMG, 'galerie.json'), 'w', encoding='utf-8'))
     os.makedirs(os.path.dirname(CACHE), exist_ok=True)
     json.dump(cache, open(CACHE, 'w', encoding='utf-8'), ensure_ascii=False)
     os.makedirs(VERIF, exist_ok=True)
     left = sum(1 for f in files if hashlib.sha1(open(os.path.join(IMG, f), 'rb').read()).hexdigest() not in cache)
-    json.dump({'photos': res, 'relues': done, 'restantes': left, 'total': len(files)},
+    json.dump({'photos': res, 'relues': done, 'restantes': left, 'total': len(files), 'cachees': cachees},
               open(os.path.join(VERIF, 'ocr.json'), 'w', encoding='utf-8'), ensure_ascii=False)
     page = os.path.join(VERIF, 'index.html')
     if os.path.exists(page) and res:
@@ -70,7 +77,7 @@ def main():
                                 '<img src="/images/' + f + '" alt="" loading="lazy" class="cn"><span class="cnb">Texte chinois</span>')
         html = html.replace('</style>', 'figure{position:relative}.cn{outline:3px solid #B4423B}.cnb{position:absolute;top:6px;left:6px;background:#B4423B;color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px}</style>', 1)
         open(page, 'w', encoding='utf-8').write(html)
-    print('photos-ocr : %d photos relues, %d avec du chinois, %d restantes' % (done, len(res), left))
+    print('photos-ocr : %d photos relues, %d avec du chinois (%d retirées de la galerie), %d restantes' % (done, len(res), cachees, left))
 
 try:
     main()
