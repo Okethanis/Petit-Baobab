@@ -170,7 +170,7 @@ for (const view of Object.keys(ROUTES)) {
   written.push(path.relative(OUT, file));
 }
 
-/* ---- Aménageur de chambre 3D : page à part (/amenageur/), chargée seulement quand on l'ouvre ----
+/* ---- Aménageur de la maison en 3D (5 pièces) : page à part (/amenageur/), chargée seulement quand on l'ouvre ----
    amenageur/page.html (l'outil) + amenageur/meubles.json (dimensions, modèle 3D, couleurs du modèle).
    Nom, référence, prix et photo viennent de PRODUCTS : toujours ceux du site. three.js, vidéo et affiche : static/amenageur/. */
 const AM_DIR = path.join(__dirname, 'amenageur');
@@ -187,8 +187,8 @@ if (fs.existsSync(path.join(AM_DIR, 'page.html'))) {
     return o;
   });
   const t = fs.readFileSync(path.join(AM_DIR, 'page.html'), 'utf8');
-  const amTitle = 'Aménager la chambre de bébé en 3D · ' + CONFIG.brand;
-  const amDesc = 'Entrez les mesures de la chambre, placez les lits, armoires et commodes de la boutique sur un plan et en 3D, vérifiez que tout rentre, puis commandez sur WhatsApp.';
+  const amTitle = 'Aménager la maison pour bébé en 3D · ' + CONFIG.brand;
+  const amDesc = 'Chambre de bébé, chambre des parents, salon, cuisine et salle de bain : placez les meubles de la boutique à côté des vôtres, vérifiez que tout rentre, de jour comme de nuit, puis commandez sur WhatsApp.';
   const amFonts = (t.match(/<link rel="preconnect"[\s\S]*?display=swap">/) || [''])[0];
   const amStyle = t.slice(t.indexOf('<style>'), t.indexOf('</style>') + 8);
   const amBody = t.slice(t.indexOf('</style>') + 8).trim()
