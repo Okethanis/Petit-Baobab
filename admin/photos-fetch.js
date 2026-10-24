@@ -84,7 +84,8 @@ async function prepare(buf) {
   fs.mkdirSync(path.join(OUT, 'images', '_avant'), { recursive: true });
   // téléchargements en parallèle limité (6 à la fois)
   const jobs = [];
-  for (const id of ids) (SOURCES[id].urls || []).slice(0, 8).forEach((url, k) => jobs.push({ id, url, k }));
+  // "galerie_seule": true → la photo principale du dépôt (déjà en HD) est gardée, toutes les adresses vont dans la galerie (-2, -3…)
+  for (const id of ids) { const off = SOURCES[id].galerie_seule ? 1 : 0; (SOURCES[id].urls || []).slice(0, 8 - off).forEach((url, k) => jobs.push({ id, url, k: k + off })); }
   let next = 0, reportees = 0;
   // Limite de temps (Netlify coupe une construction à 18 min, avec la lecture des photos ensuite) :
   // au-delà, les photos pas encore en cache restent celles du dépôt et seront préparées à la construction suivante.
